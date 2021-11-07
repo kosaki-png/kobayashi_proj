@@ -188,7 +188,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// 各クラス生成
 	{
 		objMng = new ObjectManager();
-		player = new Player();
+		player = new Player(WinApp::window_width, WinApp::window_height);
 	}
 	
 	// 各クラス初期設定
@@ -252,7 +252,7 @@ void GameScene::Update()
 				ShowCursor(option);
 			}
 
-			// ゲーム中
+			// オプション中か
 			if (!option)
 			{
 				// マウスカーソルを画面中心に固定
@@ -262,16 +262,19 @@ void GameScene::Update()
 
 				// カメラの移動用更新
 				//camera->Update();
-				mainCamera->Update();
+
+				// 各種更新
+				{	
+					objMng->Update();
+					//mainCamera->SetTarget(player->GetPosition());
+					mainCamera->Update();
+					
+					int a = 0;
+				}
 			}
 			else
 			{
 			}
-		}
-
-		// 各種更新
-		{
-			objMng->Update();
 		}
 	}
 

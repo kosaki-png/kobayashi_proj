@@ -1,10 +1,11 @@
 #pragma once
 #include "Object.h"
+#include <DirectXMath.h>
 
 class Player : public Object
 {
 public: // ƒƒ“ƒoŠÖ”
-    Player();
+    Player(int window_width, int window_height);
     ~Player();
 
     void Initialize(Input* input) override;
@@ -14,9 +15,16 @@ public: // ƒƒ“ƒoŠÖ”
     XMFLOAT3 GetPosition() { return position; }
 
 private: // ƒƒ“ƒo•Ï”
-    Fbx* playerObj = nullptr;
+    float scaleX = 1.0f;
+    float scaleY = 1.0f;
 
+    Fbx* playerObj = nullptr;
     XMFLOAT3 position = { 0,0,0 };
-    float fhita = 0;
+    XMFLOAT3 rePosition = { 0,0,0 };
+
+    float theta = 0;
     float phi = 0;
+
+    float angleX = 0;	// rad
+    float angleY = 0;	// rad
 };

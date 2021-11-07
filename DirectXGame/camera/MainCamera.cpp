@@ -24,6 +24,8 @@ void MainCamera::SetCameraPos(DirectX::XMFLOAT3 position)
 
 void MainCamera::Update()
 {
+	
+
 	// マウスの入力を取得
 	Input::MouseMove mouseMove = input->GetMouseMove();
 
@@ -68,26 +70,26 @@ void MainCamera::Update()
 	const float CAMERA_DISTANCE = 20;
 	XMFLOAT3 target = GetTarget();
 
-	move = { 0,0,0 };
+	XMFLOAT3 move = { 0,0,0 };
 
 	// 平行移動
 	{
-		if (input->PushKey(DIK_W)) 
+		if (input->PushKey(DIK_W))
 		{
 			move.x += -cosX;
 			move.z += -sinX;
 		}
-		if (input->PushKey(DIK_S)) 
+		if (input->PushKey(DIK_S))
 		{
 			move.x += cosX;
 			move.z += sinX;
 		}
-		if (input->PushKey(DIK_A)) 
+		if (input->PushKey(DIK_A))
 		{
 			move.x += sinX;
 			move.z += -cosX;
 		}
-		if (input->PushKey(DIK_D)) 
+		if (input->PushKey(DIK_D))
 		{
 			move.x += -sinX;
 			move.z += cosX;
@@ -95,13 +97,11 @@ void MainCamera::Update()
 		if (input->PushKey(DIK_Q)) move.y += 1;
 		if (input->PushKey(DIK_X)) move.y += -1;
 
-		SetTarget({ target.x + move.x,  target.y + move.y,  target.z + move.z });
-		moveVec.x += move.x;
-		moveVec.y += move.y;
-		moveVec.z += move.z;
+		target.x += move.x;
+		target.y += move.y;
+		target.z += move.z;
+		SetTarget(target);
 	}
-
-	target = GetTarget();
 
 	SetEye({ cosX * cosY * CAMERA_DISTANCE + target.x,
 			 sinY * CAMERA_DISTANCE + target.y,

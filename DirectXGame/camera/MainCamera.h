@@ -66,6 +66,5 @@ private:
 
 	XMFLOAT3 moveVec = { 0,0,0 };
 
-	XMFLOAT3 move = { 0,0,0 };
 };
 
