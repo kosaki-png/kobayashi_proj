@@ -266,7 +266,7 @@ void GameScene::Update()
 				// 各種更新
 				{	
 					objMng->Update();
-					//mainCamera->SetTarget(player->GetPosition());
+					mainCamera->SetTarget(player->GetPosition());
 					mainCamera->Update();
 					
 					int a = 0;

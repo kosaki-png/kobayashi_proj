@@ -24,8 +24,6 @@ void MainCamera::SetCameraPos(DirectX::XMFLOAT3 position)
 
 void MainCamera::Update()
 {
-	
-
 	// マウスの入力を取得
 	Input::MouseMove mouseMove = input->GetMouseMove();
 
@@ -70,41 +68,8 @@ void MainCamera::Update()
 	const float CAMERA_DISTANCE = 20;
 	XMFLOAT3 target = GetTarget();
 
-	XMFLOAT3 move = { 0,0,0 };
-
-	// 平行移動
-	{
-		if (input->PushKey(DIK_W))
-		{
-			move.x += -cosX;
-			move.z += -sinX;
-		}
-		if (input->PushKey(DIK_S))
-		{
-			move.x += cosX;
-			move.z += sinX;
-		}
-		if (input->PushKey(DIK_A))
-		{
-			move.x += sinX;
-			move.z += -cosX;
-		}
-		if (input->PushKey(DIK_D))
-		{
-			move.x += -sinX;
-			move.z += cosX;
-		}
-		if (input->PushKey(DIK_Q)) move.y += 1;
-		if (input->PushKey(DIK_X)) move.y += -1;
-
-		target.x += move.x;
-		target.y += move.y;
-		target.z += move.z;
-		SetTarget(target);
-	}
-
 	SetEye({ cosX * cosY * CAMERA_DISTANCE + target.x,
-			 sinY * CAMERA_DISTANCE + target.y,
+			 sinY *		   CAMERA_DISTANCE + target.y,
 			 sinX * cosY * CAMERA_DISTANCE + target.z });
 
 	Camera::Update();
