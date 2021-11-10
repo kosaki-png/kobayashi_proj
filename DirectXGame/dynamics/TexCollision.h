@@ -22,24 +22,6 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public: // サブクラス
-	/// <summary>
-	/// 頂点データ構造体
-	/// </summary>
-	struct VertexPosUv
-	{
-		XMFLOAT3 pos; // xyz座標
-		XMFLOAT2 uv;  // uv座標
-	};
-
-	/// <summary>
-	/// 定数バッファ用データ構造体
-	/// </summary>
-	struct ConstBufferData
-	{
-		XMFLOAT4 color;	// 色 (RGBA)
-		XMMATRIX mat;	// ３Ｄ変換行列
-	};
-
 	// 色情報取り出し
 	struct ColorInfo
 	{
@@ -49,17 +31,32 @@ public: // サブクラス
 		unsigned char a;
 	};
 
+	// テクスチャ情報構造体
+	struct TexInfo
+	{
+		std::vector<std::vector<ColorInfo>> colors;	// 色情報
+	};
+
 public: // 静的メンバ関数
-	TexCollision();
+	/// <summary>
+	/// コンストラクタ
+	/// </summary>
+	/// <param name="texWidth">基本テクスチャの横幅</param>
+	/// <param name="texHeight">基本テクスチャの縦幅</param>
+	/// /// <param name="texWidth">配置テクスチャの最大横</param>
+	/// <param name="texHeight">配置テクスチャの最大縦</param>
+	TexCollision(int texWidth, int texHeight, int maxMapX, int maxMapY);
+
 	~TexCollision();
 
 	/// <summary>
 	/// テクスチャ読み込み
 	/// </summary>
-	/// <param name="texnumber">テクスチャ番号</param>
+	/// <param name="mapX">座標番号横</param>
+	/// <param name="mapY">座標番号縦</param>
 	/// <param name="filename">画像ファイル名</param>
 	/// <returns>成否</returns>
-	void LoadTexture(int texnumber, const wchar_t* filename);
+	void LoadTexture(int mapX, int mapY, const wchar_t* filename);
 
 	/// <summary>
 	/// 指定座標のテクスチャ色情報取得
@@ -67,7 +64,7 @@ public: // 静的メンバ関数
 	/// <param name="texnum">テクスチャ番号</param>
 	/// <param name="position">指定座標</param>
 	/// <returns>色情報</returns>
-	XMFLOAT4 GetPixelColor(int texNum, XMFLOAT2 position);
+	XMFLOAT4 GetPixelColor(XMFLOAT3 position);
 
 	/// <summary>
 	/// 指定座標が赤かどうか
@@ -75,16 +72,21 @@ public: // 静的メンバ関数
 	/// <param name="texnum">テクスチャ番号</param>
 	/// <param name="position">指定座標</param>
 	/// <returns>成否</returns>
-	bool GetRedFlag(int texNum, XMFLOAT2 position);
+	bool GetRedFlag(XMFLOAT3 position);
 
 private:
-	ColorInfo* pcolors[9];
+	ColorInfo* pcolor;
 
 	int texCnt;
 
 	// テクスチャ色情報保存変数
-	std::vector<std::vector<ColorInfo>> colors[9];
+	//std::vector<std::vector<ColorInfo>> colors[9];
 
 	XMFLOAT2 size;
+
+	std::vector<std::vector<TexInfo>> textures;
+
+	int TEX_WIDTH;
+	int TEX_HEIGHT;
 };
 

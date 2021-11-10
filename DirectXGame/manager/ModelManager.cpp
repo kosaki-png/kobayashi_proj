@@ -8,10 +8,7 @@ ModelManager::ModelManager()
 
 ModelManager::~ModelManager()
 {
-	for (int i = 0; i < modelCnt; i++)
-	{
-		models.pop_back();
-	}
+	delete[] &models;
 }
 
 ModelManager* ModelManager::GetInstance()

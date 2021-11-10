@@ -6,10 +6,7 @@ ObjectManager::ObjectManager()
 
 ObjectManager::~ObjectManager()
 {
-	for (int i = 0; i < objCnt; i++)
-	{
-		objects.pop_back();
-	}
+	delete[] &objects;
 }
 
 void ObjectManager::AddObject(Object* object)

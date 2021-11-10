@@ -7,28 +7,26 @@
 #pragma comment(lib, "d3dcompiler.lib")
 
 using namespace DirectX;
-using namespace Microsoft::WRL;
 
-TexCollision::TexCollision()
+TexCollision::TexCollision(int texWidth, int texHeight, int maxMapX, int maxMapY)
 {
+	TEX_WIDTH = texWidth;
+	TEX_HEIGHT = texHeight;
+
+	// 領域の確保
+ 	textures.resize(maxMapX);
+	for (int i = 0; i < maxMapX; i++)
+	{
+		textures.at(i).resize(maxMapY);
+	}
 }
 
 TexCollision::~TexCollision()
 {
-	for (int i = 0; i < texCnt; i++)
-	{
-		delete[] pcolors[i];
-	}
-	for (int i = 0; i < 9; i++)
-	{
-		for (auto x : colors[i])
-		{
-			x.clear();
-		}
-	}
+	delete pcolor;
 }
 
-void TexCollision::LoadTexture(int texNum, const wchar_t* filename)
+void TexCollision::LoadTexture(int mapX, int mapY, const wchar_t* filename)
 {
 	HRESULT result;
 	// WICテクスチャのロード
@@ -46,7 +44,7 @@ void TexCollision::LoadTexture(int texNum, const wchar_t* filename)
 	//scratchImg.GetPixels();
 	//size_t a = scratchImg.GetPixelsSize();
 
-	pcolors[texNum] = reinterpret_cast<ColorInfo*>(scratchImg.GetPixels());
+	pcolor = reinterpret_cast<ColorInfo*>(scratchImg.GetPixels());
 	size = { (float)scratchImg.GetImages()->width, (float)scratchImg.GetImages()->height };
 	
 	/*color++;
@@ -63,37 +61,47 @@ void TexCollision::LoadTexture(int texNum, const wchar_t* filename)
 	tmpIntb = (float)pcolors[0][3].b;
 	tmpInta = (float)pcolors[0][3].a / 255.0f;*/
 
-	// 領域を確保
-	colors[texNum].resize(scratchImg.GetImages()->height);
+
+	textures[mapX][mapY].colors.resize(TEX_WIDTH);
 	// 当たり判定用画像の縦横色を抽出
-	for (int i = 0; i < size.y; i++)
+	for (int i = 0; i < TEX_WIDTH; i++)
 	{
-		// 領域を確保
-		colors[texNum].at(i).resize(scratchImg.GetImages()->width);
-		for (int j = 0; j < size.x; j++)
+		textures[mapX][mapY].colors[i].resize(TEX_HEIGHT);
+		for (int j = 0; j < TEX_HEIGHT; j++)
 		{
 			// それそれコピー
-			colors[texNum].at(i).at(j).r = pcolors[texNum][i * (int)size.x + j].r;
-			colors[texNum].at(i).at(j).g = pcolors[texNum][i * (int)size.x + j].g;
-			colors[texNum].at(i).at(j).b = pcolors[texNum][i * (int)size.x + j].b;
-			colors[texNum].at(i).at(j).a = pcolors[texNum][i * (int)size.x + j].a;
+  			textures[mapX][mapY].colors[i][j] = pcolor[j * (int)size.x + i];
 		}
 	}
+
+	int a = 0;
 }
 
-XMFLOAT4 TexCollision::GetPixelColor(int texNum, XMFLOAT2 position)
+XMFLOAT4 TexCollision::GetPixelColor(XMFLOAT3 position)
 {
+	// 座標取得用に変換
+	int x = position.x / TEX_WIDTH;
+	int y = position.z / TEX_HEIGHT;
+	int posX = position.x - x * TEX_WIDTH;
+	int posY = position.z - y * TEX_HEIGHT;
+
 	XMFLOAT4 outColor;
-	outColor.x = (float)colors[texNum][(int)position.x][(int)position.y].r;
-	outColor.y = (float)colors[texNum][(int)position.x][(int)position.y].g;
-	outColor.z = (float)colors[texNum][(int)position.x][(int)position.y].b;
-	outColor.w = (float)colors[texNum][(int)position.x][(int)position.y].a;
+	outColor.x = (float)textures[x][y].colors[posX][posY].r;
+	outColor.y = (float)textures[x][y].colors[posX][posY].g;
+	outColor.z = (float)textures[x][y].colors[posX][posY].b;
+	outColor.w = (float)textures[x][y].colors[posX][posY].a;
 	return outColor;
 }
 
-bool TexCollision::GetRedFlag(int texNum, XMFLOAT2 position)
+bool TexCollision::GetRedFlag(XMFLOAT3 position)
 {
-	if ((int)colors[texNum][(int)position.x][(int)position.y].r == 255)
+	// 座標取得用に変換
+	int x = position.x / TEX_WIDTH;
+	int y = position.z / TEX_HEIGHT;
+	int posX = position.x - x * TEX_WIDTH;
+	int posY = position.z - y * TEX_HEIGHT;
+
+	if ((int)textures[x][y].colors[posX][posY].r == 255)
 	{
 		return true;
 	}

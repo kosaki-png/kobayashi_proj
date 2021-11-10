@@ -31,7 +31,6 @@ public:
 	~ObjectManager();
 
 	void AddObject(Object* object);
-	void Load();
 	void Initialize(Input* input);
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* cmdList);

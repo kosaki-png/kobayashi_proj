@@ -23,6 +23,7 @@
 #include "Player.h"
 #include "ObjectManager.h"
 #include "ModelManager.h"
+#include "TexCollision.h"
 
 class GameScene :
 	public BaseScene
@@ -74,4 +75,6 @@ private:
 	Player* player = nullptr;
 
 	ObjectManager* objMng = nullptr;
+
+	TexCollision* texCol = nullptr;
 };

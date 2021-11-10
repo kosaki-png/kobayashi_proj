@@ -45,9 +45,10 @@ GameScene::GameScene()
 
 GameScene::~GameScene()
 {
-	safe_delete(load);
-	safe_delete(player);
-	safe_delete(objMng);
+	delete load;
+	delete player;
+	delete objMng;
+	delete texCol;
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -196,6 +197,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		// オブジェクトマネージャーに登録
 		objMng->AddObject(player);
 	}
+
+	texCol = new TexCollision(1150, 900, 1, 1);
+	texCol->LoadTexture(0, 0, L"Resources/texture/half.png");
 }
 
 void GameScene::Update()
@@ -268,7 +272,12 @@ void GameScene::Update()
 					objMng->Update();
 					mainCamera->SetTarget(player->GetPosition());
 					mainCamera->Update();
-					
+				}
+
+				XMFLOAT4 tmp1 = texCol->GetPixelColor({ 1149, 0, 899 });
+				XMFLOAT4 tmp2 = texCol->GetPixelColor(player->GetPosition());
+				if (texCol->GetRedFlag(player->GetPosition()))
+				{
 					int a = 0;
 				}
 			}
