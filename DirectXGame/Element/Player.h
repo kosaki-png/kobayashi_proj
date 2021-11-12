@@ -13,6 +13,10 @@ public: // ƒƒ“ƒoŠÖ”
     void Draw(ID3D12GraphicsCommandList* cmdList) override;
 
     XMFLOAT3 GetPosition() { return position; }
+    void SetPosition(XMFLOAT3 position) { this->position = position; }
+
+    XMFLOAT3 GetRePosition() { return rePosition; }
+    void SetRePosition(XMFLOAT3 rePosition) { this->rePosition = rePosition; }
 
 private: // ƒƒ“ƒo•Ï”
     float scaleX = 1.0f;

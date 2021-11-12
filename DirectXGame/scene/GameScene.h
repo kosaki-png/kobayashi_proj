@@ -28,6 +28,9 @@
 class GameScene :
 	public BaseScene
 {
+private:
+	using ArgColor = TexCollision::ArgColor;
+
 public:
 	GameScene();
 	~GameScene();
@@ -77,4 +80,7 @@ private:
 	ObjectManager* objMng = nullptr;
 
 	TexCollision* texCol = nullptr;
+
+	// 移動量保存用変数
+	XMFLOAT3 keepVec = { 0,0,0 };
 };

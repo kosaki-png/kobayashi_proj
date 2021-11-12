@@ -8,7 +8,7 @@ ModelManager::ModelManager()
 
 ModelManager::~ModelManager()
 {
-	delete[] &models;
+	models.clear();
 }
 
 ModelManager* ModelManager::GetInstance()

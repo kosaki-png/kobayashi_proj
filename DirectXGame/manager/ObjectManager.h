@@ -41,6 +41,6 @@ private:
 	Fbx* objKogakuin = nullptr;
 
 	std::vector<Object*> objects;
-	int objCnt = 0;
+
 };
 

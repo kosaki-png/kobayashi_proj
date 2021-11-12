@@ -6,14 +6,13 @@ ObjectManager::ObjectManager()
 
 ObjectManager::~ObjectManager()
 {
-	delete[] &objects;
+	objects.clear();
 }
 
 void ObjectManager::AddObject(Object* object)
 {
 	// オブジェクト配列に追加
 	objects.push_back(object);
-	objCnt++;
 }
 
 void ObjectManager::Initialize(Input* input)

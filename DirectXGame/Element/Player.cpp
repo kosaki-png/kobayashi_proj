@@ -27,6 +27,8 @@ void Player::Initialize(Input* input)
 
 void Player::Update()
 {
+	playerObj->SetPosition(rePosition);
+
 	// マウスの入力を取得
 	Input::MouseMove mouseMove = input->GetMouseMove();
 
@@ -74,6 +76,21 @@ void Player::Update()
 
 	// 平行移動
 	{
+		position = playerObj->GetPosition();
+
+		// マウスでの移動
+		if (input->PushMouseLeft())
+		{
+			move.x += -cosX;
+			move.z += -sinX;
+		}
+		if (input->PushMouseRight())
+		{
+			move.x += cosX;
+			move.z += sinX;
+		}
+
+		// WASDQXでの移動
 		if (input->PushKey(DIK_W))
 		{
 			move.x += -cosX;
@@ -100,13 +117,8 @@ void Player::Update()
 		position.x += move.x;
 		position.y += move.y;
 		position.z += move.z;
-		playerObj->SetPosition(rePosition);
 	}
 
-	// 移動量をセット
-	{
-		
-	}
 	// 更新
 	playerObj->Update();
 

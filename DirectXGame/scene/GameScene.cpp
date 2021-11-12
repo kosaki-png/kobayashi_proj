@@ -268,18 +268,34 @@ void GameScene::Update()
 				//camera->Update();
 
 				// 各種更新
-				{	
+				{
 					objMng->Update();
-					mainCamera->SetTarget(player->GetPosition());
+
+					if (texCol->GetRedFlag(player->GetPosition()))
+					{
+						XMFLOAT3 pos = player->GetPosition();
+						pos = { pos.x + texCol->Hit2Color(ArgColor::Red, player->GetPosition()).z, pos.y,
+								pos.z + texCol->Hit2Color(ArgColor::Red, player->GetPosition()).x };
+
+						player->SetRePosition(pos);
+						//XMFLOAT3 pos = texCol->Hit2Color(ArgColor::Red, player->GetPosition());
+
+						mainCamera->SetTarget(pos);
+
+						int a = 0;
+					}
+					else
+					{
+						mainCamera->SetTarget(player->GetPosition());
+					}
+					
 					mainCamera->Update();
 				}
 
 				XMFLOAT4 tmp1 = texCol->GetPixelColor({ 1149, 0, 899 });
 				XMFLOAT4 tmp2 = texCol->GetPixelColor(player->GetPosition());
-				if (texCol->GetRedFlag(player->GetPosition()))
-				{
-					int a = 0;
-				}
+				bool temp3 = texCol->GetHitFlag(ArgColor::Red, { 0,0,0 });
+				
 			}
 			else
 			{

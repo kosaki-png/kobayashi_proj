@@ -22,19 +22,25 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public: // サブクラス
+	// enumの定義
+	enum ArgColor
+	{
+		Green,    // 0
+		Blue,   // 1
+		Red,  // 2
+		Alpha, // 3
+	};
+
 	// 色情報取り出し
 	struct ColorInfo
 	{
-		unsigned char b;
-		unsigned char g;
-		unsigned char r;
-		unsigned char a;
+		unsigned char colors[4];
 	};
 
 	// テクスチャ情報構造体
 	struct TexInfo
 	{
-		std::vector<std::vector<ColorInfo>> colors;	// 色情報
+		std::vector<std::vector<ColorInfo>> pixelColors;	// 色情報
 	};
 
 public: // 静的メンバ関数
@@ -74,13 +80,24 @@ public: // 静的メンバ関数
 	/// <returns>成否</returns>
 	bool GetRedFlag(XMFLOAT3 position);
 
+	/// <summary>
+	/// 指定座標が指定色かどうか
+	/// </summary>
+	/// <param name="color">当たり判定を取る色</param>
+	/// <param name="position">座標</param>
+	/// <returns>成否</returns>
+	bool GetHitFlag(ArgColor color, XMFLOAT3 position);
+
+	/// <summary>
+	/// 指定座標から上下左右１マスの色から無色への方向取得
+	/// </summary>
+	/// <param name="color">当たり判定を取る色</param>
+	/// <param name="position">座標</param>
+	/// <returns>戻るための移動方向</returns>
+	XMFLOAT3 Hit2Color(ArgColor color, XMFLOAT3 position);
+
 private:
 	ColorInfo* pcolor;
-
-	int texCnt;
-
-	// テクスチャ色情報保存変数
-	//std::vector<std::vector<ColorInfo>> colors[9];
 
 	XMFLOAT2 size;
 

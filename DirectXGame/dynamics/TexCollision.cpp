@@ -5,6 +5,7 @@
 #include <DirectXTex.h>
 
 #pragma comment(lib, "d3dcompiler.lib")
+#pragma warning(disable:26451)
 
 using namespace DirectX;
 
@@ -62,15 +63,18 @@ void TexCollision::LoadTexture(int mapX, int mapY, const wchar_t* filename)
 	tmpInta = (float)pcolors[0][3].a / 255.0f;*/
 
 
-	textures[mapX][mapY].colors.resize(TEX_WIDTH);
+	textures[mapX][mapY].pixelColors.resize(TEX_WIDTH);
 	// 当たり判定用画像の縦横色を抽出
 	for (int i = 0; i < TEX_WIDTH; i++)
 	{
-		textures[mapX][mapY].colors[i].resize(TEX_HEIGHT);
+		textures[mapX][mapY].pixelColors[i].resize(TEX_HEIGHT);
 		for (int j = 0; j < TEX_HEIGHT; j++)
 		{
-			// それそれコピー
-  			textures[mapX][mapY].colors[i][j] = pcolor[j * (int)size.x + i];
+			for (int k = 0; k < 4; k++)
+			{
+				// それそれコピー
+				textures[mapX][mapY].pixelColors[i][j].colors[k] = pcolor[j * (int)size.x + i].colors[k];
+			}
 		}
 	}
 
@@ -86,10 +90,10 @@ XMFLOAT4 TexCollision::GetPixelColor(XMFLOAT3 position)
 	int posY = position.z - y * TEX_HEIGHT;
 
 	XMFLOAT4 outColor;
-	outColor.x = (float)textures[x][y].colors[posX][posY].r;
-	outColor.y = (float)textures[x][y].colors[posX][posY].g;
-	outColor.z = (float)textures[x][y].colors[posX][posY].b;
-	outColor.w = (float)textures[x][y].colors[posX][posY].a;
+	outColor.x = (float)textures[x][y].pixelColors[posX][posY].colors[2];
+	outColor.y = (float)textures[x][y].pixelColors[posX][posY].colors[1];
+	outColor.z = (float)textures[x][y].pixelColors[posX][posY].colors[0];
+	outColor.w = (float)textures[x][y].pixelColors[posX][posY].colors[3];
 	return outColor;
 }
 
@@ -101,12 +105,78 @@ bool TexCollision::GetRedFlag(XMFLOAT3 position)
 	int posX = position.x - x * TEX_WIDTH;
 	int posY = position.z - y * TEX_HEIGHT;
 
-	if ((int)textures[x][y].colors[posX][posY].r == 255)
+	if ((int)textures[x][y].pixelColors[posX][posY].colors[2] == 255)
 	{
 		return true;
 	}
-	else
+	return false;
+}
+
+bool TexCollision::GetHitFlag(ArgColor color, XMFLOAT3 position)
+{
+	// 座標取得用に変換
+	int x = position.x / TEX_WIDTH;
+	int y = position.z / TEX_HEIGHT;
+	int posX = position.x - x * TEX_WIDTH;
+	int posY = position.z - y * TEX_HEIGHT;
+
+	// 指定色に応じて判定を返す
+	if ((int)textures[x][y].pixelColors[posX][posY].colors[color] == 255)
 	{
-		return false;
+		return true;
 	}
+	return false;
+}
+
+XMFLOAT3 TexCollision::Hit2Color(ArgColor color, XMFLOAT3 position)
+{
+	// 座標取得用に変換
+	int x = position.x / TEX_WIDTH;
+	int y = position.z / TEX_HEIGHT;
+	int posX = position.x - x * TEX_WIDTH;
+	int posY = position.z - y * TEX_HEIGHT;
+
+	ColorInfo tmpColor[4];
+
+	// 縦横判定用の色情報を取得
+	tmpColor[0] = textures[x][y].pixelColors[posX + 1][posY];
+	tmpColor[1] = textures[x][y].pixelColors[posX - 1][posY];
+	tmpColor[2] = textures[x][y].pixelColors[posX][posY + 1];
+	tmpColor[3] = textures[x][y].pixelColors[posX][posY - 1];
+
+	int changeXY = 0;
+
+	// 縦横のいずれかが指定色の成分のない場合
+	// どの方向に戻すか決める
+	// 0 : このフレームの移動無し
+	// 1 : X軸のプラス方向へ戻す
+	// 2 : X軸のマイナス方向へ戻す
+	// 3 : Y軸のプラス方向へ戻す
+	// 4 : Y軸のマイナス方向へ戻す
+	for (int i = 0; i < 4; i++)
+	{
+		// 指定色に応じて判定を返す
+		if (tmpColor[i].colors[color] == 0)
+		{
+			changeXY = i + 1;
+			break;
+		}
+	}
+
+	// それぞれ変更移動方向を返す
+	XMFLOAT3 outVec = { 0,0,0 };
+	switch (changeXY)
+	{
+	case 0:
+		outVec = { 0,0,0 };
+	case 1:
+		outVec = { 1,0,0 };
+	case 2:
+		outVec = { -1,0,0 };
+	case 3:
+		outVec = { 0,0,1 };
+	case 4:
+		outVec = { 0,0,-1 };
+	}
+	return outVec;
 }

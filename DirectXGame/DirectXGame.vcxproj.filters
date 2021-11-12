@@ -186,9 +186,6 @@
     <ClCompile Include="3d\Model.cpp">
       <Filter>ソース ファイル\3d</Filter>
     </ClCompile>
-    <ClCompile Include="Element\Player.cpp">
-      <Filter>ソース ファイル\Element</Filter>
-    </ClCompile>
     <ClCompile Include="camera\MainCamera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
     </ClCompile>
@@ -212,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="manager\ModelManager.cpp">
       <Filter>ソース ファイル\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Element\Player.cpp">
+      <Filter>ソース ファイル\FlameRate</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
