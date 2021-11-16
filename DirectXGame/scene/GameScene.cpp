@@ -35,6 +35,7 @@ void AsyncLoad()
 
 	modelMng->Load("kogakuin_rainbow");
 	modelMng->Load("cube_rainbow");
+	modelMng->Load("plane");
 
 	SetLockFlag(true);
 }
@@ -196,10 +197,13 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 		// オブジェクトマネージャーに登録
 		objMng->AddObject(player);
+
+		
 	}
 
+	// 当たり判定用テクスチャのロード
 	texCol = new TexCollision(1150, 900, 1, 1);
-	texCol->LoadTexture(0, 0, L"Resources/texture/half.png");
+	texCol->LoadTexture(0, 0, L"Resources/texture/kogakuin_rainbow_collision.png");
 }
 
 void GameScene::Update()
@@ -213,6 +217,7 @@ void GameScene::Update()
 		// フェード開始
 		//fade->StartEffect();
  		objMng->Initialize(input);
+		player->SetPosition({ 1050, 0, 500 });
 		isInit = true;
 	}
 
@@ -271,31 +276,19 @@ void GameScene::Update()
 				{
 					objMng->Update();
 
-					if (texCol->GetRedFlag(player->GetPosition()))
-					{
-						XMFLOAT3 pos = player->GetPosition();
-						pos = { pos.x + texCol->Hit2Color(ArgColor::Red, player->GetPosition()).z, pos.y,
-								pos.z + texCol->Hit2Color(ArgColor::Red, player->GetPosition()).x };
-
-						player->SetRePosition(pos);
-						//XMFLOAT3 pos = texCol->Hit2Color(ArgColor::Red, player->GetPosition());
-
-						mainCamera->SetTarget(pos);
-
-						int a = 0;
-					}
-					else
-					{
-						mainCamera->SetTarget(player->GetPosition());
-					}
+					// 戻す移動量取得
+					XMFLOAT3 move = texCol->Hit2Color(ArgColor::Red, player->GetPosition(), player->GetMove());
+					player->Setmove(move);
+					mainCamera->SetTarget({ player->GetPosition().x + move.x,
+											player->GetPosition().y + move.y,
+											player->GetPosition().z + move.z });
 					
 					mainCamera->Update();
 				}
 
-				XMFLOAT4 tmp1 = texCol->GetPixelColor({ 1149, 0, 899 });
+				/*XMFLOAT4 tmp1 = texCol->GetPixelColor({ 1149, 0, 899 });
 				XMFLOAT4 tmp2 = texCol->GetPixelColor(player->GetPosition());
-				bool temp3 = texCol->GetHitFlag(ArgColor::Red, { 0,0,0 });
-				
+				bool temp3 = texCol->GetHitFlag(ArgColor::Red, { 0,0,0 });*/
 			}
 			else
 			{

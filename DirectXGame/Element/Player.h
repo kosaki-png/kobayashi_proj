@@ -15,16 +15,20 @@ public: // ÉÅÉìÉoä÷êî
     XMFLOAT3 GetPosition() { return position; }
     void SetPosition(XMFLOAT3 position) { this->position = position; }
 
-    XMFLOAT3 GetRePosition() { return rePosition; }
-    void SetRePosition(XMFLOAT3 rePosition) { this->rePosition = rePosition; }
+    //XMFLOAT3 GetRePosition() { return rePosition; }
+    //void SetRePosition(XMFLOAT3 rePosition) { this->rePosition = rePosition; }
+
+    XMFLOAT3 GetMove() { return move; }
+    void Setmove(XMFLOAT3 move) { this->move = move; }
 
 private: // ÉÅÉìÉoïœêî
     float scaleX = 1.0f;
     float scaleY = 1.0f;
 
     Fbx* playerObj = nullptr;
-    XMFLOAT3 position = { 0,0,0 };
-    XMFLOAT3 rePosition = { 0,0,0 };
+    XMFLOAT3 position = { 10,10,10 };
+    //XMFLOAT3 rePosition = { 0,0,0 };
+    XMFLOAT3 move = { 0,0,0 };
 
     float theta = 0;
     float phi = 0;

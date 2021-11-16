@@ -27,7 +27,7 @@ void Player::Initialize(Input* input)
 
 void Player::Update()
 {
-	playerObj->SetPosition(rePosition);
+	playerObj->SetPosition({ position.x + move.x, position.y + move.y, position.z + move.z });
 
 	// マウスの入力を取得
 	Input::MouseMove mouseMove = input->GetMouseMove();
@@ -72,7 +72,7 @@ void Player::Update()
 
 	const float CAMERA_DISTANCE = 20;
 
-	XMFLOAT3 move = { 0,0,0 };
+	move = { 0,0,0 };
 
 	// 平行移動
 	{
@@ -91,7 +91,7 @@ void Player::Update()
 		}
 
 		// WASDQXでの移動
-		if (input->PushKey(DIK_W))
+		/*if (input->PushKey(DIK_W))
 		{
 			move.x += -cosX;
 			move.z += -sinX;
@@ -110,19 +110,15 @@ void Player::Update()
 		{
 			move.x += -sinX;
 			move.z += cosX;
-		}
+		}*/
 		if (input->PushKey(DIK_Q)) move.y += 1;
 		if (input->PushKey(DIK_X)) move.y += -1;
-
-		position.x += move.x;
-		position.y += move.y;
-		position.z += move.z;
 	}
 
 	// 更新
 	playerObj->Update();
 
-	rePosition = position;
+	//rePosition = position;
 }
 
 void Player::Draw(ID3D12GraphicsCommandList* cmdList)

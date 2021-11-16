@@ -94,7 +94,15 @@ public: // 静的メンバ関数
 	/// <param name="color">当たり判定を取る色</param>
 	/// <param name="position">座標</param>
 	/// <returns>戻るための移動方向</returns>
-	XMFLOAT3 Hit2Color(ArgColor color, XMFLOAT3 position);
+	//XMFLOAT3 Hit2Color(ArgColor color, XMFLOAT3 position);
+
+	/// <summary>
+	/// 指定座標から上下左右１マスの色から無色への方向取得
+	/// </summary>
+	/// <param name="color">当たり判定を取る色</param>
+	/// <param name="position">座標</param>
+	/// <returns>戻るための移動方向</returns>
+	XMFLOAT3 Hit2Color(ArgColor color, XMFLOAT3 position, XMFLOAT3 move);
 
 private:
 	ColorInfo* pcolor;

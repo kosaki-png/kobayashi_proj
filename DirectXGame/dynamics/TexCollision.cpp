@@ -128,55 +128,137 @@ bool TexCollision::GetHitFlag(ArgColor color, XMFLOAT3 position)
 	return false;
 }
 
-XMFLOAT3 TexCollision::Hit2Color(ArgColor color, XMFLOAT3 position)
+//XMFLOAT3 TexCollision::Hit2Color(ArgColor color, XMFLOAT3 position)
+//{
+//	// 座標取得用に変換
+//	int x = position.x / TEX_WIDTH;
+//	int y = position.z / TEX_HEIGHT;
+//	int posX = position.x - x * TEX_WIDTH;
+//	int posY = position.z - y * TEX_HEIGHT;
+//
+//	ColorInfo tmpColor[4];
+//
+//	// 縦横判定用の色情報を取得
+//	tmpColor[0] = textures[x][y].pixelColors[posX + 1][posY];
+//	tmpColor[1] = textures[x][y].pixelColors[posX - 1][posY];
+//	tmpColor[2] = textures[x][y].pixelColors[posX][posY + 1];
+//	tmpColor[3] = textures[x][y].pixelColors[posX][posY - 1];
+//
+//	int changeXY = 0;
+//
+//	// 縦横のいずれかが指定色の成分のない場合
+//	// どの方向に戻すか決める
+//	// 0 : このフレームの移動無し
+//	// 1 : X軸のプラス方向へ戻す
+//	// 2 : X軸のマイナス方向へ戻す
+//	// 3 : Y軸のプラス方向へ戻す
+//	// 4 : Y軸のマイナス方向へ戻す
+//	// それぞれ変更移動方向を返す
+//	XMFLOAT3 outVec = { 0,0,0 };
+//	for (int i = 0; i < 4; i++)
+//	{
+//		// 指定色に応じて判定を返す
+//		if (tmpColor[i].colors[color] == 255)
+//		{
+//			changeXY = i + 1;
+//		}
+//
+//		switch (changeXY)
+//		{
+//		case 0:
+//			break;
+//		case 1:
+//			outVec.x += -1;
+//			break;
+//		case 2:
+//			outVec.x += 1;
+//			break;
+//		case 3:
+//			outVec.z += -1;
+//			break;
+//		case 4:
+//			outVec.z += 1;
+//			break;
+//		}
+//	}
+//	
+//	return outVec;
+//}
+
+XMFLOAT3 TexCollision::Hit2Color(ArgColor color, XMFLOAT3 position, XMFLOAT3 move)
 {
+	XMFLOAT3 outVec = move;
+
 	// 座標取得用に変換
 	int x = position.x / TEX_WIDTH;
 	int y = position.z / TEX_HEIGHT;
 	int posX = position.x - x * TEX_WIDTH;
 	int posY = position.z - y * TEX_HEIGHT;
 
-	ColorInfo tmpColor[4];
-
-	// 縦横判定用の色情報を取得
-	tmpColor[0] = textures[x][y].pixelColors[posX + 1][posY];
-	tmpColor[1] = textures[x][y].pixelColors[posX - 1][posY];
-	tmpColor[2] = textures[x][y].pixelColors[posX][posY + 1];
-	tmpColor[3] = textures[x][y].pixelColors[posX][posY - 1];
-
-	int changeXY = 0;
-
-	// 縦横のいずれかが指定色の成分のない場合
-	// どの方向に戻すか決める
-	// 0 : このフレームの移動無し
-	// 1 : X軸のプラス方向へ戻す
-	// 2 : X軸のマイナス方向へ戻す
-	// 3 : Y軸のプラス方向へ戻す
-	// 4 : Y軸のマイナス方向へ戻す
-	for (int i = 0; i < 4; i++)
+	// 移動量の確認
+	bool isMove = false;
+	if (!move.x == 0 && !move.z == 0)
 	{
-		// 指定色に応じて判定を返す
-		if (tmpColor[i].colors[color] == 0)
+		isMove = true;
+	}
+
+	// 移動量があったら
+	if (isMove)
+	{
+		bool signX = false;
+		bool signY = false;
+		if (move.x > 0)
 		{
-			changeXY = i + 1;
-			break;
+			signX = true;
 		}
-	}
+		if (move.z > 0)
+		{
+			signY = true;
+		}
 
-	// それぞれ変更移動方向を返す
-	XMFLOAT3 outVec = { 0,0,0 };
-	switch (changeXY)
-	{
-	case 0:
-		outVec = { 0,0,0 };
-	case 1:
-		outVec = { 1,0,0 };
-	case 2:
-		outVec = { -1,0,0 };
-	case 3:
-		outVec = { 0,0,1 };
-	case 4:
-		outVec = { 0,0,-1 };
+		// 縦横判定用の色情報を取得
+		ColorInfo tmpColor[2];
+		if (signX)
+		{
+			if (signY)	// XとYが＋のとき
+			{
+				tmpColor[0] = textures[x][y].pixelColors[posX + 1][posY];
+				tmpColor[1] = textures[x][y].pixelColors[posX][posY + 1];
+			}
+			else	// Xが＋、Yがーのとき
+			{
+				tmpColor[0] = textures[x][y].pixelColors[posX + 1][posY];
+				tmpColor[1] = textures[x][y].pixelColors[posX][posY - 1];
+			}
+		}
+		else
+		{
+			if (signY)	// Xがー、Yが＋のとき
+			{
+				tmpColor[0] = textures[x][y].pixelColors[posX - 1][posY];
+				tmpColor[1] = textures[x][y].pixelColors[posX][posY + 1];
+			}
+			else	// XとYがーのとき
+			{
+				tmpColor[0] = textures[x][y].pixelColors[posX - 1][posY];
+				tmpColor[1] = textures[x][y].pixelColors[posX][posY - 1];
+			}
+		}
+
+		// 移動方向のピクセルの色がないなら移動量を消す
+		if (tmpColor[0].colors[color] == 0)
+		{
+			outVec.x = 0;
+		}
+		if (tmpColor[1].colors[color] == 0)
+		{
+			outVec.z = 0;
+		}
+
+		return outVec;
 	}
-	return outVec;
+	else
+	{
+		return move;
+	}
 }

@@ -211,7 +211,7 @@
       <Filter>ソース ファイル\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Element\Player.cpp">
-      <Filter>ソース ファイル\FlameRate</Filter>
+      <Filter>ソース ファイル\Element</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
