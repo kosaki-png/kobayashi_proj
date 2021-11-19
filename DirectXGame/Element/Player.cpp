@@ -18,11 +18,14 @@ void Player::Initialize(Input* input)
 
 	playerObj = new Fbx();
 	playerObj->Initialize();
-	playerObj->SetModel(modelMng->GetModel(1));
+	playerObj->SetModel(modelMng->GetModel(3));
 
 	position = { 0,0,0 };
-	theta = 0;
-	phi = 0;
+	cameraTheta = 0;
+	cameraTheta = 0;
+	cameraPhi = 0;
+	playerTheta = 0;
+	playerPhi = 0;
 }
 
 void Player::Update()
@@ -37,38 +40,85 @@ void Player::Update()
 		float dy = mouseMove.lX * scaleY;
 		float dx = mouseMove.lY * scaleX;
 
-		theta -= dx;
-		phi += dy;
+		cameraTheta -= dx;
+		cameraPhi += dy;
 	}
 
 	// カメラ角度変更(キー)
 	{
 		if (input->PushKey(DIK_UP))
 		{
-			theta--;
+			cameraTheta--;
 		}
 		if (input->PushKey(DIK_DOWN))
 		{
-			theta++;
+			cameraTheta++;
 		}
 		if (input->PushKey(DIK_LEFT))
 		{
-			phi++;
+			cameraPhi++;
 		}
 		if (input->PushKey(DIK_RIGHT))
 		{
-			phi--;
+			cameraPhi--;
+		}
+	}
+
+	// 向き変更制限
+	{
+		float tmpTheta = abs(cameraTheta) - abs(playerTheta);
+		float tmpPhi = abs(cameraPhi) - abs(playerPhi);
+
+		const float MAX_CHANGE_ANGLE = 2.0f;
+
+		// 一定以上なら固定
+		if (tmpTheta > MAX_CHANGE_ANGLE)
+		{
+			tmpTheta = MAX_CHANGE_ANGLE;
+		}
+		if (tmpTheta < MAX_CHANGE_ANGLE)
+		{
+			tmpTheta = MAX_CHANGE_ANGLE;
+		}
+		if (tmpPhi > MAX_CHANGE_ANGLE)
+		{
+			tmpPhi = MAX_CHANGE_ANGLE;
+		}
+		if (tmpPhi < -MAX_CHANGE_ANGLE)
+		{
+			tmpPhi = -MAX_CHANGE_ANGLE;
+		}
+
+		if (!speed == 0)
+		{
+			// 向き更新
+			if (cameraTheta < playerTheta)
+			{
+				playerTheta -= abs(tmpTheta);
+			}
+			else
+			{
+				playerTheta += abs(tmpTheta);
+			}
+			if (cameraPhi < playerPhi)
+			{
+				playerPhi -= abs(tmpPhi);
+			}
+			else
+			{
+				playerPhi += abs(tmpPhi);
+			}
 		}
 	}
 
 	// 三角関数の計算
-	angleX = -phi * XM_PI / 180;
-	angleY = -theta * XM_PI / 180;
+	cameraAngleX = -playerPhi * XM_PI / 180;
+	cameraAngleY = -playerTheta * XM_PI / 180;
 
-	float sinX = sinf(angleX);
-	float cosX = cosf(angleX);
-	float sinY = sinf(angleY);
-	float cosY = cosf(angleY);
+	float sinX = sinf(cameraAngleX);
+	float cosX = cosf(cameraAngleX);
+	float sinY = sinf(cameraAngleY);
+	float cosY = cosf(cameraAngleY);
 
 	const float CAMERA_DISTANCE = 20;
 
@@ -78,17 +128,37 @@ void Player::Update()
 	{
 		position = playerObj->GetPosition();
 
-		// マウスでの移動
-		if (input->PushMouseLeft())
+		// マウスでの移動量増加
+		if (input->PushMouseLeft() && speed < 0.9f)
 		{
-			move.x += -cosX;
-			move.z += -sinX;
+			speed -= 0.01f;
 		}
-		if (input->PushMouseRight())
+		if (input->PushMouseRight() && speed < -0.5f)
 		{
-			move.x += cosX;
-			move.z += sinX;
+			speed += 0.02f;
 		}
+		else
+		{
+			if (speed > 0)
+			{
+				speed -= 0.005f;
+				if (speed < 0)
+				{
+					speed = 0;
+				}
+			}
+			else if (speed < 0)
+			{
+				speed += 0.005f;
+				if (speed > 0)
+				{
+					speed = 0;
+				}
+			}
+		}
+
+		move.x = cosX * speed;
+		move.z = sinX * speed;
 
 		// WASDQXでの移動
 		/*if (input->PushKey(DIK_W))
@@ -111,9 +181,11 @@ void Player::Update()
 			move.x += -sinX;
 			move.z += cosX;
 		}*/
-		if (input->PushKey(DIK_Q)) move.y += 1;
-		if (input->PushKey(DIK_X)) move.y += -1;
+		if (input->PushKey(DIK_Q)) move.y = 1;
+		if (input->PushKey(DIK_X)) move.y = -1;
 	}
+
+	playerObj->SetRotation({ 0, playerPhi - 90, 0 });
 
 	// 更新
 	playerObj->Update();

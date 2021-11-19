@@ -27,7 +27,7 @@ void ObjectManager::Initialize(Input* input)
 	objRedWall->Initialize();
 	objRedWall->SetModel(ModelManager::GetInstance()->GetModel(2));
 	
-	//objRedWall->SetPosition({ 575, 0, 0 });
+	objRedWall->SetPosition({ 0, -1, 0 });
 
 	for (auto x : objects)
 	{

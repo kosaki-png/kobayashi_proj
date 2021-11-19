@@ -30,9 +30,18 @@ private: // ƒƒ“ƒo•Ï”
     //XMFLOAT3 rePosition = { 0,0,0 };
     XMFLOAT3 move = { 0,0,0 };
 
-    float theta = 0;
-    float phi = 0;
+    float cameraTheta = 0;
+    float cameraPhi = 0;
 
-    float angleX = 0;	// rad
-    float angleY = 0;	// rad
+    float cameraAngleX = 0;	// rad
+    float cameraAngleY = 0;	// rad
+
+    float playerTheta = 0;
+    float playerPhi = 0;
+
+    float playerAngleX = 0;	// rad
+    float playerAngleY = 0;	// rad
+
+    float speed = 0;
+    bool isMove = false;
 };

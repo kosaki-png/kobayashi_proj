@@ -36,6 +36,7 @@ void AsyncLoad()
 	modelMng->Load("kogakuin_rainbow");
 	modelMng->Load("cube_rainbow");
 	modelMng->Load("plane");
+	modelMng->Load("player");
 
 	SetLockFlag(true);
 }
