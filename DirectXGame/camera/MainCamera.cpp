@@ -65,7 +65,7 @@ void MainCamera::Update()
 	float sinY = sinf(angleY);
 	float cosY = cosf(angleY);
 
-	const float CAMERA_DISTANCE = 20;
+	const float CAMERA_DISTANCE = 10;
 	XMFLOAT3 target = GetTarget();
 
 	SetEye({ cosX * cosY * CAMERA_DISTANCE + target.x,

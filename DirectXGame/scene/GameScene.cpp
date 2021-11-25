@@ -33,10 +33,16 @@ void AsyncLoad()
 	/*auto sleepTime = std::chrono::seconds(10);
 	std::this_thread::sleep_for(sleepTime);*/
 
-	modelMng->Load("kogakuin_rainbow");
-	modelMng->Load("cube_rainbow");
-	modelMng->Load("plane");
 	modelMng->Load("player");
+	modelMng->Load("01_87");
+	modelMng->Load("01_88");
+	modelMng->Load("01_89");
+	modelMng->Load("01_77");
+	modelMng->Load("01_78");
+	modelMng->Load("01_79");
+	modelMng->Load("01_67");
+	modelMng->Load("01_68");
+	modelMng->Load("01_69");
 
 	SetLockFlag(true);
 }
@@ -204,7 +210,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 	// 当たり判定用テクスチャのロード
 	texCol = new TexCollision(1150, 900, 1, 1);
-	texCol->LoadTexture(0, 0, L"Resources/texture/kogakuin_rainbow_collision.png");
+	texCol->LoadTexture(0, 0, L"Resources/texture/01_00.png");
+	//texCol->LoadTexture(0, 1, L"Resources/texture/01_33.png");
 }
 
 void GameScene::Update()
@@ -218,7 +225,7 @@ void GameScene::Update()
 		// フェード開始
 		//fade->StartEffect();
  		objMng->Initialize(input);
-		player->SetPosition({ 1050, 0, 500 });
+		player->SetPosition({ 430, 0, 600 });
 		isInit = true;
 	}
 
@@ -344,6 +351,9 @@ void GameScene::Draw()
 		if (GetLockFlag() == true)
 		{
 			objMng->Draw(cmdList);
+			mainCamera->UpdateProjectionMatrix(4000.0f);
+
+			mainCamera->UpdateProjectionMatrix(1000.0f);
 		}
 
 		Object3d::PostDraw();

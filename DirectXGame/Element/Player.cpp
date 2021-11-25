@@ -18,7 +18,7 @@ void Player::Initialize(Input* input)
 
 	playerObj = new Fbx();
 	playerObj->Initialize();
-	playerObj->SetModel(modelMng->GetModel(3));
+	playerObj->SetModel(modelMng->GetModel(0));
 
 	position = { 0,0,0 };
 	cameraTheta = 0;

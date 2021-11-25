@@ -52,7 +52,7 @@ void ObjectManager::Update()
 void ObjectManager::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	objKogakuin->Draw(cmdList, false);
-	objRedWall->Draw(cmdList, true);
+	//objRedWall->Draw(cmdList, true);
 	//player->Draw(cmdList);
 
 	for (auto x : objects)
