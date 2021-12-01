@@ -36,11 +36,6 @@ public:
 	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 private:
-	//TexCollision* texCol = nullptr;
-
-	Fbx* objKogakuin = nullptr;
-	Fbx* objRedWall = nullptr;
-
 	std::vector<Object*> objects;
 
 };

@@ -82,7 +82,8 @@ private:
 	TexCollision* texCol = nullptr;
 
 	// マップ（一時的）
-	Fbx* map[3][3];
+	Fbx* map[9] = {};
+	Fbx* worldBox = nullptr;
 
 	// 移動量保存用変数
 	XMFLOAT3 keepVec = { 0,0,0 };

@@ -147,6 +147,8 @@ void Camera::UpdateProjectionMatrix(float far)
 		aspectRatio,
 		0.1f, far
 	);
+
+	matViewProjection = matView * matProjection;
 }
 
 void Camera::MoveEyeVector(const XMFLOAT3& move)

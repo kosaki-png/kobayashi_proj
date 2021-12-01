@@ -7,8 +7,6 @@ ObjectManager::ObjectManager()
 ObjectManager::~ObjectManager()
 {
 	objects.clear();
-	delete objKogakuin;
-	delete objRedWall;
 }
 
 void ObjectManager::AddObject(Object* object)
@@ -19,16 +17,6 @@ void ObjectManager::AddObject(Object* object)
 
 void ObjectManager::Initialize(Input* input)
 {
-	objKogakuin = new Fbx();
-	objKogakuin->Initialize();
-	objKogakuin->SetModel(ModelManager::GetInstance()->GetModel(0));
-
-	objRedWall = new Fbx();
-	objRedWall->Initialize();
-	objRedWall->SetModel(ModelManager::GetInstance()->GetModel(2));
-	
-	objRedWall->SetPosition({ 0, -1, 0 });
-
 	for (auto x : objects)
 	{
 		x->Initialize(input);
@@ -37,12 +25,6 @@ void ObjectManager::Initialize(Input* input)
 
 void ObjectManager::Update()
 {
-	//XMFLOAT4 a = texCol->GetPixelColor(0, { 1, 1 });
-	//XMFLOAT4 b = texCol->GetPixelColor(0, { 1149, 899 });
-
-	objKogakuin->Update();
-	objRedWall->Update();
-
 	for (auto x : objects)
 	{
 		x->Update();
@@ -51,10 +33,6 @@ void ObjectManager::Update()
 
 void ObjectManager::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	objKogakuin->Draw(cmdList, false);
-	//objRedWall->Draw(cmdList, true);
-	//player->Draw(cmdList);
-
 	for (auto x : objects)
 	{
 		x->Draw(cmdList);

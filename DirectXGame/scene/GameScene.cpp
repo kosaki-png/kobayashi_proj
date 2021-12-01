@@ -33,16 +33,17 @@ void AsyncLoad()
 	/*auto sleepTime = std::chrono::seconds(10);
 	std::this_thread::sleep_for(sleepTime);*/
 
-	modelMng->Load("player");
-	modelMng->Load("01_87");
-	modelMng->Load("01_88");
-	modelMng->Load("01_89");
-	modelMng->Load("01_77");
-	modelMng->Load("01_78");
-	modelMng->Load("01_79");
-	modelMng->Load("01_67");
-	modelMng->Load("01_68");
-	modelMng->Load("01_69");
+	modelMng->Load("player");	// 0
+	modelMng->Load("01_87");	// 1
+	modelMng->Load("01_88");	// 2
+	modelMng->Load("01_89");	// 3
+	modelMng->Load("01_77");	// 4
+	modelMng->Load("01_78");	// 5
+	modelMng->Load("01_79");	// 6
+	modelMng->Load("01_67");	// 7
+	modelMng->Load("01_68");	// 8
+	modelMng->Load("01_69");	// 9
+	modelMng->Load("floor_tmp");	// 10
 
 	SetLockFlag(true);
 }
@@ -57,6 +58,7 @@ GameScene::~GameScene()
 	delete player;
 	delete objMng;
 	delete texCol;
+	delete[] map;
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -204,13 +206,20 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 		// オブジェクトマネージャーに登録
 		objMng->AddObject(player);
-
-		
 	}
 
 	// 当たり判定用テクスチャのロード
-	texCol = new TexCollision(1150, 900, 1, 1);
-	texCol->LoadTexture(0, 0, L"Resources/texture/01_00.png");
+	texCol = new TexCollision(3390, 2775, 1, 1);
+	texCol->LoadTexture(0, 0, L"Resources/texture/map_01.png");
+	/*texCol->LoadTexture(0, 0, L"Resources/texture/Red_1130x925.png");
+	texCol->LoadTexture(0, 1, L"Resources/texture/Red_1130x925.png");
+	texCol->LoadTexture(0, 2, L"Resources/texture/Red_1130x925.png");
+	texCol->LoadTexture(1, 0, L"Resources/texture/Red_1130x925.png");
+	texCol->LoadTexture(1, 1, L"Resources/texture/Red_1130x925.png");
+	texCol->LoadTexture(1, 2, L"Resources/texture/Red_1130x925.png");
+	texCol->LoadTexture(2, 0, L"Resources/texture/Red_1130x925.png");
+	texCol->LoadTexture(2, 1, L"Resources/texture/Red_1130x925.png");
+	texCol->LoadTexture(2, 2, L"Resources/texture/Red_1130x925.png");*/
 	//texCol->LoadTexture(0, 1, L"Resources/texture/01_33.png");
 }
 
@@ -224,8 +233,22 @@ void GameScene::Update()
 	{
 		// フェード開始
 		//fade->StartEffect();
- 		objMng->Initialize(input);
-		player->SetPosition({ 430, 0, 600 });
+		objMng->Initialize(input);
+		player->SetPosition({ 100, 5, 10 });
+
+		// マップモデルのセット
+		for (int i = 0; i < 9; i++)
+		{
+			map[i] = new Fbx();
+			map[i]->Initialize();
+			map[i]->SetModel(modelMng->GetModel(i + 1));
+			map[i]->SetPosition({ -10,0,-1 });
+		}
+		worldBox = new Fbx();
+		worldBox->Initialize();
+		worldBox->SetModel(modelMng->GetModel(10));
+		worldBox->SetPosition({ 0, 3, 0 });
+
 		isInit = true;
 	}
 
@@ -248,7 +271,7 @@ void GameScene::Update()
 			nextScene = new EndScene();
 		}
 
-		// マウスポイント
+		// マウスポイント取得
 		{
 			static POINT p;
 			GetCursorPos(&p);
@@ -282,6 +305,15 @@ void GameScene::Update()
 
 				// 各種更新
 				{
+					for (int i = 0; i < 9; i++)
+					{
+						map[i]->Update();
+					}
+					worldBox->Update();
+
+					//map[0][0]->SetPosition({ 0,0,0 });
+					//map[0][1]->SetPosition({ 1130, 0, 0 });
+
 					objMng->Update();
 
 					// 戻す移動量取得
@@ -351,9 +383,16 @@ void GameScene::Draw()
 		if (GetLockFlag() == true)
 		{
 			objMng->Draw(cmdList);
-			mainCamera->UpdateProjectionMatrix(4000.0f);
 
-			mainCamera->UpdateProjectionMatrix(1000.0f);
+			// マップモデルの
+			for (int i = 0; i < 9; i++)
+			{
+				map[i]->Draw(cmdList, true);
+			}
+			worldBox->Draw(cmdList, true);
+			/*mainCamera->UpdateProjectionMatrix(4000.0f);
+			worldBox->Draw(cmdList, true);
+			mainCamera->UpdateProjectionMatrix(1000.0f);*/
 		}
 
 		Object3d::PostDraw();

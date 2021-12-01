@@ -15,10 +15,10 @@ TexCollision::TexCollision(int texWidth, int texHeight, int maxMapX, int maxMapY
 	TEX_HEIGHT = texHeight;
 
 	// 領域の確保
- 	textures.resize(maxMapX);
-	for (int i = 0; i < maxMapX; i++)
+ 	pixelColors.resize(maxMapX * TEX_WIDTH);
+	for (int i = 0; i < maxMapX * TEX_WIDTH; i++)
 	{
-		textures.at(i).resize(maxMapY);
+		pixelColors.at(i).resize(maxMapY * TEX_HEIGHT);
 	}
 }
 
@@ -62,149 +62,49 @@ void TexCollision::LoadTexture(int mapX, int mapY, const wchar_t* filename)
 	tmpIntb = (float)pcolors[0][3].b;
 	tmpInta = (float)pcolors[0][3].a / 255.0f;*/
 
-
-	textures[mapX][mapY].pixelColors.resize(TEX_WIDTH);
 	// 当たり判定用画像の縦横色を抽出
-	for (int i = 0; i < TEX_WIDTH; i++)
+	for (int i = 0; i < TEX_WIDTH; i++)	// X軸
 	{
-		textures[mapX][mapY].pixelColors[i].resize(TEX_HEIGHT);
-		for (int j = 0; j < TEX_HEIGHT; j++)
+		for (int j = 0; j < TEX_HEIGHT; j++)	// Y軸
 		{
-			for (int k = 0; k < 4; k++)
+			for (int k = 0; k < 4; k++)	// rgba
 			{
 				// それそれコピー
-				textures[mapX][mapY].pixelColors[i][j].colors[k] = pcolor[j * (int)size.x + i].colors[k];
+				// 指定のマップの場所に指定画像の情報を入れる
+				pixelColors[i + mapX * TEX_WIDTH][j + mapY * TEX_HEIGHT].colors[k] = pcolor[j * (int)size.x + i].colors[k];
 			}
 		}
 	}
-
-	int a = 0;
 }
 
 XMFLOAT4 TexCollision::GetPixelColor(XMFLOAT3 position)
 {
-	// 座標取得用に変換
-	int x = position.x / TEX_WIDTH;
-	int y = position.z / TEX_HEIGHT;
-	int posX = position.x - x * TEX_WIDTH;
-	int posY = position.z - y * TEX_HEIGHT;
-
 	XMFLOAT4 outColor;
-	outColor.x = (float)textures[x][y].pixelColors[posX][posY].colors[2];
-	outColor.y = (float)textures[x][y].pixelColors[posX][posY].colors[1];
-	outColor.z = (float)textures[x][y].pixelColors[posX][posY].colors[0];
-	outColor.w = (float)textures[x][y].pixelColors[posX][posY].colors[3];
+	outColor.x = (float)pixelColors[(int)position.x][(int)position.z].colors[2];
+	outColor.y = (float)pixelColors[(int)position.x][(int)position.z].colors[1];
+	outColor.z = (float)pixelColors[(int)position.x][(int)position.z].colors[0];
+	outColor.w = (float)pixelColors[(int)position.x][(int)position.z].colors[3];
 	return outColor;
-}
-
-bool TexCollision::GetRedFlag(XMFLOAT3 position)
-{
-	// 座標取得用に変換
-	int x = position.x / TEX_WIDTH;
-	int y = position.z / TEX_HEIGHT;
-	int posX = position.x - x * TEX_WIDTH;
-	int posY = position.z - y * TEX_HEIGHT;
-
-	if ((int)textures[x][y].pixelColors[posX][posY].colors[2] == 255)
-	{
-		return true;
-	}
-	return false;
 }
 
 bool TexCollision::GetHitFlag(ArgColor color, XMFLOAT3 position)
 {
-	// 座標取得用に変換
-	int x = position.x / TEX_WIDTH;
-	int y = position.z / TEX_HEIGHT;
-	int posX = position.x - x * TEX_WIDTH;
-	int posY = position.z - y * TEX_HEIGHT;
-
 	// 指定色に応じて判定を返す
-	if ((int)textures[x][y].pixelColors[posX][posY].colors[color] == 255)
+	if ((int)pixelColors[(int)position.x][(int)position.z].colors[color] == 255)
 	{
 		return true;
 	}
 	return false;
 }
-
-//XMFLOAT3 TexCollision::Hit2Color(ArgColor color, XMFLOAT3 position)
-//{
-//	// 座標取得用に変換
-//	int x = position.x / TEX_WIDTH;
-//	int y = position.z / TEX_HEIGHT;
-//	int posX = position.x - x * TEX_WIDTH;
-//	int posY = position.z - y * TEX_HEIGHT;
-//
-//	ColorInfo tmpColor[4];
-//
-//	// 縦横判定用の色情報を取得
-//	tmpColor[0] = textures[x][y].pixelColors[posX + 1][posY];
-//	tmpColor[1] = textures[x][y].pixelColors[posX - 1][posY];
-//	tmpColor[2] = textures[x][y].pixelColors[posX][posY + 1];
-//	tmpColor[3] = textures[x][y].pixelColors[posX][posY - 1];
-//
-//	int changeXY = 0;
-//
-//	// 縦横のいずれかが指定色の成分のない場合
-//	// どの方向に戻すか決める
-//	// 0 : このフレームの移動無し
-//	// 1 : X軸のプラス方向へ戻す
-//	// 2 : X軸のマイナス方向へ戻す
-//	// 3 : Y軸のプラス方向へ戻す
-//	// 4 : Y軸のマイナス方向へ戻す
-//	// それぞれ変更移動方向を返す
-//	XMFLOAT3 outVec = { 0,0,0 };
-//	for (int i = 0; i < 4; i++)
-//	{
-//		// 指定色に応じて判定を返す
-//		if (tmpColor[i].colors[color] == 255)
-//		{
-//			changeXY = i + 1;
-//		}
-//
-//		switch (changeXY)
-//		{
-//		case 0:
-//			break;
-//		case 1:
-//			outVec.x += -1;
-//			break;
-//		case 2:
-//			outVec.x += 1;
-//			break;
-//		case 3:
-//			outVec.z += -1;
-//			break;
-//		case 4:
-//			outVec.z += 1;
-//			break;
-//		}
-//	}
-//	
-//	return outVec;
-//}
 
 XMFLOAT3 TexCollision::Hit2Color(ArgColor color, XMFLOAT3 position, XMFLOAT3 move)
 {
 	XMFLOAT3 outVec = move;
 
-	// 座標取得用に変換
-	int x = position.x / TEX_WIDTH;
-	int y = position.z / TEX_HEIGHT;
-	int posX = position.x - x * TEX_WIDTH;
-	int posY = position.z - y * TEX_HEIGHT;
-
-	// 移動量の確認
-	bool isMove = false;
+	// 移動量があったら判定
 	if (!move.x == 0 && !move.z == 0)
 	{
-		isMove = true;
-	}
-
-	// 移動量があったら
-	if (isMove)
-	{
+		// どちらに移動量があるか判定
 		bool signX = false;
 		bool signY = false;
 		if (move.x > 0)
@@ -217,48 +117,44 @@ XMFLOAT3 TexCollision::Hit2Color(ArgColor color, XMFLOAT3 position, XMFLOAT3 mov
 		}
 
 		// 縦横判定用の色情報を取得
-		ColorInfo tmpColor[2];
+		ColorInfo tmpColorX, tmpColorY;
 		if (signX)
 		{
 			if (signY)	// XとYが＋のとき
 			{
-				tmpColor[0] = textures[x][y].pixelColors[posX + 1][posY];
-				tmpColor[1] = textures[x][y].pixelColors[posX][posY + 1];
+				tmpColorX = pixelColors[(int)position.x + 1][(int)position.z];
+				tmpColorY = pixelColors[(int)position.x][(int)position.z + 1];
 			}
 			else	// Xが＋、Yがーのとき
 			{
-				tmpColor[0] = textures[x][y].pixelColors[posX + 1][posY];
-				tmpColor[1] = textures[x][y].pixelColors[posX][posY - 1];
+				tmpColorX = pixelColors[(int)position.x + 1][(int)position.z];
+				tmpColorY = pixelColors[(int)position.x][(int)position.z - 1];
 			}
 		}
 		else
 		{
 			if (signY)	// Xがー、Yが＋のとき
 			{
-				tmpColor[0] = textures[x][y].pixelColors[posX - 1][posY];
-				tmpColor[1] = textures[x][y].pixelColors[posX][posY + 1];
+				tmpColorX = pixelColors[(int)position.x - 1][(int)position.z];
+				tmpColorY = pixelColors[(int)position.x][(int)position.z + 1];
 			}
 			else	// XとYがーのとき
 			{
-				tmpColor[0] = textures[x][y].pixelColors[posX - 1][posY];
-				tmpColor[1] = textures[x][y].pixelColors[posX][posY - 1];
+				tmpColorX = pixelColors[(int)position.x - 1][(int)position.z];
+				tmpColorY = pixelColors[(int)position.x][(int)position.z - 1];
 			}
 		}
 
 		// 移動方向のピクセルの色がないなら移動量を消す
-		if (tmpColor[0].colors[color] == 0)
+		if (tmpColorX.colors[color] == 0)
 		{
 			outVec.x = 0;
 		}
-		if (tmpColor[1].colors[color] == 0)
+		if (tmpColorY.colors[color] == 0)
 		{
 			outVec.z = 0;
 		}
+	}
 
-		return outVec;
-	}
-	else
-	{
-		return move;
-	}
+	return outVec;
 }

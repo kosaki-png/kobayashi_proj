@@ -66,54 +66,56 @@ void Player::Update()
 
 	// 向き変更制限
 	{
-		float tmpTheta = abs(cameraTheta) - abs(playerTheta);
-		float tmpPhi = abs(cameraPhi) - abs(playerPhi);
+		//float tmpTheta = abs(cameraTheta) - abs(playerTheta);
+		//float tmpPhi = abs(cameraPhi) - abs(playerPhi);
 
-		const float MAX_CHANGE_ANGLE = 2.0f;
+		//const float MAX_CHANGE_ANGLE = 2.0f;
 
-		// 一定以上なら固定
-		if (tmpTheta > MAX_CHANGE_ANGLE)
-		{
-			tmpTheta = MAX_CHANGE_ANGLE;
-		}
-		if (tmpTheta < MAX_CHANGE_ANGLE)
-		{
-			tmpTheta = MAX_CHANGE_ANGLE;
-		}
-		if (tmpPhi > MAX_CHANGE_ANGLE)
-		{
-			tmpPhi = MAX_CHANGE_ANGLE;
-		}
-		if (tmpPhi < -MAX_CHANGE_ANGLE)
-		{
-			tmpPhi = -MAX_CHANGE_ANGLE;
-		}
+		//// 一定以上なら固定
+		//if (tmpTheta > MAX_CHANGE_ANGLE)
+		//{
+		//	tmpTheta = MAX_CHANGE_ANGLE;
+		//}
+		//if (tmpTheta < MAX_CHANGE_ANGLE)
+		//{
+		//	tmpTheta = MAX_CHANGE_ANGLE;
+		//}
+		//if (tmpPhi > MAX_CHANGE_ANGLE)
+		//{
+		//	tmpPhi = MAX_CHANGE_ANGLE;
+		//}
+		//if (tmpPhi < -MAX_CHANGE_ANGLE)
+		//{
+		//	tmpPhi = -MAX_CHANGE_ANGLE;
+		//}
 
-		if (!speed == 0)
-		{
-			// 向き更新
-			if (cameraTheta < playerTheta)
-			{
-				playerTheta -= abs(tmpTheta);
-			}
-			else
-			{
-				playerTheta += abs(tmpTheta);
-			}
-			if (cameraPhi < playerPhi)
-			{
-				playerPhi -= abs(tmpPhi);
-			}
-			else
-			{
-				playerPhi += abs(tmpPhi);
-			}
-		}
+		//if (!speed == 0)
+		//{
+		//	// 向き更新
+		//	if (cameraTheta < playerTheta)
+		//	{
+		//		playerTheta -= abs(tmpTheta);
+		//	}
+		//	else
+		//	{
+		//		playerTheta += abs(tmpTheta);
+		//	}
+		//	if (cameraPhi < playerPhi)
+		//	{
+		//		playerPhi -= abs(tmpPhi);
+		//	}
+		//	else
+		//	{
+		//		playerPhi += abs(tmpPhi);
+		//	}
+		//}
 	}
 
 	// 三角関数の計算
-	cameraAngleX = -playerPhi * XM_PI / 180;
-	cameraAngleY = -playerTheta * XM_PI / 180;
+	//cameraAngleX = -playerPhi * XM_PI / 180;
+	//cameraAngleY = -playerTheta * XM_PI / 180;
+	cameraAngleX = -cameraPhi * XM_PI / 180;
+	cameraAngleY = -cameraTheta * XM_PI / 180;
 
 	float sinX = sinf(cameraAngleX);
 	float cosX = cosf(cameraAngleX);
@@ -129,7 +131,7 @@ void Player::Update()
 		position = playerObj->GetPosition();
 
 		// マウスでの移動量増加
-		if (input->PushMouseLeft() && speed < 0.9f)
+		/*if (input->PushMouseLeft() && speed < 0.9f)
 		{
 			speed -= 0.01f;
 		}
@@ -156,6 +158,12 @@ void Player::Update()
 				}
 			}
 		}
+
+		move.x = cosX * speed;
+		move.z = sinX * speed;*/
+		if (input->PushMouseLeft()) speed = -1;
+		else if (input->PushMouseRight()) speed = 1;
+		else speed = 0;
 
 		move.x = cosX * speed;
 		move.z = sinX * speed;
@@ -185,7 +193,8 @@ void Player::Update()
 		if (input->PushKey(DIK_X)) move.y = -1;
 	}
 
-	playerObj->SetRotation({ 0, playerPhi - 90, 0 });
+	//playerObj->SetRotation({ 0, playerPhi - 90, 0 });
+	playerObj->SetRotation({ 0, cameraPhi - 90, 0 });
 
 	// 更新
 	playerObj->Update();
