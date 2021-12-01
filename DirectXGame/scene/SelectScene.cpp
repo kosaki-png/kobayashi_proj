@@ -105,46 +105,48 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 
 void SelectScene::Update()
 {
-	// コントローラの更新
-	xinput.Update();
+	stop = false;
+	
+	// エフェクトが動いていたら止める
+	stop = fade->GetIsEffect();
 
-	// シーン移行
-	if (input->TriggerKey(DIK_SPACE) || xinput.TriggerButtom(0, xinput_A))
+	if (!stop)
 	{
-		//fade->InStart(false);
-		//nextSceneFlag = true;
-		// 選択したマップでゲームシーンへ
-		nextScene = new GameScene();
-	}
+		// コントローラの更新
+		xinput.Update();
 
-	// ESCAPEでゲーム終了
-	if (input->PushKey(DIK_ESCAPE))
-	{
-		SelectScene::~SelectScene();
-		PostQuitMessage(0);
-	}
+		// シーン移行
+		if (input->TriggerKey(DIK_SPACE) || xinput.TriggerButtom(0, xinput_A))
+		{
+			// 選択したマップでゲームシーンへ
+			nextScene = new GameScene();
+		}
 
-	// マウスポイント
-	{
-		static POINT p;
-		GetCursorPos(&p);
-		WinApp* win = nullptr;
-		win = new WinApp();
-		ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
-		mousePos = { (float)p.x, (float)p.y };
-	}
+		// ESCAPEでゲーム終了
+		if (input->PushKey(DIK_ESCAPE))
+		{
+			SelectScene::~SelectScene();
+			PostQuitMessage(0);
+		}
 
-	if (input->TriggerKey(DIK_1))
-	{
-		fade->InStart(false);
-	}
-	if (input->TriggerKey(DIK_2))
-	{
-		fade->OutStart();
-	}
-	if (input->TriggerKey(DIK_3))
-	{
-		fade->InStart(true);
+		// マウスポイント
+		{
+			static POINT p;
+			GetCursorPos(&p);
+			WinApp* win = nullptr;
+			win = new WinApp();
+			ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
+			mousePos = { (float)p.x, (float)p.y };
+		}
+
+		if (input->TriggerKey(DIK_1))
+		{
+			fade->InStart();
+		}
+		if (input->TriggerKey(DIK_2))
+		{
+			fade->OutStart();
+		}
 	}
 
 	lightGroup->Update();

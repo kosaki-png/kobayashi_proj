@@ -42,44 +42,41 @@ void Fade::Initialize()
 
 void Fade::Update()
 {
-	// 機能のいずれかが開始時
-	if (in || out)
-	{	 
-		// フェードイン
-		if (in)
+	// フェードイン
+	if (in && alpha == 0)
+	{
+		// α値を上げる
+		alpha += ORIGIN_ALPHA / effectTimeIn;
+
+		// 一定のα値になったら停止
+		if (alpha >= MAX_ALPHA)
 		{
-			// α値を上げる
-			alpha += ORIGIN_ALPHA / effectTimeIn;
-
-			// 一定のα値になったら停止
-			if (alpha >= MAX_ALPHA)
-			{
-				alphaFlag = true;
-				if (goOut)
-				{
-					OutStart();
-				}
-				in = false;
-			}
+			isEffect = false;
+			alphaFlag = true;
+			alpha = MAX_ALPHA;
+			in = false;
 		}
-
-		// フェードアウト
-		if (out)
-		{
-			// α値を下げる
-			alpha -= ORIGIN_ALPHA / effectTimeIn;
-
-			// 一定のα値になったら停止
-			if (alpha <= MIN_ALPHA)
-			{
-				alphaFlag = false;
-				out = false;
-			}
-		}
-
-		fadeSprite->SetAlpha(alpha);
-		count++;
 	}
+
+	// フェードアウト
+	if (out && alpha == 1)
+	{
+		// α値を下げる
+		alpha -= ORIGIN_ALPHA / effectTimeOut;
+
+		// 一定のα値になったら停止
+		if (alpha <= MIN_ALPHA)
+		{
+			isEffect = false;
+			alphaFlag = false;
+			alpha = MIN_ALPHA;
+			out = false;
+		}
+	}
+
+	fadeSprite->SetAlpha(alpha);
+	count++;
+	
 }
 
 void Fade::Draw()

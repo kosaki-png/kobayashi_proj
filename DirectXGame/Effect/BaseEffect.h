@@ -22,30 +22,30 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
-	// エフェクト開始
-	
 	/// <summary>
 	/// エフェクトイン
 	/// </summary>
-	/// <param name="goOut"> Inの後にOutを起動するか </param>
-	void InStart(bool goOut);
+	void InStart();
 
 	/// <summary>
 	/// エフェクトアウト
 	/// </summary>
 	void OutStart();
 
-	// In中かどうか
+	// In中かどうかの取得
 	bool GetInFlag() { return in; }
-	// Out中かどうか
+	// Out中かどうかの取得
 	bool GetOutFlag() { return out; }
+	// エフェクトが機能しているかの取得
+	bool GetIsEffect() { return isEffect; }
 
 protected:
 	bool in = false;	// Inが効果しているか
 	bool out = false;	// Outが効果しているか
-	bool goOut = false; // Inの後にOutを起動するか
+	bool isEffect = false;	// エフェクトが機能しているか
 
 	int effectTimeIn = 0;	// 効果時間
 	int effectTimeOut = 0;	// 効果時間
 	int count = 0;			// スタートしてからの時間
+
 };

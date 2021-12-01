@@ -50,4 +50,6 @@ protected:
 	Fade* fade = Fade::GetInstance();
 
 	bool nextSceneFlag = true;
+
+	bool stop = true;
 };

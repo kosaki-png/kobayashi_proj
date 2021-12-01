@@ -43,7 +43,7 @@ void AsyncLoad()
 	modelMng->Load("01_67");	// 7
 	modelMng->Load("01_68");	// 8
 	modelMng->Load("01_69");	// 9
-	modelMng->Load("floor_tmp");	// 10
+	modelMng->Load("floor");	// 10
 
 	SetLockFlag(true);
 }
@@ -59,6 +59,7 @@ GameScene::~GameScene()
 	delete objMng;
 	delete texCol;
 	delete[] map;
+	delete[] floor;
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -243,11 +244,12 @@ void GameScene::Update()
 			map[i]->Initialize();
 			map[i]->SetModel(modelMng->GetModel(i + 1));
 			map[i]->SetPosition({ -10,0,-1 });
+
+			floor[i] = new Fbx();
+			floor[i]->Initialize();
+			floor[i]->SetModel(modelMng->GetModel(10));
+			floor[i]->SetPosition({ i % 3 * 1130.0f, 3, i / 3 * 925.0f });
 		}
-		worldBox = new Fbx();
-		worldBox->Initialize();
-		worldBox->SetModel(modelMng->GetModel(10));
-		worldBox->SetPosition({ 0, 3, 0 });
 
 		isInit = true;
 	}
@@ -265,8 +267,6 @@ void GameScene::Update()
 		// スペースで指定のシーンへ
 		if (input->TriggerKey(DIK_SPACE) || xinput.TriggerButtom(0, xinput_A))
 		{
-			//fade->InStart(false);
-			//nextSceneFlag = true;
 			// セレクトシーンへ
 			nextScene = new EndScene();
 		}
@@ -296,20 +296,15 @@ void GameScene::Update()
 			if (!option)
 			{
 				// マウスカーソルを画面中心に固定
-				//static POINT pos = { 1920 / 2, 1080 / 2 };
-				//ScreenToClient(FindWindowA(nullptr, "DirectXGame"), &pos);
 				SetCursorPos(1920 / 2, 1080 / 2);
-
-				// カメラの移動用更新
-				//camera->Update();
 
 				// 各種更新
 				{
 					for (int i = 0; i < 9; i++)
 					{
 						map[i]->Update();
+						floor[i]->Update();
 					}
-					worldBox->Update();
 
 					//map[0][0]->SetPosition({ 0,0,0 });
 					//map[0][1]->SetPosition({ 1130, 0, 0 });
@@ -325,10 +320,6 @@ void GameScene::Update()
 					
 					mainCamera->Update();
 				}
-
-				/*XMFLOAT4 tmp1 = texCol->GetPixelColor({ 1149, 0, 899 });
-				XMFLOAT4 tmp2 = texCol->GetPixelColor(player->GetPosition());
-				bool temp3 = texCol->GetHitFlag(ArgColor::Red, { 0,0,0 });*/
 			}
 			else
 			{
@@ -338,10 +329,6 @@ void GameScene::Update()
 
 	lightGroup->Update();
 	particleMan->Update();
-
-	// 3Dオブジェクト更新
-	{
-	}
 
 	// フェードの更新
 	fade->Update();
@@ -388,8 +375,9 @@ void GameScene::Draw()
 			for (int i = 0; i < 9; i++)
 			{
 				map[i]->Draw(cmdList, true);
+				floor[i]->Draw(cmdList, true);
 			}
-			worldBox->Draw(cmdList, true);
+	
 			/*mainCamera->UpdateProjectionMatrix(4000.0f);
 			worldBox->Draw(cmdList, true);
 			mainCamera->UpdateProjectionMatrix(1000.0f);*/

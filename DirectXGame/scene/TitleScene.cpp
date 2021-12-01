@@ -133,47 +133,47 @@ void TitleScene::Update()
 {
 	// コントローラの更新
 	xinput.Update();
+	stop = false;
+	if (!stop)
+	{
+		// スペースで指定のシーンへ
+		if (input->TriggerKey(DIK_SPACE) || xinput.TriggerButtom(0, xinput_A))
+		{
+			/*fade->InStart(false);
+			nextSceneFlag = true;*/
+			// セレクトシーンへ
+			nextScene = new SelectScene();
+		}
 
-	// スペースで指定のシーンへ
-	if (input->TriggerKey(DIK_SPACE) || xinput.TriggerButtom(0, xinput_A))
-	{
-		/*fade->InStart(false);
-		nextSceneFlag = true;*/
-		// セレクトシーンへ
-		nextScene = new SelectScene();
-	}
+		// ESCAPEでゲーム終了
+		if (input->PushKey(DIK_ESCAPE))
+		{
+			TitleScene::~TitleScene();
+			PostQuitMessage(0);
+		}
 
-	// ESCAPEでゲーム終了
-	if (input->PushKey(DIK_ESCAPE))
-	{
-		TitleScene::~TitleScene();
-		PostQuitMessage(0);
-	}
+		// マウスポイント
+		{
+			static POINT p;
+			GetCursorPos(&p);
+			WinApp* win = nullptr;
+			win = new WinApp();
+			ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
+			mousePos = { (float)p.x, (float)p.y };
+		}
 
-	// マウスポイント
-	{
-		static POINT p;
-		GetCursorPos(&p);
-		WinApp* win = nullptr;
-		win = new WinApp();
-		ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
-		mousePos = { (float)p.x, (float)p.y };
-	}
+		// パーティクル生成
+		//CreateParticles();
 
-	// パーティクル生成
-	//CreateParticles();
-
-	if (input->TriggerKey(DIK_1))
-	{
-		fade->InStart(false);
-	}
-	if (input->TriggerKey(DIK_2))
-	{
-		fade->OutStart();
-	}
-	if (input->TriggerKey(DIK_3))
-	{
-		fade->InStart(true);
+		// 
+		if (input->TriggerKey(DIK_1))
+		{
+			fade->InStart();
+		}
+		if (input->TriggerKey(DIK_2))
+		{
+			fade->OutStart();
+		}
 	}
 
 	fade->Update();

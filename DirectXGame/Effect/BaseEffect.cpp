@@ -1,12 +1,12 @@
 #include "BaseEffect.h"
 
-void BaseEffect::InStart(bool goOut)
+void BaseEffect::InStart()
 {
-	this->goOut = goOut;
 	// スタートしていないならさせる
 	if (!in)
 	{
 		count = 0;
+		isEffect = true;
 		in = true;
 	}
 }
@@ -17,6 +17,7 @@ void BaseEffect::OutStart()
 	if (!out)
 	{
 		count = 0;
+		isEffect = true;
 		out = true;
 	}
 }

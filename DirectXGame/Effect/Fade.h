@@ -15,7 +15,7 @@ private:
 	// ブラックアウト用スプライト
 	Sprite* fadeSprite = nullptr;
 	// α値
-	float alpha = 1.0f;
+	float alpha = 0.0f;
 	// α値が上がった時の表示用
 	bool alphaFlag = true;
 

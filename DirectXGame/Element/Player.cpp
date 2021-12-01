@@ -204,5 +204,5 @@ void Player::Update()
 
 void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	playerObj->Draw(cmdList, false);
+	playerObj->Draw(cmdList, true);
 }

@@ -83,7 +83,7 @@ private:
 
 	// マップ（一時的）
 	Fbx* map[9] = {};
-	Fbx* worldBox = nullptr;
+	Fbx* floor[9] = {};
 
 	// 移動量保存用変数
 	XMFLOAT3 keepVec = { 0,0,0 };
