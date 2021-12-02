@@ -31,7 +31,7 @@ private: // ƒƒ“ƒo•Ï”
     XMFLOAT3 move = { 0,0,0 };
 
     float cameraTheta = 0;
-    float cameraPhi = 0;
+    float cameraPhi = 90;
 
     float cameraAngleX = 0;	// rad
     float cameraAngleY = 0;	// rad

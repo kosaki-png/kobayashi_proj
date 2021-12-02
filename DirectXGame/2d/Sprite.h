@@ -198,11 +198,17 @@ public: // メンバ関数
 	/// <returns></returns>
 	XMFLOAT4 GetColor() { return color; }
 
-	///<summary>
-	///alphaの値変更
+	/// <summary>
+	/// alphaの値変更
 	/// </summary>
 	/// <param name="alpha">α</param>
 	void SetAlpha(float alpha) { color.w = alpha; }
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="move">座標(MAX:1 MIN:0)</param>
+	void SetPosUV(XMFLOAT2 position);
 
 	/// <summary>
 	/// 描画
@@ -238,6 +244,8 @@ protected: // メンバ変数
 	XMFLOAT2 texBase = { 0, 0 };
 	// テクスチャ幅、高さ
 	XMFLOAT2 texSize = { 100.0f, 100.0f };
+	// uv移動量
+	XMFLOAT2 uvMove = { 0,0 };
 
 private: // メンバ関数
 	/// <summary>

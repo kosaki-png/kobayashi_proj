@@ -42,6 +42,9 @@ public:
 	void Draw() override;
 
 	void Finalize() override;
+private:
+	float MAP_WIDTH = 3390.0f;
+	float MAP_HEIGHT = 2775.0f;
 
 private:
 	Text* text;
@@ -74,6 +77,10 @@ private:
 	Sprite* optionSprite = nullptr;
 	Sprite* cursorSprite = nullptr;
 
+	// ミニマップ用
+	Sprite* minimap = nullptr;
+	Sprite* mini = nullptr;
+
 	// オブジェクト宣言
 	Player* player = nullptr;
 
@@ -84,6 +91,7 @@ private:
 	// マップ（一時的）
 	Fbx* map[9] = {};
 	Fbx* floor[9] = {};
+	Fbx* skydome = nullptr;
 
 	// 移動量保存用変数
 	XMFLOAT3 keepVec = { 0,0,0 };

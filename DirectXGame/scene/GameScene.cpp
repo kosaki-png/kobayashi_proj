@@ -44,6 +44,18 @@ void AsyncLoad()
 	modelMng->Load("01_68");	// 8
 	modelMng->Load("01_69");	// 9
 	modelMng->Load("floor");	// 10
+	modelMng->Load("skydome");	// 11
+	//modelMng->Load("player");	// 1
+	//modelMng->Load("player");	// 2
+	//modelMng->Load("player");	// 3
+	//modelMng->Load("player");	// 4
+	//modelMng->Load("player");	// 5
+	//modelMng->Load("player");	// 6
+	//modelMng->Load("player");	// 7
+	//modelMng->Load("player");	// 8
+	//modelMng->Load("player");	// 9
+	//modelMng->Load("player");	// 10
+	//modelMng->Load("player");	// 11
 
 	SetLockFlag(true);
 }
@@ -60,6 +72,8 @@ GameScene::~GameScene()
 	delete texCol;
 	delete[] map;
 	delete[] floor;
+	delete skydome;
+	delete minimap;
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -120,6 +134,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			Sprite::LoadTexture(2, L"Resources/texture/option.png");
 			Sprite::LoadTexture(3, L"Resources/texture/mouseCursor.png");
 			Sprite::LoadTexture(4, L"Resources/texture/loadCircle.png");
+			Sprite::LoadTexture(5, L"Resources/texture/map_01_ref.png");
+			Sprite::LoadTexture(6, L"Resources/texture/miniMap.png");
 		}
 
 		// スプライト生成
@@ -128,12 +144,17 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			optionSprite = Sprite::Create(2, { 0,0 });
 			cursorSprite = Sprite::Create(3, { 0,0 });
 			loadcircle = Sprite::Create(4, { 1280 / 2, 720 / 2 });
+			minimap = Sprite::Create(5, { 0,0 });
+			mini = Sprite::Create(6, { 1280 - 300, 0 });
 		}
 
 		// スプライト初期設定
 		{
 			loadcircle->SetSize({ 300, 300 });
 			loadcircle->SetAnchorPoint({ 0.5f, 0.5f });
+			minimap->SetPosition({ 1280 - 300, -700 });
+			minimap->SetSize({ 1000, 1000 });
+			minimap->SetPosUV({ 0, 0.7f });
 		}
 	}
 
@@ -235,7 +256,7 @@ void GameScene::Update()
 		// フェード開始
 		//fade->StartEffect();
 		objMng->Initialize(input);
-		player->SetPosition({ 100, 5, 10 });
+		player->SetPosition({ 100, 3.5f, 10 });
 
 		// マップモデルのセット
 		for (int i = 0; i < 9; i++)
@@ -250,6 +271,11 @@ void GameScene::Update()
 			floor[i]->SetModel(modelMng->GetModel(10));
 			floor[i]->SetPosition({ i % 3 * 1130.0f, 3, i / 3 * 925.0f });
 		}
+
+		skydome = new Fbx();
+		skydome->Initialize();
+		skydome->SetModel(modelMng->GetModel(11));
+		skydome->SetPosition({ 1130.0f * 3 / 2, 3, 925 * 3 / 2 });
 
 		isInit = true;
 	}
@@ -298,6 +324,12 @@ void GameScene::Update()
 				// マウスカーソルを画面中心に固定
 				SetCursorPos(1920 / 2, 1080 / 2);
 
+				// ミニマップ移動
+				XMFLOAT3 playerPos = player->GetPosition();
+				playerPos.x /= MAP_WIDTH;
+				playerPos.z /= MAP_HEIGHT;
+				minimap->SetPosUV({ playerPos.x - 0.15f, playerPos.z -0.15f });
+
 				// 各種更新
 				{
 					for (int i = 0; i < 9; i++)
@@ -305,6 +337,14 @@ void GameScene::Update()
 						map[i]->Update();
 						floor[i]->Update();
 					}
+
+					// 空の回転
+					static float a = 0;
+					a += 0.04f;
+					mainCamera->UpdateProjectionMatrix(5000.0f);
+					skydome->SetRotation({ 0,a,0 });
+					skydome->Update();
+					mainCamera->UpdateProjectionMatrix(1000.0f);
 
 					//map[0][0]->SetPosition({ 0,0,0 });
 					//map[0][1]->SetPosition({ 1130, 0, 0 });
@@ -378,9 +418,7 @@ void GameScene::Draw()
 				floor[i]->Draw(cmdList, true);
 			}
 	
-			/*mainCamera->UpdateProjectionMatrix(4000.0f);
-			worldBox->Draw(cmdList, true);
-			mainCamera->UpdateProjectionMatrix(1000.0f);*/
+			skydome->Draw(cmdList, true);
 		}
 
 		Object3d::PostDraw();
@@ -403,6 +441,11 @@ void GameScene::Draw()
 		{
 			load->Draw();
 			loadcircle->Draw();
+		}
+		else
+		{
+			minimap->Draw();
+			mini->Draw();
 		}
 
 		// オプション画面

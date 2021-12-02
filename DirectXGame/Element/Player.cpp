@@ -20,12 +20,11 @@ void Player::Initialize(Input* input)
 	playerObj->Initialize();
 	playerObj->SetModel(modelMng->GetModel(0));
 
-	position = { 0,0,0 };
-	cameraTheta = 0;
-	cameraTheta = 0;
+	/*position = { 0,0,0 };
+	cameraTheta = 90;
 	cameraPhi = 0;
 	playerTheta = 0;
-	playerPhi = 0;
+	playerPhi = 0;*/
 }
 
 void Player::Update()
@@ -161,34 +160,44 @@ void Player::Update()
 
 		move.x = cosX * speed;
 		move.z = sinX * speed;*/
-		if (input->PushMouseLeft()) speed = -1;
+		/*if (input->PushMouseLeft()) speed = -1;
 		else if (input->PushMouseRight()) speed = 1;
 		else speed = 0;
 
 		move.x = cosX * speed;
-		move.z = sinX * speed;
+		move.z = sinX * speed;*/
+
+		// shift‚Åƒ_ƒbƒVƒ…
+		if (input->PushKey(DIK_LSHIFT))
+		{
+			speed = 1;
+		}
+		else
+		{
+			speed = 0.5f;
+		}
 
 		// WASDQX‚Å‚ÌˆÚ“®
-		/*if (input->PushKey(DIK_W))
+		if (input->PushKey(DIK_W))
 		{
-			move.x += -cosX;
-			move.z += -sinX;
+			move.x += -cosX * speed;
+			move.z += -sinX * speed;
 		}
 		if (input->PushKey(DIK_S))
 		{
-			move.x += cosX;
-			move.z += sinX;
+			move.x += cosX * speed;
+			move.z += sinX * speed;
 		}
 		if (input->PushKey(DIK_A))
 		{
-			move.x += sinX;
-			move.z += -cosX;
+			move.x += sinX * speed;
+			move.z += -cosX * speed;
 		}
 		if (input->PushKey(DIK_D))
 		{
-			move.x += -sinX;
-			move.z += cosX;
-		}*/
+			move.x += -sinX * speed;
+			move.z += cosX * speed;
+		}
 		if (input->PushKey(DIK_Q)) move.y = 1;
 		if (input->PushKey(DIK_X)) move.y = -1;
 	}

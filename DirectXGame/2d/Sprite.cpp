@@ -452,6 +452,14 @@ void Sprite::SetTextureRect(XMFLOAT2 texBase, XMFLOAT2 texSize)
 	TransferVertices();
 }
 
+void Sprite::SetPosUV(XMFLOAT2 position)
+{
+	this->uvMove = position;
+
+	// 頂点バッファへのデータ転送
+	TransferVertices();
+}
+
 void Sprite::Draw()
 {
 	// ワールド行列の更新
@@ -491,8 +499,8 @@ void Sprite::TransferVertices()
 
 	float left = (0.0f - anchorpoint.x) * size.x;
 	float right = (1.0f - anchorpoint.x) * size.x;
-	float top = (0.0f - anchorpoint.x) * size.y;
-	float bottom = (1.0f - anchorpoint.x) * size.y;
+	float top = (0.0f - anchorpoint.y) * size.y;
+	float bottom = (1.0f - anchorpoint.y) * size.y;
 	if (isFlipX)
 	{// 左右入れ替え
 		left = -left;
@@ -523,10 +531,10 @@ void Sprite::TransferVertices()
 		float tex_top = texBase.y / resDesc.Height;
 		float tex_bottom = (texBase.y + texSize.y) / resDesc.Height;
 
-		vertices[LB].uv = { tex_left,	tex_bottom }; // 左下
-		vertices[LT].uv = { tex_left,	tex_top }; // 左上
-		vertices[RB].uv = { tex_right,	tex_bottom }; // 右下
-		vertices[RT].uv = { tex_right,	tex_top }; // 右上
+		vertices[LB].uv = { tex_left + uvMove.x,	tex_bottom - uvMove.y }; // 左下
+		vertices[LT].uv = { tex_left + uvMove.x,	tex_top - uvMove.y }; // 左上
+		vertices[RB].uv = { tex_right + uvMove.x,	tex_bottom - uvMove.y }; // 右下
+		vertices[RT].uv = { tex_right + uvMove.x,	tex_top - uvMove.y }; // 右上
 	}
 
 	// 頂点バッファへのデータ転送

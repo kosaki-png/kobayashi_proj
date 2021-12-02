@@ -62,7 +62,7 @@ private:
 	XMFLOAT3 moveVel = { 0,0,0 };
 
 	float theta = 0;
-	float phi = 0;
+	float phi = 90;
 
 	XMFLOAT3 moveVec = { 0,0,0 };
 

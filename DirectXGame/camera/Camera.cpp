@@ -148,6 +148,7 @@ void Camera::UpdateProjectionMatrix(float far)
 		0.1f, far
 	);
 
+	// ビュープロジェクションの合成
 	matViewProjection = matView * matProjection;
 }
 

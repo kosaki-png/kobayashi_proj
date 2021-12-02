@@ -165,6 +165,10 @@ void TitleScene::Update()
 		// パーティクル生成
 		//CreateParticles();
 
+		static float tmpfloat = 0.0f;
+		tmpfloat += 0.01f;
+		tmpSprite->SetPosUV({ tmpfloat, 0 });
+
 		// 
 		if (input->TriggerKey(DIK_1))
 		{
