@@ -290,21 +290,6 @@ void GameScene::Update()
 	}
 	else
 	{
-		// スペースで指定のシーンへ
-		if (input->TriggerKey(DIK_SPACE) || xinput.TriggerButtom(0, xinput_A))
-		{
-			// セレクトシーンへ
-			nextScene = new EndScene();
-		}
-
-		// マウスポイント取得
-		{
-			static POINT p;
-			GetCursorPos(&p);
-			ScreenToClient(FindWindowA(nullptr, "DirectXGame"), &p);
-			mousePos = { (float)p.x, (float)p.y };
-		}
-
 		// パーティクル生成
 		//CreateParticles();
 
@@ -361,8 +346,33 @@ void GameScene::Update()
 					mainCamera->Update();
 				}
 			}
-			else
+			else // オプション中
 			{
+				// スペースで指定のシーンへ
+				if (input->TriggerKey(DIK_SPACE) || xinput.TriggerButtom(0, xinput_A))
+				{
+					// セレクトシーンへ
+					nextScene = new EndScene();
+				}
+
+				// マウスポイント取得
+				{
+					static POINT p;
+					GetCursorPos(&p);
+					ScreenToClient(FindWindowA(nullptr, "DirectXGame"), &p);
+					mousePos = { (float)p.x, (float)p.y };
+				}
+
+				if (input->TriggerKey(DIK_0))
+				{
+					mainCamera->SetSence(0.5f);
+					player->SetSence(0.5f);
+				}
+				else if (input->TriggerKey(DIK_9))
+				{
+					mainCamera->SetSence(1.0f);
+					player->SetSence(1.0f);
+				}
 			}
 		}
 	}

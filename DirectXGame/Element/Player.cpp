@@ -3,9 +3,12 @@ using namespace DirectX;
 
 Player::Player(int window_width, int window_height)
 {
+	WINDOW_WIDTH = window_width;
+	WINDOW_HEIGHT = window_height;
+
 	// 画面サイズに対する相対的なスケールに調整
-	scaleX = 25.0f / (float)window_width;
-	scaleY = 25.0f / (float)window_height;
+	scaleX = 25.0f / (float)WINDOW_WIDTH;
+	scaleY = 25.0f / (float)WINDOW_HEIGHT;
 }
 
 Player::~Player()
@@ -214,4 +217,13 @@ void Player::Update()
 void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	playerObj->Draw(cmdList, true);
+}
+
+void Player::SetSence(float sence)
+{
+	this->sence = sence;
+
+	// 画面サイズに対する相対的なスケールに調整
+	scaleX = sence * 25.0f / (float)WINDOW_WIDTH;
+	scaleY = sence * 25.0f / (float)WINDOW_HEIGHT;
 }

@@ -21,6 +21,10 @@ public: // メンバ関数
     XMFLOAT3 GetMove() { return move; }
     void Setmove(XMFLOAT3 move) { this->move = move; }
 
+    // 感度変更
+    void SetSence(float sence);
+    float GetSence() { return sence; }
+
 private: // メンバ変数
     float scaleX = 1.0f;
     float scaleY = 1.0f;
@@ -44,4 +48,10 @@ private: // メンバ変数
 
     float speed = 0;
     bool isMove = false;
+
+    // 感度設定用
+    float sence = 1.0f;
+
+    int WINDOW_WIDTH = 0;
+    int WINDOW_HEIGHT = 0;
 };

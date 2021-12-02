@@ -43,6 +43,10 @@ public:
 	// thita,phiの取得
 	XMFLOAT2 GetAngle() { return { angleX, angleY }; }
 
+	// 感度変更
+	void SetSence(float sence);
+	float GetSence() { return sence; }
+
 private:
 	// 入力クラスのポインタ
 	Input* input;
@@ -66,5 +70,9 @@ private:
 
 	XMFLOAT3 moveVec = { 0,0,0 };
 
+	float sence = 1.0f;
+
+	int WINDOW_WIDTH = 0;
+	int WINDOW_HEIGHT = 0;
 };
 

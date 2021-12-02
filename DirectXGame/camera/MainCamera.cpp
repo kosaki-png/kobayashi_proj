@@ -7,11 +7,14 @@ MainCamera::MainCamera(int window_width, int window_height, Input* input)
 	: Camera(window_width, window_height)
 {
 	assert(input);
-
 	this->input = input;
+
+	WINDOW_WIDTH = window_width;
+	WINDOW_HEIGHT = window_height;
+
 	// 画面サイズに対する相対的なスケールに調整
-	scaleX = 25.0f / (float)window_width;
-	scaleY = 25.0f / (float)window_height;
+	scaleX = sence * 25.0f / (float)WINDOW_WIDTH;
+	scaleY = sence * 25.0f / (float)WINDOW_HEIGHT;
 }
 
 void MainCamera::SetCameraPos(DirectX::XMFLOAT3 position)
@@ -73,4 +76,13 @@ void MainCamera::Update()
 			 sinX * cosY * CAMERA_DISTANCE + target.z });
 
 	Camera::Update();
+}
+
+void MainCamera::SetSence(float sence)
+{
+	this->sence = sence;
+
+	// 画面サイズに対する相対的なスケールに調整
+	scaleX = sence * 25.0f / (float)WINDOW_WIDTH;
+	scaleY = sence * 25.0f / (float)WINDOW_HEIGHT;
 }
