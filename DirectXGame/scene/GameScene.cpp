@@ -306,6 +306,9 @@ void GameScene::Update()
 			// オプション中か
 			if (!option)
 			{
+				mainCamera->SetSence(sence);
+				player->SetSence(sence);
+
 				// マウスカーソルを画面中心に固定
 				SetCursorPos(1920 / 2, 1080 / 2);
 
@@ -361,17 +364,6 @@ void GameScene::Update()
 					GetCursorPos(&p);
 					ScreenToClient(FindWindowA(nullptr, "DirectXGame"), &p);
 					mousePos = { (float)p.x, (float)p.y };
-				}
-
-				if (input->TriggerKey(DIK_0))
-				{
-					mainCamera->SetSence(0.5f);
-					player->SetSence(0.5f);
-				}
-				else if (input->TriggerKey(DIK_9))
-				{
-					mainCamera->SetSence(1.0f);
-					player->SetSence(1.0f);
 				}
 			}
 		}
@@ -473,6 +465,11 @@ void GameScene::Draw()
 		// スプライト描画後処理
 		Sprite::PostDraw();
 	}
+
+	ImGui::Begin("OPTION");
+	ImGui::SetWindowSize(ImVec2(100, 100));
+	ImGui::SliderFloat("感度", &sence, 0.01f, 5.0f);
+	ImGui::End();
 }
 
 void GameScene::Finalize()

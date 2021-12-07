@@ -17,6 +17,7 @@
 #include "TitleScene.h"
 #include "SelectScene.h"
 #include "EndScene.h"
+#include "IntervalScene.h"
 
 #include <mutex>
 
@@ -62,6 +63,8 @@ private:
 	XMFLOAT2 SCREEN_CENTER = { 1280.0f / 2.0f, 720.0f / 2.0f };
 
 	XMFLOAT2 mousePos;
+	
+#pragma region 非同期ロード
 
 	// 非同期ロード用
 	std::thread* th;
@@ -71,6 +74,8 @@ private:
 	Sprite* loadcircle = nullptr;
 	bool preload = false;
 	bool isInit = false;
+
+#pragma endregion
 
 	// オプション用
 	bool option = false;
@@ -95,4 +100,7 @@ private:
 
 	// 移動量保存用変数
 	XMFLOAT3 keepVec = { 0,0,0 };
+
+	// 感度変更用
+	float sence = 1.0f;
 };

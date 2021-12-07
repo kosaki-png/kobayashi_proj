@@ -1,5 +1,4 @@
 #pragma once
-
 #include "SafeDelete.h"
 #include "Sprite.h"
 #include "Object3d.h"
@@ -12,21 +11,18 @@
 #include "XinputControll.h"
 
 #include "BaseScene.h"
+#include "TitleScene.h"
 #include "GameScene.h"
 #include "SelectScene.h"
 #include "EndScene.h"
 #include "IntervalScene.h"
 
-#include "TexCollision.h";
-
-#include <mutex>
-
-class TitleScene :
+class IntervalScene :
 	public BaseScene
 {
 public:
-	TitleScene();
-	~TitleScene();
+	IntervalScene();
+	~IntervalScene();
 
 	void Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio) override;
 
@@ -37,7 +33,7 @@ public:
 	void Finalize() override;
 
 private:
-	Text* text;
+	Text* text = nullptr;
 	DebugCamera* camera = nullptr;
 
 	LightGroup* lightGroup = nullptr;
@@ -54,6 +50,18 @@ private:
 
 	Sprite* tmpSprite = nullptr;
 
-	TexCollision* texCollision = nullptr;
+	bool fade = false;
 
+#pragma region 非同期ロード
+
+	// 非同期ロード用
+	std::thread* th;
+
+	// ロード用
+	Sprite* load = nullptr;
+	Sprite* loadcircle = nullptr;
+	bool preload = false;
+	bool isInit = false;
+
+#pragma endregion
 };

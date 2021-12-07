@@ -213,6 +213,9 @@
     <ClCompile Include="Element\Player.cpp">
       <Filter>ソース ファイル\Element</Filter>
     </ClCompile>
+    <ClCompile Include="scene\IntervalScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio\Audio.h">
@@ -343,6 +346,9 @@
     </ClInclude>
     <ClInclude Include="manager\ModelManager.h">
       <Filter>ヘッダー ファイル\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\IntervalScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

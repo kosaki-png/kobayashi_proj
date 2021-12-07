@@ -122,6 +122,7 @@
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="scene\IntervalScene.cpp" />
     <ClCompile Include="scene\SelectScene.cpp" />
     <ClCompile Include="scene\TitleScene.cpp" />
     <ClCompile Include="Vector\Vector2.cpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="SafeDelete.h" />
     <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="scene\IntervalScene.h" />
     <ClInclude Include="scene\SelectScene.h" />
     <ClInclude Include="scene\TitleScene.h" />
     <ClInclude Include="Vector\Vector2.h" />

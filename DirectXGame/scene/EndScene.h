@@ -15,6 +15,7 @@
 #include "TitleScene.h"
 #include "SelectScene.h"
 #include "GameScene.h"
+#include "IntervalScene.h"
 
 class EndScene :
 	public BaseScene

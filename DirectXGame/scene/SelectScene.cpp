@@ -119,7 +119,7 @@ void SelectScene::Update()
 		if (input->TriggerKey(DIK_SPACE) || xinput.TriggerButtom(0, xinput_A))
 		{
 			// 選択したマップでゲームシーンへ
-			nextScene = new GameScene();
+			nextScene = new IntervalScene();
 		}
 
 		// ESCAPEでゲーム終了
