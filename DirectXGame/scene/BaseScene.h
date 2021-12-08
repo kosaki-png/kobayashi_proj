@@ -5,6 +5,7 @@
 #include <DirectXMath.h>
 
 #include "Fade.h"
+#include "ModelManager.h"
 
 struct SceneButton
 {
@@ -47,9 +48,8 @@ protected:
 
 	BaseScene* nextScene = nullptr;
 
-	Fade* fade = Fade::GetInstance();
-
 	bool nextSceneFlag = true;
 
 	bool stop = true;
+
 };

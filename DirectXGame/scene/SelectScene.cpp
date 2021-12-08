@@ -106,9 +106,6 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 void SelectScene::Update()
 {
 	stop = false;
-	
-	// エフェクトが動いていたら止める
-	stop = fade->GetIsEffect();
 
 	if (!stop)
 	{
@@ -138,15 +135,6 @@ void SelectScene::Update()
 			ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
 			mousePos = { (float)p.x, (float)p.y };
 		}
-
-		if (input->TriggerKey(DIK_1))
-		{
-			fade->InStart();
-		}
-		if (input->TriggerKey(DIK_2))
-		{
-			fade->OutStart();
-		}
 	}
 
 	lightGroup->Update();
@@ -158,7 +146,6 @@ void SelectScene::Update()
 	// 各クラスの更新
 	{}
 
-	fade->Update();
 }
 
 void SelectScene::Draw()
@@ -207,8 +194,6 @@ void SelectScene::Draw()
 
 		// デバッグテキストの描画
 		text->DrawAll(cmdList);
-
-		fade->Draw();
 
 		// スプライト描画後処理
 		Sprite::PostDraw();

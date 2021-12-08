@@ -8,7 +8,10 @@ ModelManager::ModelManager()
 
 ModelManager::~ModelManager()
 {
-	models.clear();
+	for (auto x : models)
+	{
+		delete x;
+	}
 }
 
 ModelManager* ModelManager::GetInstance()
@@ -25,9 +28,15 @@ void ModelManager::Destroy()
 	ModelManager::~ModelManager();
 }
 
-void ModelManager::Load(const std::string& modelName)
+void ModelManager::Load(int modelNum, const std::string& modelName)
 {
+	// サイズが足りないときは追加する
+	if (modelNum + 1 > models.size())
+	{
+		models.resize(modelNum + 1);
+	}
+
 	// 読み込んだモデルを配列に追加
-	models.push_back(FbxLoader::GetInstance()->LoadModelFromFile(modelName));
-	modelCnt++;
+	//models.push_back(FbxLoader::GetInstance()->LoadModelFromFile(modelName));
+	models[modelNum] = FbxLoader::GetInstance()->LoadModelFromFile(modelName);
 }

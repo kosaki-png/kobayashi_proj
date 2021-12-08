@@ -58,8 +58,10 @@ private:
 	std::thread* th;
 
 	// ÉçÅ[Éhóp
-	Sprite* load = nullptr;
-	Sprite* loadCircle = nullptr;
+	Sprite* loading = nullptr;
+	Sprite* loaded = nullptr;
+	Sprite* loadBar = nullptr;
+	Sprite* loadBarWhite = nullptr;
 
 #pragma endregion
 

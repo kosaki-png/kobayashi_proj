@@ -7,6 +7,36 @@
 
 using namespace DirectX;
 
+// 非同期ロード用
+ModelManager* modelMngTitle = ModelManager::GetInstance();
+bool isLoadedTitle = false;
+std::mutex isLoadedMutexTitle;
+
+// 非同期ロード用
+void SetLockFlag(bool _)
+{
+	std::lock_guard<std::mutex>  lock(isLoadedMutexTitle);
+	isLoadedTitle = true;
+}
+
+bool GetLockFlag()
+{
+	std::lock_guard<std::mutex>  lock(isLoadedMutexTitle);
+	return isLoadedTitle;
+}
+
+// 非同期ロード関数
+void AsyncLoad()
+{
+	//ダミーで10秒待つ
+	/*auto sleepTime = std::chrono::seconds(10);
+	std::this_thread::sleep_for(sleepTime);*/
+
+	modelMngTitle->Load(4, "01_77");	// 4
+
+	SetLockFlag(true);
+}
+
 TitleScene::TitleScene()
 {
 }
@@ -79,108 +109,56 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		}
 	}
 
-	// OBJオブジェクト初期設定
+	// 非同期ロード開始
+	if (!isLoadedTitle)
 	{
-		// モデル読み込み
-		{
-		}
-
-		// 3Dオブジェクト生成
-		{
-		}
-
-		// 3Dオブジェクト初期設定
-		{
-		}
-	}
-
-	// FBXオブジェクト初期設定
-	{
-		// モデル読み込み
-		{
-		}
-
-		// 3Dオブジェクト生成
-		{
-		}
-
-		// 3Dオブジェクト初期設定
-		{
-		}
+		th = new std::thread(AsyncLoad);
 	}
 
 	// カメラ注視点をセット
 	camera->SetTarget({ 0, -1, 0 });
 	camera->SetDistance(25.0f);
 
-	fade->Initialize();
-
-	// 
-	if (!nextSceneFlag)
-	{
-
-	}
-	
-	/*texCollision = new TexCollision();
-	texCollision->LoadTexture(1, L"Resources/texture/test.png");
-	static XMFLOAT4 testColor;
-	testColor = texCollision->GetPixelColor(1, 1, 0);
-
-	assert(1);*/
 }
 
 void TitleScene::Update()
 {
 	// コントローラの更新
 	xinput.Update();
-	stop = false;
-	if (!stop)
+	
+	// 非同期ロード中
+	if (!GetLockFlag())
 	{
-		// スペースで指定のシーンへ
-		if (input->TriggerKey(DIK_SPACE) || xinput.TriggerButtom(0, xinput_A))
+
+	}
+	else   // ロード終了後
+	{
+		// SPACEで次のシーン
+		if (input->TriggerKey(DIK_SPACE))
 		{
-			/*fade->InStart(false);
-			nextSceneFlag = true;*/
-			// セレクトシーンへ
 			nextScene = new SelectScene();
-		}
-
-		// ESCAPEでゲーム終了
-		if (input->PushKey(DIK_ESCAPE))
-		{
-			TitleScene::~TitleScene();
-			PostQuitMessage(0);
-		}
-
-		// マウスポイント
-		{
-			static POINT p;
-			GetCursorPos(&p);
-			WinApp* win = nullptr;
-			win = new WinApp();
-			ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
-			mousePos = { (float)p.x, (float)p.y };
-		}
-
-		// パーティクル生成
-		//CreateParticles();
-
-		static float tmpfloat = 0.0f;
-		tmpfloat += 0.01f;
-		tmpSprite->SetPosUV({ tmpfloat, 0 });
-
-		// 
-		if (input->TriggerKey(DIK_1))
-		{
-			fade->InStart();
-		}
-		if (input->TriggerKey(DIK_2))
-		{
-			fade->OutStart();
 		}
 	}
 
-	fade->Update();
+	// ESCAPEでゲーム終了
+	if (input->PushKey(DIK_ESCAPE))
+	{
+		TitleScene::~TitleScene();
+		PostQuitMessage(0);
+	}
+
+	// マウスポイント
+	{
+		static POINT p;
+		GetCursorPos(&p);
+		WinApp* win = nullptr;
+		win = new WinApp();
+		ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
+		mousePos = { (float)p.x, (float)p.y };
+	}
+
+	// パーティクル生成
+	//CreateParticles();
 
 	lightGroup->Update();
 	camera->Update();
@@ -198,29 +176,22 @@ void TitleScene::Draw()
 
 	// 背景スプライト描画
 	{
-		// 背景スプライト描画前処理
 		Sprite::PreDraw(cmdList);
-
-		/// <summary>
-		/// ここに背景スプライトの描画処理を追加
-		/// </summary>
-		tmpSprite->Draw();
-		
-		// スプライト描画後処理
+		{
+			tmpSprite->Draw();
+		}
 		Sprite::PostDraw();
+
 		// 深度バッファクリア
 		dxCommon->ClearDepthBuffer();
 	}
 
-	// 3D描画
+	// 3Dオブジェクト描画
 	{
-		// 3Dオブジェクトの描画
 		Object3d::PreDraw(cmdList);
-
-		/// <summary>
-		/// ここに3Dオブジェクトの描画処理を追加
-		/// </summary>
-
+		{
+			
+		}
 		Object3d::PostDraw();
 
 		// パーティクルの描画
@@ -229,23 +200,28 @@ void TitleScene::Draw()
 
 	// 前景スプライト描画
 	{
-		// 前景スプライト描画前処理
 		Sprite::PreDraw(cmdList);
+		{
 
-		/// <summary>
-		/// ここに前景スプライトの描画処理を追加
-		/// </summary>
-		
-		// デバッグテキストの描画
-		text->DrawAll(cmdList);
-
-		fade->Draw();
-
-		// スプライト描画後処理
+			// デバッグテキストの描画
+			text->DrawAll(cmdList);
+		}
 		Sprite::PostDraw();
+	}
+
+	// ImGui描画
+	{
+		/*ImGui::Begin("OPTION");
+		ImGui::SetWindowSize(ImVec2(100, 100));
+		ImGui::SliderFloat("感度", &sence, 0.01f, 5.0f);
+		ImGui::End();*/
 	}
 }
 
 void TitleScene::Finalize()
 {
+	if (!isLoadedTitle)
+	{
+		th->join();
+	}
 }

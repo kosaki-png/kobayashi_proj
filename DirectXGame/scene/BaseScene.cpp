@@ -1,7 +1,6 @@
 #include "BaseScene.h"
 #include <cassert>
 
-
 BaseScene::BaseScene()
 {
 }

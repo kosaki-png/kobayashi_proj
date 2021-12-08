@@ -1,5 +1,4 @@
 #pragma once
-
 #include "SafeDelete.h"
 #include "Sprite.h"
 #include "Object3d.h"
@@ -20,6 +19,7 @@
 #include "TexCollision.h";
 
 #include <mutex>
+#include <thread>
 
 class TitleScene :
 	public BaseScene
@@ -55,5 +55,16 @@ private:
 	Sprite* tmpSprite = nullptr;
 
 	TexCollision* texCollision = nullptr;
+
+#pragma region 非同期ロード
+
+	// 非同期ロード用
+	std::thread* th;
+
+	// ロード用
+	Sprite* load = nullptr;
+	Sprite* loadCircle = nullptr;
+
+#pragma endregion
 
 };

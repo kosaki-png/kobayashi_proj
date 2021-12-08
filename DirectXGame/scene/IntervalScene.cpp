@@ -7,56 +7,75 @@
 using namespace DirectX;
 
 // 非同期ロード用
-bool isLoaded = false;
-std::mutex isLoadedMutex;
+bool isLoadedInterval = false;
+std::mutex isLoadedMutexInterval;
 // モデル管理クラスのインスタンス取得
-ModelManager* modelMng = ModelManager::GetInstance();
+ModelManager* modelMngInterval = ModelManager::GetInstance();
+// ロードバー割合
+float loadRatio = 0;
+const int LOAD_MODEL_COUNT = 11;	// 読み込むオブジェクトの数
+const float LOAD_RATIO = 1.0f / LOAD_MODEL_COUNT;	// オブジェクトを読み込んだ時に進む割合
 
 // 非同期ロード用
-void SetLockFlag(bool _)
+void IntervalSetLockFlag(bool _)
 {
-	std::lock_guard<std::mutex>  lock(isLoadedMutex);
-	isLoaded = true;
+	std::lock_guard<std::mutex>  lock(isLoadedMutexInterval);
+	isLoadedInterval = true;
 }
 
-bool GetLockFlag()
+bool IntervalGetLockFlag()
 {
-	std::lock_guard<std::mutex>  lock(isLoadedMutex);
-	return isLoaded;
+	std::lock_guard<std::mutex>  lock(isLoadedMutexInterval);
+	return isLoadedInterval;
+}
+
+// ロードバーを進める
+void AddRatio(float rate)
+{
+	loadRatio += rate;
+}
+
+float GetRatio()
+{
+	return loadRatio;
 }
 
 // 非同期ロード関数
-void AsyncLoad()
+void IntervalAsyncLoad()
 {
 	//ダミーで10秒待つ
 	/*auto sleepTime = std::chrono::seconds(10);
 	std::this_thread::sleep_for(sleepTime);*/
 
-	modelMng->Load("player");	// 0
-	modelMng->Load("01_87");	// 1
-	modelMng->Load("01_88");	// 2
-	modelMng->Load("01_89");	// 3
-	modelMng->Load("01_77");	// 4
-	modelMng->Load("01_78");	// 5
-	modelMng->Load("01_79");	// 6
-	modelMng->Load("01_67");	// 7
-	modelMng->Load("01_68");	// 8
-	modelMng->Load("01_69");	// 9
-	modelMng->Load("floor");	// 10
-	modelMng->Load("skydome");	// 11
-	//modelMng->Load("player");	// 1
-	//modelMng->Load("player");	// 2
-	//modelMng->Load("player");	// 3
-	//modelMng->Load("player");	// 4
-	//modelMng->Load("player");	// 5
-	//modelMng->Load("player");	// 6
-	//modelMng->Load("player");	// 7
-	//modelMng->Load("player");	// 8
-	//modelMng->Load("player");	// 9
-	//modelMng->Load("player");	// 10
-	//modelMng->Load("player");	// 11
+	// モデルをロードして割合を増やす
+	modelMngInterval->Load(0, "player"); AddRatio(LOAD_RATIO);	// 0
+	modelMngInterval->Load(1, "01_87"); AddRatio(LOAD_RATIO);	// 1
+	modelMngInterval->Load(2, "01_88"); AddRatio(LOAD_RATIO);	// 2
+	modelMngInterval->Load(3, "01_89"); AddRatio(LOAD_RATIO);	// 3
+	//modelMng->Load("01_77");	// 4
+	modelMngInterval->Load(5, "01_78"); AddRatio(LOAD_RATIO);	// 5
+	modelMngInterval->Load(6, "01_79"); AddRatio(LOAD_RATIO);	// 6
+	modelMngInterval->Load(7, "01_67"); AddRatio(LOAD_RATIO);	// 7
+	modelMngInterval->Load(8, "01_68"); AddRatio(LOAD_RATIO);	// 8
+	modelMngInterval->Load(9, "01_69"); AddRatio(LOAD_RATIO);	// 9
+	modelMngInterval->Load(10, "floor"); AddRatio(LOAD_RATIO);	// 10
+	modelMngInterval->Load(11, "skydome"); AddRatio(LOAD_RATIO);	// 11
 
-	SetLockFlag(true);
+	// ロード軽い
+	//modelMngInterval->Load(0, "player");	// 0
+	//modelMngInterval->Load(1, "player");	// 1
+	//modelMngInterval->Load(2, "player");	// 2
+	//modelMngInterval->Load(3, "player");	// 3
+	////modelMng->Load("01_77");	// 4
+	//modelMngInterval->Load(5, "player");	// 5
+	//modelMngInterval->Load(6, "player");	// 6
+	//modelMngInterval->Load(7, "player");	// 7
+	//modelMngInterval->Load(8, "player");	// 8
+	//modelMngInterval->Load(9, "player");	// 9
+	//modelMngInterval->Load(10, "player");	// 10
+	//modelMngInterval->Load(11, "player");	// 11
+
+	IntervalSetLockFlag(true);
 }
 
 IntervalScene::IntervalScene()
@@ -117,14 +136,18 @@ void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* aud
 	{
 		// スプライト用テクスチャ読み込み
 		{
-			Sprite::LoadTexture(1, L"Resources/texture/load.png");
+			Sprite::LoadTexture(1, L"Resources/texture/loading.png");
 			Sprite::LoadTexture(2, L"Resources/texture/loaded.png");
+			Sprite::LoadTexture(3, L"Resources/texture/load_bar.png");
+			Sprite::LoadTexture(4, L"Resources/texture/load_bar_white.png");
 		}
 
 		// スプライト生成
 		{
-			load = Sprite::Create(1, { 0,0 });
-			loadCircle = Sprite::Create(2, { 0,0 });
+			loading = Sprite::Create(1, { 0,0 });
+			loaded = Sprite::Create(2, { 0,0 });
+			loadBar = Sprite::Create(3, { 0,0 });
+			loadBarWhite = Sprite::Create(4, { 243,603 });
 		}
 
 		// スプライト初期設定
@@ -133,16 +156,16 @@ void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* aud
 	}
 
 	// 非同期ロード開始
-	if (!isLoaded)
+	if (!isLoadedInterval)
 	{
-		th = new std::thread(AsyncLoad);
+		th = new std::thread(IntervalAsyncLoad);
 	}
 }
 
 void IntervalScene::Update()
 {
 	// 非同期ロード中
-	if (!GetLockFlag())
+	if (!IntervalGetLockFlag())
 	{
 		
 	}
@@ -154,6 +177,9 @@ void IntervalScene::Update()
 			nextScene = new GameScene();
 		}
 	}
+
+	float bar = GetRatio() * 800.0f;
+	loadBarWhite->SetPosUV({ -GetRatio() + 1.0f, 0 });
 
 	lightGroup->Update();
 	particleMan->Update();
@@ -181,7 +207,7 @@ void IntervalScene::Draw()
 		Object3d::PreDraw(cmdList);
 		{
 			// 非同期ロード中
-			if (!GetLockFlag())
+			if (!IntervalGetLockFlag())
 			{
 
 			}
@@ -200,14 +226,17 @@ void IntervalScene::Draw()
 	{
 		Sprite::PreDraw(cmdList);
 		{
+			// ロードバー
+			loadBarWhite->Draw();
+			loadBar->Draw();
 			// 非同期ロード中
-			if (!GetLockFlag())
+			if (!IntervalGetLockFlag())
 			{
-				load->Draw();
+				loading->Draw();
 			}
 			else   // ロード終了後
 			{
-				loadCircle->Draw();
+				loaded->Draw();
 			}
 
 			// デバッグテキストの描画
@@ -227,7 +256,7 @@ void IntervalScene::Draw()
 
 void IntervalScene::Finalize()
 {
-	if (!isLoaded)
+	if (!isLoadedInterval)
 	{
 		th->join();
 	}

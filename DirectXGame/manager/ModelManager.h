@@ -14,7 +14,7 @@ public:
 	/// モデルをロードして格納
 	/// </summary>
 	/// <param name="modelName">ロード名</param>
-	void Load(const std::string& modelName);
+	void Load(int modelNum, const std::string& modelName);
 
 	/// <summary>
 	/// モデルの取得
