@@ -17,6 +17,8 @@
 #include "EndScene.h"
 #include "IntervalScene.h"
 
+#include <thread>
+
 class IntervalScene :
 	public BaseScene
 {
@@ -50,8 +52,6 @@ private:
 
 	Sprite* tmpSprite = nullptr;
 
-	bool fade = false;
-
 #pragma region 非同期ロード
 
 	// 非同期ロード用
@@ -59,9 +59,12 @@ private:
 
 	// ロード用
 	Sprite* load = nullptr;
-	Sprite* loadcircle = nullptr;
-	bool preload = false;
-	bool isInit = false;
+	Sprite* loadCircle = nullptr;
 
 #pragma endregion
+
+	bool isEffect = false;
+
+
+
 };

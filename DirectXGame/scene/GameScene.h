@@ -44,8 +44,8 @@ public:
 
 	void Finalize() override;
 private:
-	float MAP_WIDTH = 3390.0f;
-	float MAP_HEIGHT = 2775.0f;
+	const float MAP_WIDTH = 3390.0f;
+	const float MAP_HEIGHT = 2775.0f;
 
 private:
 	Text* text;
@@ -60,22 +60,15 @@ private:
 	Xinput xinput;
 
 	// 画面中心
-	XMFLOAT2 SCREEN_CENTER = { 1280.0f / 2.0f, 720.0f / 2.0f };
+	const XMFLOAT2 SCREEN_CENTER = { 1280.0f / 2.0f, 720.0f / 2.0f };
 
 	XMFLOAT2 mousePos;
-	
-#pragma region 非同期ロード
 
-	// 非同期ロード用
-	std::thread* th;
-
-	// ロード用
-	Sprite* load = nullptr;
-	Sprite* loadcircle = nullptr;
-	bool preload = false;
-	bool isInit = false;
-
-#pragma endregion
+	// 各クラス宣言宣言
+	Player* player = nullptr;
+	ModelManager* modelMng = nullptr;
+	ObjectManager* objMng = nullptr;
+	TexCollision* texCol = nullptr;
 
 	// オプション用
 	bool option = false;
@@ -85,13 +78,6 @@ private:
 	// ミニマップ用
 	Sprite* minimap = nullptr;
 	Sprite* mini = nullptr;
-
-	// オブジェクト宣言
-	Player* player = nullptr;
-
-	ObjectManager* objMng = nullptr;
-
-	TexCollision* texCol = nullptr;
 
 	// マップ（一時的）
 	Fbx* map[9] = {};
