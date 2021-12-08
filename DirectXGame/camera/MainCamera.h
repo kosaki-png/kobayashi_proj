@@ -47,6 +47,9 @@ public:
 	void SetSence(float sence);
 	float GetSence() { return sence; }
 
+	// マウスで動かすフラグ変更
+	void SetMouseFlag(bool mouse) { this->mouse = mouse; }
+
 private:
 	// 入力クラスのポインタ
 	Input* input;
@@ -74,5 +77,7 @@ private:
 
 	int WINDOW_WIDTH = 0;
 	int WINDOW_HEIGHT = 0;
+
+	bool mouse = true;
 };
 

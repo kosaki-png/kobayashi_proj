@@ -216,6 +216,9 @@
     <ClCompile Include="scene\IntervalScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="camera\OrbitCamera.cpp">
+      <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio\Audio.h">
@@ -349,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="scene\IntervalScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="camera\OrbitCamera.h">
+      <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

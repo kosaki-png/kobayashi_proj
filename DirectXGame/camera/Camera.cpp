@@ -31,13 +31,14 @@ void Camera::Update()
 	matViewProjection = matView * matProjection;
 
 
-	//if (viewDirty || projectionDirty) {
-	//	// 再計算必要なら
-	//	if (viewDirty) {
-	//		// ビュー行列更新
-	//		UpdateViewMatrix();
-	//		viewDirty = false;
-	//	}
+	if (viewDirty || projectionDirty) {
+		// 再計算必要なら
+		if (viewDirty) {
+			// ビュー行列更新
+			UpdateViewMatrix();
+			viewDirty = false;
+		}
+	}
 
 	//	// 再計算必要なら
 	//	if (projectionDirty) {

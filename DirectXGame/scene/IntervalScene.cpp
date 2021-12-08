@@ -94,7 +94,7 @@ void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* aud
 	// 汎用的初期化
 	{
 		// カメラ生成
-		camera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
+		camera = new OrbitCamera(WinApp::window_width, WinApp::window_height);
 
 		// 3Dオブジェクトにカメラをセット
 		Object3d::SetCamera(camera);
@@ -155,6 +155,19 @@ void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* aud
 		}
 	}
 
+	// FBXオブジェクト初期設定
+	{
+		kogakuin = new Fbx();
+		kogakuin->Initialize();
+		kogakuin->SetModel(modelMngInterval->GetModel(4));
+		kogakuin->SetPosition({ -1130 / 2, 0, -925 - 925 / 2 });
+	}
+
+	// カメラ初期設定
+	{
+		//camera->SetMouseFlag(false);
+	}
+
 	// 非同期ロード開始
 	if (!isLoadedInterval)
 	{
@@ -178,8 +191,22 @@ void IntervalScene::Update()
 		}
 	}
 
+	// ロードバー加算
 	float bar = GetRatio() * 800.0f;
 	loadBarWhite->SetPosUV({ -GetRatio() + 1.0f, 0 });
+
+	// FBX更新
+	{
+		kogakuin->Update();
+	}
+
+	// カメラ更新
+	{
+		static float angle;
+		angle += 0.2f;
+		//camera->SetEye({ sinf(angle * 3.141592 / 180) * 200, 100, cosf(angle * 3.141592 / 180) * 200 });
+		camera->Update();
+	}
 
 	lightGroup->Update();
 	particleMan->Update();
@@ -215,6 +242,8 @@ void IntervalScene::Draw()
 			{
 
 			}
+
+			kogakuin->Draw(cmdList, true);
 		}
 		Object3d::PostDraw();
 

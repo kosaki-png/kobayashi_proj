@@ -105,6 +105,7 @@
     <ClCompile Include="2d\DebugText.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="camera\MainCamera.cpp" />
+    <ClCompile Include="camera\OrbitCamera.cpp" />
     <ClCompile Include="dynamics\Collision.cpp" />
     <ClCompile Include="dynamics\CollisionPrimitive.cpp" />
     <ClCompile Include="dynamics\TexCollision.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="2d\DebugText.h" />
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="camera\MainCamera.h" />
+    <ClInclude Include="camera\OrbitCamera.h" />
     <ClInclude Include="dynamics\Collision.h" />
     <ClInclude Include="dynamics\CollisionPrimitive.h" />
     <ClInclude Include="dynamics\TexCollision.h" />

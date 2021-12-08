@@ -7,6 +7,8 @@
 #include "ParticleManager.h"
 #include "Text.h"
 #include "DebugCamera.h"
+#include "MainCamera.h"
+#include "OrbitCamera.h"
 #include "LightGroup.h"
 #include "XinputControll.h"
 
@@ -36,7 +38,7 @@ public:
 
 private:
 	Text* text = nullptr;
-	DebugCamera* camera = nullptr;
+	OrbitCamera* camera = nullptr;
 
 	LightGroup* lightGroup = nullptr;
 	float ambientColor0[3] = { 1,1,1 };
@@ -67,6 +69,6 @@ private:
 
 	bool isEffect = false;
 
-
+	Fbx* kogakuin = nullptr;
 
 };
