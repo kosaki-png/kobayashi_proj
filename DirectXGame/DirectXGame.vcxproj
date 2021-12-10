@@ -111,6 +111,7 @@
     <ClCompile Include="dynamics\TexCollision.cpp" />
     <ClCompile Include="Effect\BaseEffect.cpp" />
     <ClCompile Include="Effect\Fade.cpp" />
+    <ClCompile Include="Element\Enemy.cpp" />
     <ClCompile Include="Element\Object.cpp" />
     <ClCompile Include="Element\Player.cpp" />
     <ClCompile Include="FlameRate\FlameRate.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="dynamics\TexCollision.h" />
     <ClInclude Include="Effect\BaseEffect.h" />
     <ClInclude Include="Effect\Fade.h" />
+    <ClInclude Include="Element\Enemy.h" />
     <ClInclude Include="Element\Object.h" />
     <ClInclude Include="Element\Player.h" />
     <ClInclude Include="FlameRate\FlameRate.h" />

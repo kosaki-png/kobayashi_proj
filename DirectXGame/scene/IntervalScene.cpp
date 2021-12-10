@@ -13,7 +13,7 @@ std::mutex isLoadedMutexInterval;
 ModelManager* modelMngInterval = ModelManager::GetInstance();
 // ロードバー割合
 float loadRatio = 0;
-const int LOAD_MODEL_COUNT = 11;	// 読み込むオブジェクトの数
+const int LOAD_MODEL_COUNT = 12;	// 読み込むオブジェクトの数
 const float LOAD_RATIO = 1.0f / LOAD_MODEL_COUNT;	// オブジェクトを読み込んだ時に進む割合
 
 // 非同期ロード用
@@ -60,6 +60,7 @@ void IntervalAsyncLoad()
 	modelMngInterval->Load(9, "01_69"); AddRatio(LOAD_RATIO);	// 9
 	modelMngInterval->Load(10, "floor"); AddRatio(LOAD_RATIO);	// 10
 	modelMngInterval->Load(11, "skydome"); AddRatio(LOAD_RATIO);	// 11
+	modelMngInterval->Load(12, "Enemy"); AddRatio(LOAD_RATIO);	// 12
 
 	// ロード軽い
 	//modelMngInterval->Load(0, "player");	// 0
@@ -74,6 +75,7 @@ void IntervalAsyncLoad()
 	//modelMngInterval->Load(9, "player");	// 9
 	//modelMngInterval->Load(10, "player");	// 10
 	//modelMngInterval->Load(11, "player");	// 11
+	//modelMngInterval->Load(12, "player");	// 12
 
 	IntervalSetLockFlag(true);
 }
@@ -202,9 +204,6 @@ void IntervalScene::Update()
 
 	// カメラ更新
 	{
-		static float angle;
-		angle += 0.2f;
-		//camera->SetEye({ sinf(angle * 3.141592 / 180) * 200, 100, cosf(angle * 3.141592 / 180) * 200 });
 		camera->Update();
 	}
 

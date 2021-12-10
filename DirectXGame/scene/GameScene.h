@@ -22,6 +22,7 @@
 #include <mutex>
 
 #include "Player.h"
+#include "Enemy.h"
 #include "ObjectManager.h"
 #include "ModelManager.h"
 #include "TexCollision.h"
@@ -66,6 +67,7 @@ private:
 
 	// 各クラス宣言宣言
 	Player* player = nullptr;
+	
 	ModelManager* modelMng = nullptr;
 	ObjectManager* objMng = nullptr;
 	TexCollision* texCol = nullptr;

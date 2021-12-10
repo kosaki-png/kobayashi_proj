@@ -2,12 +2,19 @@
 #include <cassert>
 
 #pragma comment(lib, "dinput8.lib")
+#pragma comment(lib, "dxguid.lib")
 
 Input * Input::GetInstance()
 {
 	static Input instance;
 
 	return &instance;
+}
+
+// デバイス発見時に実行される
+BOOL CALLBACK DeviceFindCallBack(LPCDIDEVICEINSTANCE ipddi, LPVOID pvRef)
+{
+	return DIENUM_CONTINUE;
 }
 
 bool Input::Initialize(HINSTANCE hInstance, HWND hwnd)
@@ -17,7 +24,11 @@ bool Input::Initialize(HINSTANCE hInstance, HWND hwnd)
 	assert(!dinput);
 
 	// DirectInputオブジェクトの生成	
-	result = DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&dinput, nullptr);
+	result = DirectInput8Create(hInstance, 
+								DIRECTINPUT_VERSION, 
+								IID_IDirectInput8, 
+								(void**)&dinput, 
+								nullptr);
 	if (FAILED(result)) {
 		assert(0);
 		return result;

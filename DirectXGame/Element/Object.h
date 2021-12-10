@@ -11,6 +11,7 @@
 #include "DirectXCommon.h"
 
 #include "ModelManager.h"
+#include "TexCollision.h"
 
 class Object
 {
@@ -28,12 +29,15 @@ public:
 	Object();
 	~Object();
 
-	virtual void Initialize(Input* input);
+	virtual void Initialize(Input* input, TexCollision* texCol);
 	virtual void Update() = 0;
 	virtual void Draw(ID3D12GraphicsCommandList* cmdList) = 0;
 
 protected:
 	Input* input = nullptr;
+	TexCollision* texCol = nullptr;
 	ModelManager* modelMng = ModelManager::GetInstance();
+
+	int a = 0;
 };
 

@@ -1,11 +1,9 @@
 #include "Player.h"
 using namespace DirectX;
 
-Player::Player(int window_width, int window_height)
+Player::Player(int window_width, int window_height) : 
+	WINDOW_WIDTH(window_width), WINDOW_HEIGHT(window_height)
 {
-	WINDOW_WIDTH = window_width;
-	WINDOW_HEIGHT = window_height;
-
 	// 画面サイズに対する相対的なスケールに調整
 	scaleX = 25.0f / (float)WINDOW_WIDTH;
 	scaleY = 25.0f / (float)WINDOW_HEIGHT;
@@ -15,19 +13,13 @@ Player::~Player()
 {
 }
 
-void Player::Initialize(Input* input)
+void Player::Initialize(Input* input, TexCollision* texCol)
 {
-	Object::Initialize(input);
+	Object::Initialize(input, texCol);
 
 	playerObj = new Fbx();
 	playerObj->Initialize();
 	playerObj->SetModel(modelMng->GetModel(0));
-
-	/*position = { 0,0,0 };
-	cameraTheta = 90;
-	cameraPhi = 0;
-	playerTheta = 0;
-	playerPhi = 0;*/
 }
 
 void Player::Update()

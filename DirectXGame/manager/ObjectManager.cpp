@@ -15,11 +15,11 @@ void ObjectManager::AddObject(Object* object)
 	objects.push_back(object);
 }
 
-void ObjectManager::Initialize(Input* input)
+void ObjectManager::Initialize(Input* input, TexCollision* texCol)
 {
 	for (auto x : objects)
 	{
-		x->Initialize(input);
+		x->Initialize(input, texCol);
 	}
 }
 

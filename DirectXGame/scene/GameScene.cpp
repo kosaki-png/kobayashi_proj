@@ -126,19 +126,19 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	
 	// 各クラス初期設定
 	{
-		objMng = new ObjectManager();
-		objMng->Initialize(input);
-
-		player = new Player(WinApp::window_width, WinApp::window_height);
-		player->Initialize(input);
-		player->SetPosition({ 100, 3.5f, 10 });
-
 		// 当たり判定用テクスチャのロード
 		texCol = new TexCollision(3390, 2775, 1, 1);
 		texCol->LoadTexture(0, 0, L"Resources/texture/map_01.png");
 
+		objMng = new ObjectManager();
+		player = new Player(WinApp::window_width, WinApp::window_height);
+	
 		// オブジェクトマネージャーに登録
 		objMng->AddObject(player);
+
+		objMng->Initialize(input, texCol);
+
+		player->SetPosition({ 100, 3.5f, 10 });
 	}
 
 	// カメラの初期設定

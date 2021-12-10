@@ -1,6 +1,5 @@
 #pragma once
 #include "Object.h"
-#include <DirectXMath.h>
 
 class Player : public Object
 {
@@ -8,7 +7,7 @@ public: // ƒƒ“ƒoŠÖ”
     Player(int window_width, int window_height);
     ~Player();
 
-    void Initialize(Input* input) override;
+    void Initialize(Input* input, TexCollision* texCol) override;
     void Update() override;
     void Draw(ID3D12GraphicsCommandList* cmdList) override;
 
