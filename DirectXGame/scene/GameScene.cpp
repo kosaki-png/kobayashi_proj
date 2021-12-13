@@ -223,13 +223,14 @@ void GameScene::Update()
 			
 			// マップとの当たり判定適用
 			{
-				// 戻す移動量取得
-				XMFLOAT3 move = texCol->Hit2Color(ArgColor::Red, player->GetPosition(), player->GetMove());
-				player->Setmove(move);
-				mainCamera->SetTarget({ player->GetPosition().x + move.x,
-										player->GetPosition().y + move.y,
-										player->GetPosition().z + move.z });
+				
 			}
+			// 戻す移動量取得
+			XMFLOAT3 move = texCol->Hit2Color(ArgColor::Red, player->GetPosition(), player->GetMove());
+			player->Setmove(move);
+			mainCamera->SetTarget({ player->GetPosition().x + move.x,
+									player->GetPosition().y + move.y,
+									player->GetPosition().z + move.z });
 
 			// メインカメラの更新
 			mainCamera->Update();
