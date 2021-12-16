@@ -1,18 +1,9 @@
 #pragma once
-#include "SafeDelete.h"
-#include "Sprite.h"
-#include "Object3d.h"
-#include "Fbx.h"
-#include "FbxLoader.h"
-#include "ParticleManager.h"
-#include "Text.h"
-#include "DebugCamera.h"
-#include "LightGroup.h"
-#include "XinputControll.h"
 
 #include "BaseScene.h"
-#include "GameScene.h"
 #include "SelectScene.h"
+#include "LoadScene.h"
+#include "GameScene.h"
 #include "EndScene.h"
 #include "IntervalScene.h"
 

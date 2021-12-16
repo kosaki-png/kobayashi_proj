@@ -1,5 +1,7 @@
 #include "Player.h"
+
 using namespace DirectX;
+using ArgColor = TexCollision::ArgColor;
 
 Player::Player(int window_width, int window_height) : 
 	WINDOW_WIDTH(window_width), WINDOW_HEIGHT(window_height)
@@ -11,6 +13,7 @@ Player::Player(int window_width, int window_height) :
 
 Player::~Player()
 {
+	delete playerObj;
 }
 
 void Player::Initialize(Input* input, TexCollision* texCol)
@@ -58,56 +61,7 @@ void Player::Update()
 		}
 	}
 
-	// 向き変更制限
-	{
-		//float tmpTheta = abs(cameraTheta) - abs(playerTheta);
-		//float tmpPhi = abs(cameraPhi) - abs(playerPhi);
-
-		//const float MAX_CHANGE_ANGLE = 2.0f;
-
-		//// 一定以上なら固定
-		//if (tmpTheta > MAX_CHANGE_ANGLE)
-		//{
-		//	tmpTheta = MAX_CHANGE_ANGLE;
-		//}
-		//if (tmpTheta < MAX_CHANGE_ANGLE)
-		//{
-		//	tmpTheta = MAX_CHANGE_ANGLE;
-		//}
-		//if (tmpPhi > MAX_CHANGE_ANGLE)
-		//{
-		//	tmpPhi = MAX_CHANGE_ANGLE;
-		//}
-		//if (tmpPhi < -MAX_CHANGE_ANGLE)
-		//{
-		//	tmpPhi = -MAX_CHANGE_ANGLE;
-		//}
-
-		//if (!speed == 0)
-		//{
-		//	// 向き更新
-		//	if (cameraTheta < playerTheta)
-		//	{
-		//		playerTheta -= abs(tmpTheta);
-		//	}
-		//	else
-		//	{
-		//		playerTheta += abs(tmpTheta);
-		//	}
-		//	if (cameraPhi < playerPhi)
-		//	{
-		//		playerPhi -= abs(tmpPhi);
-		//	}
-		//	else
-		//	{
-		//		playerPhi += abs(tmpPhi);
-		//	}
-		//}
-	}
-
 	// 三角関数の計算
-	//cameraAngleX = -playerPhi * XM_PI / 180;
-	//cameraAngleY = -playerTheta * XM_PI / 180;
 	cameraAngleX = -cameraPhi * XM_PI / 180;
 	cameraAngleY = -cameraTheta * XM_PI / 180;
 
@@ -123,44 +77,6 @@ void Player::Update()
 	// 平行移動
 	{
 		position = playerObj->GetPosition();
-
-		// マウスでの移動量増加
-		/*if (input->PushMouseLeft() && speed < 0.9f)
-		{
-			speed -= 0.01f;
-		}
-		if (input->PushMouseRight() && speed < -0.5f)
-		{
-			speed += 0.02f;
-		}
-		else
-		{
-			if (speed > 0)
-			{
-				speed -= 0.005f;
-				if (speed < 0)
-				{
-					speed = 0;
-				}
-			}
-			else if (speed < 0)
-			{
-				speed += 0.005f;
-				if (speed > 0)
-				{
-					speed = 0;
-				}
-			}
-		}
-
-		move.x = cosX * speed;
-		move.z = sinX * speed;*/
-		/*if (input->PushMouseLeft()) speed = -1;
-		else if (input->PushMouseRight()) speed = 1;
-		else speed = 0;
-
-		move.x = cosX * speed;
-		move.z = sinX * speed;*/
 
 		// shiftでダッシュ
 		if (input->PushKey(DIK_LSHIFT))
@@ -197,13 +113,15 @@ void Player::Update()
 		if (input->PushKey(DIK_X)) move.y = -1;
 	}
 
-	//playerObj->SetRotation({ 0, playerPhi - 90, 0 });
+	// プレイヤーの向きを設定
 	playerObj->SetRotation({ 0, cameraPhi - 90, 0 });
+
+	// 移動量に当たり判定を反映
+	move = texCol->Hit2Color(ArgColor::Red, position, move);
 
 	// 更新
 	playerObj->Update();
 
-	//rePosition = position;
 }
 
 void Player::Draw(ID3D12GraphicsCommandList* cmdList)

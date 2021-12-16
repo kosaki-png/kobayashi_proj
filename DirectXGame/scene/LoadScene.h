@@ -2,23 +2,21 @@
 
 #include "BaseScene.h"
 #include "TitleScene.h"
-#include "SelectScene.h"
-#include "LoadScene.h"
 #include "GameScene.h"
+#include "SelectScene.h"
 #include "EndScene.h"
+#include "IntervalScene.h"
 
 #include <thread>
 
-class IntervalScene :
+class LoadScene : 
 	public BaseScene
 {
 public:
-	IntervalScene();
-	~IntervalScene();
+	LoadScene();
+	~LoadScene();
 
 	void Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio) override;
-
-	void LoadStart();
 
 	void Update() override;
 
@@ -60,5 +58,4 @@ private:
 	bool isEffect = false;
 
 	Fbx* kogakuin = nullptr;
-
 };

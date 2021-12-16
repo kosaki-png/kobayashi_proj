@@ -8,11 +8,7 @@
 #include "PostEffect.h"
 #include "FlameRate.h"
 
-#include "BaseScene.h"
-#include "TitleScene.h"
-#include "SelectScene.h"
-#include "GameScene.h"
-#include "EndScene.h"
+#include "SceneManager.h"
 
 #include "Fade.h"
 #include "ModelManager.h"
@@ -27,7 +23,8 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	Audio* audio = nullptr;
 	FlameRate* flamerate = nullptr;
 
-	BaseScene* scene = nullptr;
+	SceneManager* sceneMng = nullptr;
+	//BaseScene* scene = nullptr;
 
 	//PostEffect* postEffect = nullptr;
 
@@ -41,6 +38,9 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	//DirectX初期化処理
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(win);
+
+	// シーン管理初期化
+	sceneMng = SceneManager::GetInstance();
 
 #pragma region 汎用機能初期化
 
@@ -78,14 +78,8 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	//postEffect = new PostEffect();
 	//postEffect->Initialize();
 
-	// 最初のシーン
-	scene = new TitleScene();
-	//scene = new SelectScene();
-	//scene = new GameScene();
-	//scene = new EndScene();
-	
 	// 最初のシーンの初期化
-	scene->Initialize(dxCommon, input, audio);
+	sceneMng->Start(dxCommon, input, audio);
 
 	// カーソルON/OFF
 	//ShowCursor(FALSE);
@@ -102,25 +96,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 		input->Update();
 
 		// シーン切り替え
-		{
-			// シーンクラスで指定した次のシーンを受け取る
-			BaseScene* nextScene = scene->GetNextScene();
-
-			if (nextScene)	// nextSceneがnullでないとき
-			{
-				// 元のシーンを削除
-				delete scene;
-
-				// 次に指定したシーンを初期化
-				nextScene->Initialize(dxCommon, input, audio);
-
-				// 現在のシーンに適用
-				scene = nextScene;
-			}
-		}
-
-		// シーンの更新
-		scene->Update();
+		sceneMng->Update();
 
 		// レンダーテクスチャへの描画
 		/*postEffect->PreDrawScene(dxCommon->GetCommandList());
@@ -131,18 +107,21 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 		dxCommon->PreDraw();
 		// ポストエフェクトの描画
 		//postEffect->Draw(dxCommon->GetCommandList());
-		scene->Draw();
+		//scene->Draw();
+		sceneMng->Draw();
 		// 描画終了
 		dxCommon->PostDraw();
 		//フレームレート待機処理
 		flamerate->Wait();
 	}
 
-	scene->Finalize();
+	sceneMng->Finalize();
+	//scene->Finalize();
 	// 各種解放
 	FbxLoader::GetInstance()->Finalize();
 	ModelManager::GetInstance()->Destroy();
-	safe_delete(scene);
+	SceneManager::GetInstance()->Destroy();
+	//safe_delete(scene);
 	safe_delete(audio);
 	safe_delete(dxCommon);
 	safe_delete(flamerate);

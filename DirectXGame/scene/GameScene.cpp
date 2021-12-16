@@ -221,19 +221,16 @@ void GameScene::Update()
 			// オブジェクトマネージャーの更新
 			objMng->Update();
 			
-			// マップとの当たり判定適用
-			{
-				
-			}
-			// 戻す移動量取得
-			XMFLOAT3 move = texCol->Hit2Color(ArgColor::Red, player->GetPosition(), player->GetMove());
-			player->Setmove(move);
-			mainCamera->SetTarget({ player->GetPosition().x + move.x,
-									player->GetPosition().y + move.y,
-									player->GetPosition().z + move.z });
-
 			// メインカメラの更新
-			mainCamera->Update();
+			{
+				// プレイヤーの動きをカメラに反映
+				XMFLOAT3 cameraMove = { player->GetPosition().x + player->GetMove().x,
+										player->GetPosition().y + player->GetMove().y,
+										player->GetPosition().z + player->GetMove().z, };
+				mainCamera->SetTarget(cameraMove);
+
+				mainCamera->Update();
+			}
 		}
 	}
 	

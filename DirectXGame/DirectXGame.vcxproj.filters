@@ -222,6 +222,12 @@
     <ClCompile Include="Element\Enemy.cpp">
       <Filter>ソース ファイル\Element</Filter>
     </ClCompile>
+    <ClCompile Include="manager\SceneManager.cpp">
+      <Filter>ソース ファイル\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\LoadScene.cpp">
+      <Filter>ソース ファイル\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio\Audio.h">
@@ -361,6 +367,12 @@
     </ClInclude>
     <ClInclude Include="Element\Enemy.h">
       <Filter>ヘッダー ファイル\Element</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\SceneManager.h">
+      <Filter>ヘッダー ファイル\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\LoadScene.h">
+      <Filter>ヘッダー ファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

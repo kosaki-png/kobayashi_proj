@@ -1,21 +1,9 @@
 ﻿#pragma once
 
-#include "SafeDelete.h"
-#include "Sprite.h"
-#include "Object3d.h"
-#include "Fbx.h"
-#include "FbxLoader.h"
-#include "ParticleManager.h"
-#include "Text.h"
-#include "DebugCamera.h"
-#include "MainCamera.h"
-#include "LightGroup.h"
-#include "XinputControll.h"
-#include "Fade.h"
-
 #include "BaseScene.h"
 #include "TitleScene.h"
 #include "SelectScene.h"
+#include "LoadScene.h"
 #include "EndScene.h"
 #include "IntervalScene.h"
 
@@ -23,8 +11,7 @@
 
 #include "Player.h"
 #include "Enemy.h"
-#include "ObjectManager.h"
-#include "ModelManager.h"
+
 #include "TexCollision.h"
 
 class GameScene :

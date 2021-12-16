@@ -1,10 +1,29 @@
 #pragma once
 #include "DirectXCommon.h"
-#include "Input.h"
-#include "Audio.h"
 #include <DirectXMath.h>
+#include "SafeDelete.h"
+#include "LightGroup.h"
 
-#include "Fade.h"
+// 入力関係
+#include "Input.h"
+#include "XinputControll.h"
+
+// オブジェクト関係
+#include "Sprite.h"
+#include "Object3d.h"
+#include "Fbx.h"
+#include "FbxLoader.h"
+#include "ParticleManager.h"
+#include "Text.h"
+#include "Audio.h"
+
+// カメラ関係
+#include "DebugCamera.h"
+#include "MainCamera.h"
+#include "OrbitCamera.h"
+
+// 管理関係
+#include "Objectmanager.h"
 #include "ModelManager.h"
 
 struct SceneButton

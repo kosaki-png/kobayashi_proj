@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+
 #include "Object.h"
 
 class Player : public Object
@@ -11,13 +13,28 @@ public: // メンバ関数
     void Update() override;
     void Draw(ID3D12GraphicsCommandList* cmdList) override;
 
+    /// <summary>
+    /// 座標取得
+    /// </summary>
+    /// <returns></returns>
     XMFLOAT3 GetPosition() { return position; }
+
+    /// <summary>
+    /// 座標取得
+    /// </summary>
+    /// <returns></returns>
     void SetPosition(XMFLOAT3 position) { this->position = position; }
 
-    //XMFLOAT3 GetRePosition() { return rePosition; }
-    //void SetRePosition(XMFLOAT3 rePosition) { this->rePosition = rePosition; }
-
+    /// <summary>
+    /// 移動量設定
+    /// </summary>
+    /// <returns></returns>
     XMFLOAT3 GetMove() { return move; }
+
+    /// <summary>
+    /// 移動量設定
+    /// </summary>
+    /// <returns></returns>
     void Setmove(XMFLOAT3 move) { this->move = move; }
 
     // 感度変更
@@ -39,14 +56,7 @@ private: // メンバ変数
     float cameraAngleX = 0;	// rad
     float cameraAngleY = 0;	// rad
 
-    float playerTheta = 0;
-    float playerPhi = 0;
-
-    float playerAngleX = 0;	// rad
-    float playerAngleY = 0;	// rad
-
     float speed = 0;
-    bool isMove = false;
 
     // 感度設定用
     float sence = 1.0f;

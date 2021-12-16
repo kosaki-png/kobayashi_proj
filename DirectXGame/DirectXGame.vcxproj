@@ -118,6 +118,7 @@
     <ClCompile Include="input\XinputControll.cpp" />
     <ClCompile Include="manager\ModelManager.cpp" />
     <ClCompile Include="manager\ObjectManager.cpp" />
+    <ClCompile Include="manager\SceneManager.cpp" />
     <ClCompile Include="scene\BaseScene.cpp" />
     <ClCompile Include="scene\EndScene.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
@@ -125,6 +126,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="scene\IntervalScene.cpp" />
+    <ClCompile Include="scene\LoadScene.cpp" />
     <ClCompile Include="scene\SelectScene.cpp" />
     <ClCompile Include="scene\TitleScene.cpp" />
     <ClCompile Include="Vector\Vector2.cpp" />
@@ -174,6 +176,7 @@
     <ClInclude Include="input\XinputControll.h" />
     <ClInclude Include="manager\ModelManager.h" />
     <ClInclude Include="manager\ObjectManager.h" />
+    <ClInclude Include="manager\SceneManager.h" />
     <ClInclude Include="scene\BaseScene.h" />
     <ClInclude Include="scene\EndScene.h" />
     <ClInclude Include="scene\GameScene.h" />
@@ -181,6 +184,7 @@
     <ClInclude Include="SafeDelete.h" />
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="scene\IntervalScene.h" />
+    <ClInclude Include="scene\LoadScene.h" />
     <ClInclude Include="scene\SelectScene.h" />
     <ClInclude Include="scene\TitleScene.h" />
     <ClInclude Include="Vector\Vector2.h" />
