@@ -6,25 +6,38 @@
 #include "LoadScene.h"
 #include "GameScene.h"
 #include "EndScene.h"
+#include "IntervalScene.h"
 
 #include <thread>
 
 class IntervalScene :
 	public BaseScene
 {
+private:
+	struct Trance
+	{
+		Sprite* trance = nullptr;
+		XMFLOAT2 position;
+		XMFLOAT2 speed;
+	};
+
 public:
 	IntervalScene();
 	~IntervalScene();
 
 	void Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio) override;
 
-	void LoadStart();
-
 	void Update() override;
 
 	void Draw() override;
 
 	void Finalize() override;
+
+	void Start();
+
+	bool GetIsEffect() { return isEffect; }
+
+	bool GetIsCover() { return isCover; }
 
 private:
 	Text* text = nullptr;
@@ -43,22 +56,11 @@ private:
 	XMFLOAT2 mousePos;
 
 	Sprite* tmpSprite = nullptr;
-
-#pragma region 非同期ロード
-
-	// 非同期ロード用
-	std::thread* th;
-
-	// ロード用
-	Sprite* loading = nullptr;
-	Sprite* loaded = nullptr;
-	Sprite* loadBar = nullptr;
-	Sprite* loadBarWhite = nullptr;
-
-#pragma endregion
+	Trance trance[6];
 
 	bool isEffect = false;
 
-	Fbx* kogakuin = nullptr;
+	bool isCover = false;
 
+	int startCnt = 0;
 };

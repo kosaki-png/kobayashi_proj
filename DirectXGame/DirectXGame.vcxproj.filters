@@ -368,11 +368,11 @@
     <ClInclude Include="Element\Enemy.h">
       <Filter>ヘッダー ファイル\Element</Filter>
     </ClInclude>
-    <ClInclude Include="manager\SceneManager.h">
-      <Filter>ヘッダー ファイル\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="scene\LoadScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\SceneManager.h">
+      <Filter>ヘッダー ファイル\Manager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

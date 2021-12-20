@@ -302,7 +302,6 @@ void GameScene::Draw()
 		ImGui::SliderFloat("感度", &sence, 0.01f, 5.0f);
 		ImGui::End();
 	}
-
 }
 
 void GameScene::Finalize()

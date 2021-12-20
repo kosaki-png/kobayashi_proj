@@ -37,6 +37,5 @@ void ModelManager::Load(int modelNum, const std::string& modelName)
 	}
 
 	// “Ç‚Ýž‚ñ‚¾ƒ‚ƒfƒ‹‚ð”z—ñ‚É’Ç‰Á
-	//models.push_back(FbxLoader::GetInstance()->LoadModelFromFile(modelName));
 	models[modelNum] = FbxLoader::GetInstance()->LoadModelFromFile(modelName);
 }

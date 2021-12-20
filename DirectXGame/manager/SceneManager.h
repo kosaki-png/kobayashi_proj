@@ -19,6 +19,7 @@ public:
 
 private:
 	BaseScene* scene = nullptr;
+
 	IntervalScene* interval = nullptr;
 
 	DirectXCommon* dxCommon;
