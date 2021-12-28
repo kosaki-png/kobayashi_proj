@@ -31,6 +31,14 @@ public: // サブクラス
 		Alpha, // 3
 	};
 
+	enum Dir
+	{
+		Up,
+		Down,
+		Right,
+		Left
+	};
+
 	// 色情報取り出し
 	struct ColorInfo
 	{
@@ -80,6 +88,49 @@ public: // 静的メンバ関数
 	///  <param name="move">移動量</param>
 	/// <returns>変更後移動量</returns>
 	XMFLOAT3 Hit2Color(ArgColor color, XMFLOAT3 position, XMFLOAT3 move);
+
+	bool CheckRUp(XMFLOAT3 position, int length);
+	bool CheckRDown(XMFLOAT3 position, int length);
+	bool CheckRRight(XMFLOAT3 position, int length);
+	bool CheckRLeft(XMFLOAT3 position, int length);
+
+	bool CheckGUp(XMFLOAT3 position, int length);
+	bool CheckGDown(XMFLOAT3 position, int length);
+	bool CheckGRight(XMFLOAT3 position, int length);
+	bool CheckGLeft(XMFLOAT3 position, int length);
+
+	bool CheckBUp(XMFLOAT3 position, int length);
+	bool CheckBDown(XMFLOAT3 position, int length);
+	bool CheckBRight(XMFLOAT3 position, int length);
+	bool CheckBLeft(XMFLOAT3 position, int length);
+
+	bool CheckAUp(XMFLOAT3 position, int length);
+	bool CheckADown(XMFLOAT3 position, int length);
+	bool CheckARight(XMFLOAT3 position, int length);
+	bool CheckALeft(XMFLOAT3 position, int length);
+
+	bool CheckNotRUp(XMFLOAT3 position, int length);
+	bool CheckNotRDown(XMFLOAT3 position, int length);
+	bool CheckNotRRight(XMFLOAT3 position, int length);
+	bool CheckNotRLeft(XMFLOAT3 position, int length);
+
+	bool CheckNotGUp(XMFLOAT3 position, int length);
+	bool CheckNotGDown(XMFLOAT3 position, int length);
+	bool CheckNotGRight(XMFLOAT3 position, int length);
+	bool CheckNotGLeft(XMFLOAT3 position, int length);
+			  
+	bool CheckNotBUp(XMFLOAT3 position, int length);
+	bool CheckNotBDown(XMFLOAT3 position, int length);
+	bool CheckNotBRight(XMFLOAT3 position, int length);
+	bool CheckNotBLeft(XMFLOAT3 position, int length);
+			  
+	bool CheckNotAUp(XMFLOAT3 position, int length);
+	bool CheckNotADown(XMFLOAT3 position, int length);
+	bool CheckNotARight(XMFLOAT3 position, int length);
+	bool CheckNotALeft(XMFLOAT3 position, int length);
+
+	bool Check(ArgColor Color, Dir dir, XMFLOAT3 position, int length);
+	bool CheckNot(ArgColor Color, Dir dir, XMFLOAT3 position, int length);
 
 private:
 	ColorInfo* pcolor;

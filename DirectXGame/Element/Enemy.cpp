@@ -1,5 +1,13 @@
 #include "Enemy.h"
 
+Enemy::Enemy()
+{
+}
+
+Enemy::~Enemy()
+{
+}
+
 void Enemy::Initialize(Input* input, TexCollision* texCol)
 {
 	Object::Initialize(input, texCol);
@@ -11,8 +19,10 @@ void Enemy::Initialize(Input* input, TexCollision* texCol)
 
 void Enemy::Update()
 {
+	enemyObj->Update();
 }
 
 void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 {
+	enemyObj->Draw(cmdList, true);
 }

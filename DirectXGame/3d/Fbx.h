@@ -80,6 +80,12 @@ public: // メンバ関数
 	const XMFLOAT3& GetRotation() { return rotation; }
 
 	/// <summary>
+	/// 回転の取得
+	/// </summary>
+	/// <returns>回転</returns>
+	const XMFLOAT3& GetScale() { return scale; }
+
+	/// <summary>
 	/// 座標の設定
 	/// </summary>
 	/// <param name="position">座標</param>
@@ -90,6 +96,12 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="position">回転</param>
 	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
+
+	/// <summary>
+	/// 回転の設定
+	/// </summary>
+	/// <param name="position">回転</param>
+	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
 
 protected: // メンバ変数
 	// 定数バッファ

@@ -12,9 +12,10 @@ IntervalScene::IntervalScene()
 
 IntervalScene::~IntervalScene()
 {
-	for (int i = 0; i < 6; i++)
+	delete back;
+	for (int i = 0; i < 4; i++)
 	{
-		delete trance[i].trance;
+		delete trance[i].sprite;
 	}
 }
 
@@ -69,19 +70,38 @@ void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* aud
 		// スプライト用テクスチャ読み込み
 		{
 			Sprite::LoadTexture(100, L"Resources/texture/trance.png");
+			Sprite::LoadTexture(101, L"Resources/texture/interval_back.png");
+			Sprite::LoadTexture(102, L"Resources/texture/interval_up.png");
+			Sprite::LoadTexture(103, L"Resources/texture/interval_left.png");
+			Sprite::LoadTexture(104, L"Resources/texture/interval_down.png");
+			Sprite::LoadTexture(105, L"Resources/texture/interval_right.png");
 		}
 
 		// スプライト生成
 		{
-			for (int i = 0; i < 6; i++)
+			back = Sprite::Create(101, { 0,0 });
+			back->SetAlpha(0);
+
+			for (int i = 0; i < 4; i++)
 			{
-				trance[i].trance = Sprite::Create(100, { 0,0 });
-				trance[i].position = { i * 320.0f - 160.0f, 720.0f };
+				trance[i].sprite = Sprite::Create(102 + i, { 0,0 });
+				// 初期位置設定
+				if (i < 2)
+				{
+					trance[i].position = { 10000, -WINDOW_HEIGHT };
+				}
+				else
+				{
+					trance[i].position = { 10000,  WINDOW_HEIGHT };
+				}
+
+				trance[i].sprite->SetPosition(trance[i].position);
 			}
 		}
 
 		// スプライト初期設定
 		{
+			
 		}
 	}
 
@@ -100,56 +120,72 @@ void IntervalScene::Update()
 {
 	isCover = false;
 
-	// 挙動
-	for (int i = 0; i < 6; i++)
+	if (isEffect)
 	{
-		// 移動制限
-		if (trance[i].position.y <= -720 || trance[i].position.y >= 0)
+		for (int i = 0; i < 4; i++)
 		{
-			if (startCnt < 130)
+			if (trance[i].position.y == 0)
 			{
 				trance[i].speed.x = 0.0f;
 				trance[i].speed.y = 0.0f;
 			}
-		}
 
-		// 一定時間で移動量変更
-		// 上から
-		if (startCnt == 60 / 6 * i + 30)
-		{
-			trance[i].speed.x = -320.0f / 30;
-			trance[i].speed.y = 20.0f;
-		}
-		// 左右へ
-		if (startCnt == 150)
-		{
-			for (int i = 0; i < 6; i++)
+			// 0.5秒後からスタート
+			if (startCnt == 30)
 			{
-				if (i < 3)
-				{
-					trance[i].speed.x = -20;
-				}
-				else
-				{
-					trance[i].speed.x = +20;
-				}
+				trance[0].speed.y = WINDOW_HEIGHT / 20.0f;
+				trance[2].speed.y = -WINDOW_HEIGHT / 20.0f;
 			}
+			if (startCnt == 40)
+			{
+				trance[1].speed.y = WINDOW_HEIGHT / 20.0f;
+				trance[3].speed.y = -WINDOW_HEIGHT / 20.0f;
+			}
+
+			//
+			if (startCnt >= 100 && startCnt < 160)
+			{
+				alpha += 0.015f;
+			}
+
+			if (startCnt >= 160 && startCnt < 220)
+			{
+				alpha -= 0.015f;
+			}
+
+			// 0.5秒後からスタート
+			if (startCnt == 230)
+			{
+				trance[1].speed.y = -WINDOW_HEIGHT / 20.0f;
+				trance[3].speed.y = WINDOW_HEIGHT / 20.0f;
+			}
+			if (startCnt == 250)
+			{
+				trance[0].speed.y = -WINDOW_HEIGHT / 20.0f;
+				trance[2].speed.y = WINDOW_HEIGHT / 20.0f;
+			}
+
+			// 速度から座標を更新
+			trance[i].position.x += trance[i].speed.x;
+			trance[i].position.y += trance[i].speed.y;
+
+			// 座標をセット
+			trance[i].sprite->SetPosition(trance[i].position);
+
+			back->SetAlpha(alpha);
 		}
 
-		// 移動量適用
-		trance[i].position.x += trance[i].speed.x;
-		trance[i].position.y += trance[i].speed.y;
-		trance[i].trance->SetPosition({ trance[i].position });
-	}
+		// 完全に隠れたタイミング
+		if (startCnt == 160)
+		{
+			isCover = true;
+		}
 
-	if (startCnt == 130)
-	{
-		isCover = true;
-	}
-
-	if (startCnt > 250)
-	{
-		isEffect = false;
+		// エフェクト終了
+		if (startCnt > 270)
+		{
+			isEffect = false;
+		}
 	}
 
 	// カメラ更新
@@ -196,9 +232,13 @@ void IntervalScene::Draw()
 	{
 		Sprite::PreDraw(cmdList);
 		{
-			for (int i = 0; i < 6; i++)
+			if (isEffect)
 			{
-				trance[i].trance->Draw();
+				back->Draw();
+				for (int i = 3; i >= 0; i--)
+				{
+					trance[i].sprite->Draw();
+				}
 			}
 
 			// デバッグテキストの描画
@@ -224,10 +264,20 @@ void IntervalScene::Start()
 {
 	// エフェクト初期化
 	startCnt = 0;
-	// 位置初期化
-	for (int i = 0; i < 6; i++)
+	alpha = 0.0f;
+
+	for (int i = 0; i < 4; i++)
 	{
-		trance[i].position = { i * 320.0f - 160.0f, -720.0f };
+		// 初期位置設定
+		if (i < 2)
+		{
+			trance[i].position = { 0, -WINDOW_HEIGHT };
+		}
+		else
+		{
+			trance[i].position = { 0,  WINDOW_HEIGHT };
+		}
 	}
+
 	isEffect = true;
 }

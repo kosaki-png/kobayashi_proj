@@ -33,10 +33,23 @@ public:
 	virtual void Update() = 0;
 	virtual void Draw(ID3D12GraphicsCommandList* cmdList) = 0;
 
+	void SetPosition(XMFLOAT3 position) { this->position = position; }
+	XMFLOAT3 Getposition() { return position; }
+
+	void SetRotation(XMFLOAT3 position) { this->rotation = rotation; }
+	XMFLOAT3 GetRotation() { return rotation; }
+
+	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
+	XMFLOAT3 GetScale() { return scale; }
+
 protected:
 	Input* input = nullptr;
 	TexCollision* texCol = nullptr;
 	ModelManager* modelMng = ModelManager::GetInstance();
+
+	XMFLOAT3 position = { 0,0,0 };
+	XMFLOAT3 rotation = { 0,0,0 };
+	XMFLOAT3 scale = { 0,0,0 };
 
 	int a = 0;
 };

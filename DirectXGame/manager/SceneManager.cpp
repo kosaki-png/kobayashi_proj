@@ -34,6 +34,7 @@ void SceneManager::Start(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	//scene = new GameScene();
 	//scene = new EndScene();
 	//scene = new IntervalScene();
+
 	interval = new IntervalScene();
 
 	this->dxCommon = dxCommon;

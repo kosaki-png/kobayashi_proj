@@ -16,9 +16,9 @@ class IntervalScene :
 private:
 	struct Trance
 	{
-		Sprite* trance = nullptr;
-		XMFLOAT2 position;
-		XMFLOAT2 speed;
+		Sprite* sprite = nullptr;
+		XMFLOAT2 position = { 0,0 };
+		XMFLOAT2 speed = { 0,0 };
 	};
 
 public:
@@ -56,11 +56,27 @@ private:
 	XMFLOAT2 mousePos;
 
 	Sprite* tmpSprite = nullptr;
-	Trance trance[6];
 
+#pragma region 演出
+
+	// 演出用スプライト
+	Sprite* back = nullptr;
+	Trance trance[4];
+
+	float alpha = 0;
+
+	// 演出が機能しているか
 	bool isEffect = false;
 
+	// 完全に隠れたか
 	bool isCover = false;
 
+	// 演出が始まってからの時間
 	int startCnt = 0;
+
+#pragma endregion
+
+private:
+	const float WINDOW_WIGTH = 1280.0f;
+	const float WINDOW_HEIGHT = 720.0f;
 };

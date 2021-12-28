@@ -49,9 +49,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		text->Initialize(texNumber);
 
 		// ライト生成
-		lightGroup = LightGroup::Create();
+		//lightGroup = LightGroup::Create();
 		// 3Dオブエクトにライトをセット
-		Object3d::SetLightGroup(lightGroup);
+		//Object3d::SetLightGroup(lightGroup);
 
 		// デバイスをセット
 		Fbx::SetDevice(dxCommon->GetDevice());
@@ -121,7 +121,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		skydome = new Fbx();
 		skydome->Initialize();
 		skydome->SetModel(modelMng->GetModel(11));
-		skydome->SetPosition({ 1130.0f * 3 / 2, 3, 925 * 3 / 2 });
+		skydome->SetScale({ 1.5f, 1.5f, 1.5f });
+		skydome->SetPosition({ WORLD_WIDTH / 2, 3, WORLD_HEIGHT / 2 });
 	}
 	
 	// 各クラス初期設定
@@ -132,13 +133,16 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		objMng = new ObjectManager();
 		player = new Player(WinApp::window_width, WinApp::window_height);
+		enemy = new Enemy();
 	
 		// オブジェクトマネージャーに登録
 		objMng->AddObject(player);
+		objMng->AddObject(enemy);
 
 		objMng->Initialize(input, texCol);
 
 		player->SetPosition({ 100, 3.5f, 10 });
+		
 	}
 
 	// カメラの初期設定
@@ -213,7 +217,7 @@ void GameScene::Update()
 				static float angle = 0;
 				angle += 0.04f;
 				mainCamera->UpdateProjectionMatrix(5000.0f);
-				skydome->SetRotation({ 0,angle,0 });
+				skydome->SetRotation({ 0, angle / 10, 0 });
 				skydome->Update();
 				mainCamera->UpdateProjectionMatrix(1000.0f);
 			}
@@ -234,7 +238,7 @@ void GameScene::Update()
 		}
 	}
 	
-	lightGroup->Update();
+	//lightGroup->Update();
 	particleMan->Update();
 
 }

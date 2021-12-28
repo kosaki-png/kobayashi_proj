@@ -46,8 +46,6 @@ private: // ƒƒ“ƒo•Ï”
     float scaleY = 1.0f;
 
     Fbx* playerObj = nullptr;
-    XMFLOAT3 position = { 10,10,10 };
-    //XMFLOAT3 rePosition = { 0,0,0 };
     XMFLOAT3 move = { 0,0,0 };
 
     float cameraTheta = 0;

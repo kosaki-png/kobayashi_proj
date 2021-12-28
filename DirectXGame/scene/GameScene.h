@@ -54,6 +54,7 @@ private:
 
 	// 各クラス宣言宣言
 	Player* player = nullptr;
+	Enemy* enemy = nullptr;
 	
 	ModelManager* modelMng = nullptr;
 	ObjectManager* objMng = nullptr;
@@ -72,6 +73,8 @@ private:
 	Fbx* map[9] = {};
 	Fbx* floor[9] = {};
 	Fbx* skydome = nullptr;
+	const float WORLD_HEIGHT = 1130 * 3;
+	const float WORLD_WIDTH = 925 * 3;
 
 	// 移動量保存用変数
 	XMFLOAT3 keepVec = { 0,0,0 };

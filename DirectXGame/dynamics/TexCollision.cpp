@@ -158,3 +158,304 @@ XMFLOAT3 TexCollision::Hit2Color(ArgColor color, XMFLOAT3 position, XMFLOAT3 mov
 
 	return outVec;
 }
+
+#pragma region ColorCheck
+
+#pragma region Red
+
+bool TexCollision::CheckRUp(XMFLOAT3 position, int length)
+{
+	return Check(Red, Up, position, length);
+}
+
+bool TexCollision::CheckRDown(XMFLOAT3 position, int length)
+{
+	return Check(Red, Down, position, length);
+}
+
+bool TexCollision::CheckRRight(XMFLOAT3 position, int length)
+{
+	return Check(Red, Right, position, length);
+}
+
+bool TexCollision::CheckRLeft(XMFLOAT3 position, int length)
+{
+	return Check(Red, Left, position, length);
+}
+
+#pragma endregion
+
+#pragma region Green
+
+bool TexCollision::CheckGUp(XMFLOAT3 position, int length)
+{
+	return Check(Green, Up, position, length);
+}
+
+bool TexCollision::CheckGDown(XMFLOAT3 position, int length)
+{
+	return Check(Green, Down, position, length);
+}
+
+bool TexCollision::CheckGRight(XMFLOAT3 position, int length)
+{
+	return Check(Green, Right, position, length);
+}
+
+bool TexCollision::CheckGLeft(XMFLOAT3 position, int length)
+{
+	return Check(Green, Left, position, length);
+}
+
+#pragma endregion
+
+#pragma region Blue
+
+bool TexCollision::CheckBUp(XMFLOAT3 position, int length)
+{
+	return Check(Blue, Up, position, length);
+}
+
+bool TexCollision::CheckBDown(XMFLOAT3 position, int length)
+{
+	return Check(Blue, Down, position, length);
+}
+
+bool TexCollision::CheckBRight(XMFLOAT3 position, int length)
+{
+	return Check(Blue, Right, position, length);
+}
+
+bool TexCollision::CheckBLeft(XMFLOAT3 position, int length)
+{
+	return Check(Blue, Left, position, length);
+}
+
+#pragma endregion
+
+#pragma region Alpha
+
+bool TexCollision::CheckAUp(XMFLOAT3 position, int length)
+{
+	return Check(Alpha, Up, position, length);
+}
+
+bool TexCollision::CheckADown(XMFLOAT3 position, int length)
+{
+	return Check(Alpha, Down, position, length);
+}
+
+bool TexCollision::CheckARight(XMFLOAT3 position, int length)
+{
+	return Check(Alpha, Right, position, length);
+}
+
+bool TexCollision::CheckALeft(XMFLOAT3 position, int length)
+{
+	return Check(Alpha, Left, position, length);
+}
+
+#pragma endregion
+
+#pragma endregion
+
+#pragma region ColorNotCheck
+
+#pragma region Red
+
+bool TexCollision::CheckNotRUp(XMFLOAT3 position, int length)
+{
+	return CheckNot(Red, Up, position, length);
+}
+
+bool TexCollision::CheckNotRDown(XMFLOAT3 position, int length)
+{
+	return CheckNot(Red, Down, position, length);
+}
+
+bool TexCollision::CheckNotRRight(XMFLOAT3 position, int length)
+{
+	return CheckNot(Red, Right, position, length);
+}
+
+bool TexCollision::CheckNotRLeft(XMFLOAT3 position, int length)
+{
+	return CheckNot(Red, Left, position, length);
+}
+
+#pragma endregion
+
+#pragma region Green
+
+bool TexCollision::CheckNotGUp(XMFLOAT3 position, int length)
+{
+	return CheckNot(Green, Up, position, length);
+}
+
+bool TexCollision::CheckNotGDown(XMFLOAT3 position, int length)
+{
+	return CheckNot(Green, Down, position, length);
+}
+
+bool TexCollision::CheckNotGRight(XMFLOAT3 position, int length)
+{
+	return CheckNot(Green, Right, position, length);
+}
+
+bool TexCollision::CheckNotGLeft(XMFLOAT3 position, int length)
+{
+	return CheckNot(Green, Left, position, length);
+}
+
+#pragma endregion
+
+#pragma region Blue
+
+bool TexCollision::CheckNotBUp(XMFLOAT3 position, int length)
+{
+	return CheckNot(Blue, Up, position, length);
+}
+
+bool TexCollision::CheckNotBDown(XMFLOAT3 position, int length)
+{
+	return CheckNot(Blue, Down, position, length);
+}
+
+bool TexCollision::CheckNotBRight(XMFLOAT3 position, int length)
+{
+	return CheckNot(Blue, Right, position, length);
+}
+
+bool TexCollision::CheckNotBLeft(XMFLOAT3 position, int length)
+{
+	return CheckNot(Blue, Left, position, length);
+}
+
+#pragma endregion
+
+#pragma region Alpha
+
+bool TexCollision::CheckNotAUp(XMFLOAT3 position, int length)
+{
+	return CheckNot(Alpha, Up, position, length);
+}
+
+bool TexCollision::CheckNotADown(XMFLOAT3 position, int length)
+{
+	return CheckNot(Alpha, Down, position, length);
+}
+
+bool TexCollision::CheckNotARight(XMFLOAT3 position, int length)
+{
+	return CheckNot(Alpha, Right, position, length);
+}
+
+bool TexCollision::CheckNotALeft(XMFLOAT3 position, int length)
+{
+	return CheckNot(Alpha, Left, position, length);
+}
+
+#pragma endregion
+
+
+#pragma endregion
+
+bool TexCollision::Check(ArgColor Color, Dir dir, XMFLOAT3 position, int length)
+{
+	bool result = false;
+
+	// lengthの分判定
+	for (int i = 0; i < length; i++)
+	{
+		switch (dir)
+		{
+		case Up:
+			// 範囲内に色があった場合
+			if (pixelColors[(int)position.x][(int)position.z + (i + 1)].colors[Color] != 0)
+			{
+				result = true;
+				break;
+			}
+			break;
+
+		case Down:
+			// 範囲内に色があった場合
+			if (pixelColors[(int)position.x][(int)position.z - (i + 1)].colors[Color] != 0)
+			{
+				result = true;
+				break;
+			}
+			break;
+
+		case Right:
+			// 範囲内に色があった場合
+			if (pixelColors[(int)position.x + (i + 1)][(int)position.z].colors[Color] != 0)
+			{
+				result = true;
+				break;
+			}
+			break;
+
+		case Left:
+			// 範囲内に色があった場合
+			if (pixelColors[(int)position.x - (i + 1)][(int)position.z].colors[Color] != 0)
+			{
+				result = true;
+				break;
+			}
+			break;
+		}
+	}
+	
+	return result;
+}
+
+bool TexCollision::CheckNot(ArgColor Color, Dir dir, XMFLOAT3 position, int length)
+{
+	bool result = false;
+
+	// lengthの分判定
+	for (int i = 0; i < length; i++)
+	{
+		switch (dir)
+		{
+		case Up:
+			// 範囲内に色があった場合
+			if (pixelColors[(int)position.x][(int)position.z + (i + 1)].colors[Color] == 0)
+			{
+				result = true;
+				break;
+			}
+			break;
+
+		case Down:
+			// 範囲内に色があった場合
+			if (pixelColors[(int)position.x][(int)position.z - (i + 1)].colors[Color] == 0)
+			{
+				result = true;
+				break;
+			}
+			break;
+
+		case Right:
+			// 範囲内に色があった場合
+			if (pixelColors[(int)position.x + (i + 1)][(int)position.z].colors[Color] == 0)
+			{
+				result = true;
+				break;
+			}
+			break;
+
+		case Left:
+			// 範囲内に色があった場合
+			if (pixelColors[(int)position.x - (i + 1)][(int)position.z].colors[Color] == 0)
+			{
+				result = true;
+				break;
+			}
+			break;
+		}
+	}
+
+	return result;
+}
