@@ -18,46 +18,91 @@ void Enemy::Initialize(Input* input, TexCollision* texCol)
 	//enemyObj->SetScale({5, 5, 5});
 	position = { 100, 3, 10 };
 
+	count = 1000;
 	//DecMoveDir(dir);
 }
 
 void Enemy::Update()
 {
+	// 自分の向きに応じて
 	switch (dir)
 	{
 	case Enemy::Up:
-		position.z += 0.08f;
 		// 移動先が範囲外なら方向変更
 		if (texCol->CheckNotBUp(position, LENGTH))
 		{
-			dir = DecMoveDir(dir);
+			if (canMove)
+			{
+				count = 0;
+			}
+
+			canMove = false;
+			break;
+		}
+
+		// 動けるなら動かす
+		if (canMove)
+		{
+			position.z += speed;
 		}
 		break;
 
 	case Enemy::Down:
-		position.z -= 0.08f;
 		// 移動先が範囲外なら方向変更
 		if (texCol->CheckNotBDown(position, LENGTH))
 		{
-			dir = DecMoveDir(dir);
+			if (canMove)
+			{
+				count = 0;
+			}
+
+			canMove = false;
+			break;
+		}
+
+		// 動けるなら動かす
+		if (canMove)
+		{
+			position.z -= speed;
 		}
 		break;
 
 	case Enemy::Right:
-		position.x += 0.08f;
 		// 移動先が範囲外なら方向変更
 		if (texCol->CheckNotBRight(position, LENGTH))
 		{
-			dir = DecMoveDir(dir);
+			if (canMove)
+			{
+				count = 0;
+			}
+
+			canMove = false;
+			break;
+		}
+
+		// 動けるなら動かす
+		if (canMove)
+		{
+			position.x += speed;
 		}
 		break;
 
 	case Enemy::Left:
-		position.x -= 0.08f;
 		// 移動先が範囲外なら方向変更
 		if (texCol->CheckNotBLeft(position, LENGTH))
 		{
-			dir = DecMoveDir(dir);
+			if (canMove)
+			{
+				count = 0;
+			}
+			canMove = false;
+			break;
+		}
+
+		// 動けるなら動かす
+		if (canMove)
+		{
+			position.x -= speed;
 		}
 		break;
 
@@ -65,11 +110,30 @@ void Enemy::Update()
 		break;
 	}
 
+	// 方向変換
+	{
+		if (count == 0)
+		{
+			
+		}
+		if (count == CHANGEDIR_STOP)
+		{
+
+		}
+		if (count == CHANGEDIR + CHANGEDIR_STOP)
+		{
+			dir = DecMoveDir(dir);
+			canMove = true;
+		}
+	}
+
 	enemyObj->SetPosition(position);
 	//enemyObj->SetPosition({ 100, 3, 20 });
 	enemyObj->SetRotation(rotation);
 	enemyObj->SetScale(scale);
 	enemyObj->Update();
+
+	count++;
 }
 
 void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)

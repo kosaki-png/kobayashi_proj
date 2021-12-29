@@ -23,6 +23,7 @@ void Player::Initialize(Input* input, TexCollision* texCol)
 	playerObj = new Fbx();
 	playerObj->Initialize();
 	playerObj->SetModel(modelMng->GetModel(0));
+	playerObj->SetScale({1.5f, 1.5f, 1.5f});
 }
 
 void Player::Update()

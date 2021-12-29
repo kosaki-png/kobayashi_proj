@@ -23,6 +23,7 @@ public: // メンバ関数
     XMFLOAT3 GetPosition() { return position; }
     void SetPosition(XMFLOAT3 position) { this->position = position; }
 
+private:
     Dir DecMoveDir(Dir dir);
 
 private: // メンバ変数
@@ -30,7 +31,7 @@ private: // メンバ変数
     XMFLOAT3 position = { 10,10,10 };
     XMFLOAT3 move = { 0,0,0 };
 
-    float speed = 0;
+    float speed = 0.5f;
     bool isMove = false;
 
     // 感度設定用
@@ -47,4 +48,12 @@ private: // メンバ変数
     Dir dir = Up;
 
     const int LENGTH = 3;
+
+    int count = 0;
+    // 方向変更時の停止時間
+    const int CHANGEDIR_STOP = 30;
+    // 方向変更時間
+    const int CHANGEDIR = 30;
+
+    bool canMove = true;
 };
