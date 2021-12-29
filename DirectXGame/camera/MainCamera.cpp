@@ -1,5 +1,6 @@
 #include "MainCamera.h"
 #include <cassert>
+#include <imgui.h>
 
 using namespace DirectX;
 
@@ -35,6 +36,11 @@ void MainCamera::Update()
 		float dy = mouseMove.lX * scaleY;
 		float dx = mouseMove.lY * scaleX;
 
+		// ƒÆ‚ªˆê’èˆÈŠO‚È‚çˆÚ“®—Êíœ
+		if (theta - dx < -89 || theta - dx > 89)
+		{
+			dx = 0;
+		}
 		theta -= dx;
 		phi += dy;
 	}
@@ -43,11 +49,17 @@ void MainCamera::Update()
 	{
 		if (input->PushKey(DIK_UP))
 		{
-			theta--;
+			if (theta > -89)
+			{
+				theta--;
+			}
 		}
 		if (input->PushKey(DIK_DOWN))
 		{
-			theta++;
+			if (theta < 89)
+			{
+				theta++;
+			}
 		}
 		if (input->PushKey(DIK_LEFT))
 		{
@@ -69,11 +81,22 @@ void MainCamera::Update()
 	float cosY = cosf(angleY);
 
 	const float CAMERA_DISTANCE = 10;
+
 	XMFLOAT3 target = GetTarget();
 
-	SetEye({ cosX * cosY * CAMERA_DISTANCE + target.x,
-			 sinY *		   CAMERA_DISTANCE + target.y,
-			 sinX * cosY * CAMERA_DISTANCE + target.z });
+	// ƒJƒƒ‰‚ğ’n–Ê‚É“Y‚í‚¹‚é
+	if (theta > 11)
+	{
+		SetEye({ cosX * cosY * CAMERA_DISTANCE + target.x,
+				 target.y - 1.9f,
+				 sinX * cosY * CAMERA_DISTANCE + target.z });
+	}
+	else
+	{
+		SetEye({ cosX * cosY * CAMERA_DISTANCE + target.x,
+				 sinY * CAMERA_DISTANCE + target.y,
+				 sinX * cosY * CAMERA_DISTANCE + target.z });
+	}
 
 	Camera::Update();
 }

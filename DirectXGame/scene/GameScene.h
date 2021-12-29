@@ -71,7 +71,7 @@ private:
 
 	// マップ（一時的）
 	Fbx* map[9] = {};
-	Fbx* floor[9] = {};
+	Fbx* floor = nullptr;
 	Fbx* skydome = nullptr;
 	const float WORLD_HEIGHT = 1130 * 3;
 	const float WORLD_WIDTH = 925 * 3;
@@ -81,4 +81,6 @@ private:
 
 	// 感度変更用
 	float sence = 1.0f;
+
+	XMFLOAT3 tmp = { 0,0,0 };
 };

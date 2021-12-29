@@ -421,7 +421,7 @@ bool TexCollision::CheckNot(ArgColor Color, Dir dir, XMFLOAT3 position, int leng
 		{
 		case Up:
 			// îÕàÕì‡Ç…êFÇ™Ç†Ç¡ÇΩèÍçá
-			if (pixelColors[(int)position.x][(int)position.z + (i + 1)].colors[Color] == 0)
+			if ((int)pixelColors[(int)position.x][(int)position.z + (i + 1)].colors[Color] == 0)
 			{
 				result = true;
 				break;

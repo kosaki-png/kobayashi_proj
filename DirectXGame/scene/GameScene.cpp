@@ -17,7 +17,7 @@ GameScene::~GameScene()
 	delete player;
 	delete texCol;
 	delete[] map;
-	delete[] floor;
+	delete floor;
 	delete skydome;
 	delete optionSprite;
 	delete minimap;
@@ -110,11 +110,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			map[i]->Initialize();
 			map[i]->SetModel(modelMng->GetModel(i + 1));
 			map[i]->SetPosition({ -10,0,-1 });
-
-			floor[i] = new Fbx();
-			floor[i]->Initialize();
-			floor[i]->SetModel(modelMng->GetModel(10));
-			floor[i]->SetPosition({ i % 3 * 1130.0f, 3, i / 3 * 925.0f });
 		}
 
 		// 空初期化
@@ -123,6 +118,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		skydome->SetModel(modelMng->GetModel(11));
 		skydome->SetScale({ 1.5f, 1.5f, 1.5f });
 		skydome->SetPosition({ WORLD_WIDTH / 2, 3, WORLD_HEIGHT / 2 });
+
+		floor = new Fbx();
+		floor->Initialize();
+		floor->SetModel(modelMng->GetModel(10));
+		floor->SetPosition({ 10,3,0 });
 	}
 	
 	// 各クラス初期設定
@@ -141,7 +141,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		objMng->Initialize(input, texCol);
 
-		player->SetPosition({ 100, 3.5f, 10 });
+		player->SetPosition({ 100, 3, 10 });
 		
 	}
 
@@ -209,7 +209,6 @@ void GameScene::Update()
 			for (int i = 0; i < 9; i++)
 			{
 				map[i]->Update();
-				floor[i]->Update();
 			}
 
 			// 空の更新
@@ -222,6 +221,8 @@ void GameScene::Update()
 				mainCamera->UpdateProjectionMatrix(1000.0f);
 			}
 
+			floor->Update();
+
 			// オブジェクトマネージャーの更新
 			objMng->Update();
 			
@@ -229,7 +230,7 @@ void GameScene::Update()
 			{
 				// プレイヤーの動きをカメラに反映
 				XMFLOAT3 cameraMove = { player->GetPosition().x + player->GetMove().x,
-										player->GetPosition().y + player->GetMove().y,
+										player->GetPosition().y + player->GetMove().y + 2,
 										player->GetPosition().z + player->GetMove().z, };
 				mainCamera->SetTarget(cameraMove);
 
@@ -240,7 +241,6 @@ void GameScene::Update()
 	
 	//lightGroup->Update();
 	particleMan->Update();
-
 }
 
 void GameScene::Draw()
@@ -270,9 +270,9 @@ void GameScene::Draw()
 			for (int i = 0; i < 9; i++)
 			{
 				map[i]->Draw(cmdList, true);
-				floor[i]->Draw(cmdList, true);
 			}
 			skydome->Draw(cmdList, true);
+			floor->Draw(cmdList, true);
 		}
 		Object3d::PostDraw();
 

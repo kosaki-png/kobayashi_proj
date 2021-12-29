@@ -3,6 +3,15 @@
 
 class Enemy : public Object
 {
+private:
+    enum Dir
+    {
+        Up,
+        Down,
+        Right,
+        Left
+    };
+
 public: // メンバ関数
     Enemy();
     ~Enemy();
@@ -13,6 +22,8 @@ public: // メンバ関数
 
     XMFLOAT3 GetPosition() { return position; }
     void SetPosition(XMFLOAT3 position) { this->position = position; }
+
+    Dir DecMoveDir(Dir dir);
 
 private: // メンバ変数
     Fbx* enemyObj = nullptr;
@@ -27,4 +38,13 @@ private: // メンバ変数
 
     int WINDOW_WIDTH = 0;
     int WINDOW_HEIGHT = 0;
+
+    bool canUp = true;
+    bool canDown = true;
+    bool canRight = true;
+    bool canLeft = true;
+
+    Dir dir = Up;
+
+    const int LENGTH = 3;
 };

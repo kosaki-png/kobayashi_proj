@@ -34,7 +34,7 @@ public:
 	virtual void Draw(ID3D12GraphicsCommandList* cmdList) = 0;
 
 	void SetPosition(XMFLOAT3 position) { this->position = position; }
-	XMFLOAT3 Getposition() { return position; }
+	XMFLOAT3 GetPosition() { return position; }
 
 	void SetRotation(XMFLOAT3 position) { this->rotation = rotation; }
 	XMFLOAT3 GetRotation() { return rotation; }
@@ -49,7 +49,7 @@ protected:
 
 	XMFLOAT3 position = { 0,0,0 };
 	XMFLOAT3 rotation = { 0,0,0 };
-	XMFLOAT3 scale = { 0,0,0 };
+	XMFLOAT3 scale = { 1,1,1 };
 
 	int a = 0;
 };

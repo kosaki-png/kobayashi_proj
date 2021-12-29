@@ -14,18 +14,6 @@ public: // ƒƒ“ƒoŠÖ”
     void Draw(ID3D12GraphicsCommandList* cmdList) override;
 
     /// <summary>
-    /// À•Wæ“¾
-    /// </summary>
-    /// <returns></returns>
-    XMFLOAT3 GetPosition() { return position; }
-
-    /// <summary>
-    /// À•Wæ“¾
-    /// </summary>
-    /// <returns></returns>
-    void SetPosition(XMFLOAT3 position) { this->position = position; }
-
-    /// <summary>
     /// ˆÚ“®—Êİ’è
     /// </summary>
     /// <returns></returns>
