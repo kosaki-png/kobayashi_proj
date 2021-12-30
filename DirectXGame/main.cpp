@@ -107,7 +107,6 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 		dxCommon->PreDraw();
 		// ポストエフェクトの描画
 		//postEffect->Draw(dxCommon->GetCommandList());
-		//scene->Draw();
 		sceneMng->Draw();
 		// 描画終了
 		dxCommon->PostDraw();
@@ -116,12 +115,10 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	}
 
 	sceneMng->Finalize();
-	//scene->Finalize();
 	// 各種解放
 	FbxLoader::GetInstance()->Finalize();
 	ModelManager::GetInstance()->Destroy();
 	SceneManager::GetInstance()->Destroy();
-	//safe_delete(scene);
 	safe_delete(audio);
 	safe_delete(dxCommon);
 	safe_delete(flamerate);

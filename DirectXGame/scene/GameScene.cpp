@@ -22,6 +22,7 @@ GameScene::~GameScene()
 	delete optionSprite;
 	delete minimap;
 	delete mini;
+	delete[] enemy;
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -132,12 +133,17 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		texCol->LoadTexture(0, 0, L"Resources/texture/map_01.png");
 
 		objMng = new ObjectManager();
+
 		player = new Player(WinApp::window_width, WinApp::window_height);
-		enemy = new Enemy();
-	
 		// オブジェクトマネージャーに登録
 		objMng->AddObject(player);
-		objMng->AddObject(enemy);
+
+		for (auto x : enemy)
+		{
+			x = new Enemy();
+			// オブジェクトマネージャーに登録
+			objMng->AddObject(x);
+		}
 
 		objMng->Initialize(input, texCol);
 

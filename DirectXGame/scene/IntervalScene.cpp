@@ -69,7 +69,6 @@ void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* aud
 	{
 		// スプライト用テクスチャ読み込み
 		{
-			Sprite::LoadTexture(100, L"Resources/texture/trance.png");
 			Sprite::LoadTexture(101, L"Resources/texture/interval_back.png");
 			Sprite::LoadTexture(102, L"Resources/texture/interval_up.png");
 			Sprite::LoadTexture(103, L"Resources/texture/interval_left.png");

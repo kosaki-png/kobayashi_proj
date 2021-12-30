@@ -90,72 +90,26 @@ public: // 静的メンバ関数
 	XMFLOAT3 Hit2Color(ArgColor color, XMFLOAT3 position, XMFLOAT3 move);
 
 	/// <summary>
-	/// 指定方向の指定範囲内に赤色があるか
+	/// 指定座標から指定向きに指定マス内に指定色があるなら
 	/// </summary>
-	/// <param name="position">基準の座標</param>
+	/// <param name="Color">色</param>
+	/// <param name="dir">向き</param>
+	/// <param name="position">基準座標</param>
 	/// <param name="length">範囲</param>
+	/// <param name="value">色の値</param>
 	/// <returns>成否</returns>
-	bool CheckRUp(XMFLOAT3 position, int length); bool CheckRDown(XMFLOAT3 position, int length); bool CheckRRight(XMFLOAT3 position, int length); bool CheckRLeft(XMFLOAT3 position, int length);
+	bool Check(ArgColor Color, Dir dir, XMFLOAT3 position, int length = 1, int value = 255);
 
 	/// <summary>
-	/// 指定方向の指定範囲内に緑色があるか
+	/// 指定座標から指定向きに指定マス内に指定色が無くなるなら
 	/// </summary>
-	/// <param name="position">基準の座標</param>
+	/// <param name="Color">色</param>
+	/// <param name="dir">向き</param>
+	/// <param name="position">基準座標</param>
 	/// <param name="length">範囲</param>
+	/// <param name="value">色の値</param>
 	/// <returns>成否</returns>
-	bool CheckGUp(XMFLOAT3 position, int length); bool CheckGDown(XMFLOAT3 position, int length); bool CheckGRight(XMFLOAT3 position, int length); bool CheckGLeft(XMFLOAT3 position, int length);
-
-	/// <summary>
-	/// 指定方向の指定範囲内に青色があるか
-	/// </summary>
-	/// <param name="position">基準の座標</param>
-	/// <param name="length">範囲</param>
-	/// <returns>成否</returns>
-	bool CheckBUp(XMFLOAT3 position, int length); bool CheckBDown(XMFLOAT3 position, int length); bool CheckBRight(XMFLOAT3 position, int length); bool CheckBLeft(XMFLOAT3 position, int length);
-
-	/// <summary>
-	/// 指定方向の指定範囲内に透過があるか
-	/// </summary>
-	/// <param name="position">基準の座標</param>
-	/// <param name="length">範囲</param>
-	/// <returns>成否</returns>
-	bool CheckAUp(XMFLOAT3 position, int length); bool CheckADown(XMFLOAT3 position, int length); bool CheckARight(XMFLOAT3 position, int length); bool CheckALeft(XMFLOAT3 position, int length);
-
-	/// <summary>
-	/// 指定方向の指定範囲内に赤色が無くなるところがあるか
-	/// </summary>
-	/// <param name="position">基準の座標</param>
-	/// <param name="length">範囲</param>
-	/// <returns>成否</returns>
-	bool CheckNotRUp(XMFLOAT3 position, int length); bool CheckNotRDown(XMFLOAT3 position, int length); bool CheckNotRRight(XMFLOAT3 position, int length); bool CheckNotRLeft(XMFLOAT3 position, int length);
-
-	/// <summary>
-	/// 指定方向の指定範囲内に緑色が無くなるところがあるか
-	/// </summary>
-	/// <param name="position">基準の座標</param>
-	/// <param name="length">範囲</param>
-	/// <returns>成否</returns>
-	bool CheckNotGUp(XMFLOAT3 position, int length); bool CheckNotGDown(XMFLOAT3 position, int length); bool CheckNotGRight(XMFLOAT3 position, int length); bool CheckNotGLeft(XMFLOAT3 position, int length);
-			
-	/// <summary>
-	/// 指定方向の指定範囲内に青色が無くなるところがあるか
-	/// </summary>
-	/// <param name="position">基準の座標</param>
-	/// <param name="length">範囲</param>
-	/// <returns>成否</returns>
-	bool CheckNotBUp(XMFLOAT3 position, int length); bool CheckNotBDown(XMFLOAT3 position, int length); bool CheckNotBRight(XMFLOAT3 position, int length); bool CheckNotBLeft(XMFLOAT3 position, int length);
-			
-	/// <summary>
-	/// 指定方向の指定範囲内に透過が無くなるところがあるか
-	/// </summary>
-	/// <param name="position">基準の座標</param>
-	/// <param name="length">範囲</param>
-	/// <returns>成否</returns>
-	bool CheckNotAUp(XMFLOAT3 position, int length); bool CheckNotADown(XMFLOAT3 position, int length); bool CheckNotARight(XMFLOAT3 position, int length); bool CheckNotALeft(XMFLOAT3 position, int length);
-
-	// それぞれの色判定
-	bool Check(ArgColor Color, Dir dir, XMFLOAT3 position, int length);
-	bool CheckNot(ArgColor Color, Dir dir, XMFLOAT3 position, int length);
+	bool CheckNot(ArgColor Color, Dir dir, XMFLOAT3 position, int length = 1, int value = 255);
 
 private:
 	ColorInfo* pcolor;
@@ -169,4 +123,3 @@ private:
 	int TEX_WIDTH;
 	int TEX_HEIGHT;
 };
-

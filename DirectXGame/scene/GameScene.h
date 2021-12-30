@@ -54,7 +54,7 @@ private:
 
 	// 各クラス宣言宣言
 	Player* player = nullptr;
-	Enemy* enemy = nullptr;
+	Enemy* enemy[1000] = {};
 	
 	ModelManager* modelMng = nullptr;
 	ObjectManager* objMng = nullptr;

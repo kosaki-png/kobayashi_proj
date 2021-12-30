@@ -1,4 +1,6 @@
 #include "Enemy.h"
+using ArgColor = TexCollision::ArgColor;
+using Dir = TexCollision::Dir;
 
 Enemy::Enemy()
 {
@@ -19,7 +21,7 @@ void Enemy::Initialize(Input* input, TexCollision* texCol)
 	position = { 100, 3, 10 };
 
 	count = 1000;
-	//DecMoveDir(dir);
+	Placement();
 }
 
 void Enemy::Update()
@@ -27,9 +29,9 @@ void Enemy::Update()
 	// 自分の向きに応じて
 	switch (dir)
 	{
-	case Enemy::Up:
+	case Dir::Up:
 		// 移動先が範囲外なら方向変更
-		if (texCol->CheckNotBUp(position, LENGTH))
+		if (texCol->CheckNot(ArgColor::Blue, Dir::Up, position, LENGTH))
 		{
 			if (canMove)
 			{
@@ -47,9 +49,9 @@ void Enemy::Update()
 		}
 		break;
 
-	case Enemy::Down:
+	case Dir::Down:
 		// 移動先が範囲外なら方向変更
-		if (texCol->CheckNotBDown(position, LENGTH))
+		if (texCol->CheckNot(ArgColor::Blue, Dir::Down, position, LENGTH))
 		{
 			if (canMove)
 			{
@@ -67,9 +69,9 @@ void Enemy::Update()
 		}
 		break;
 
-	case Enemy::Right:
+	case Dir::Right:
 		// 移動先が範囲外なら方向変更
-		if (texCol->CheckNotBRight(position, LENGTH))
+		if (texCol->CheckNot(ArgColor::Blue, Dir::Right, position, LENGTH))
 		{
 			if (canMove)
 			{
@@ -87,9 +89,9 @@ void Enemy::Update()
 		}
 		break;
 
-	case Enemy::Left:
+	case Dir::Left:
 		// 移動先が範囲外なら方向変更
-		if (texCol->CheckNotBLeft(position, LENGTH))
+		if (texCol->CheckNot(ArgColor::Blue, Dir::Left, position, LENGTH))
 		{
 			if (canMove)
 			{
@@ -141,16 +143,29 @@ void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 	enemyObj->Draw(cmdList, true);
 }
 
-Enemy::Dir Enemy::DecMoveDir(Enemy::Dir dir)
+void Enemy::Placement()
+{
+	while (true)
+	{
+		position = { (float)(std::rand() % 3390), 3, (float)(std::rand() % 2775) };
+		if (texCol->GetHitFlag(ArgColor::Blue, position))
+		{
+			break;
+		}
+	}
+	
+}
+
+Dir Enemy::DecMoveDir(Dir dir)
 {
 	Dir result;
 
 	// 移動方向によって算出
 	switch (dir)
 	{
-	case Enemy::Up:
-		canRight = texCol->CheckNotBRight(position, LENGTH);
-		canLeft = texCol->CheckNotBLeft(position, LENGTH);
+	case Dir::Up:
+		canRight = texCol->CheckNot(ArgColor::Blue, Dir::Right, position, LENGTH);
+		canLeft = texCol->CheckNot(ArgColor::Blue, Dir::Left, position, LENGTH);
 
 		// 移動方向算出
 		{
@@ -159,31 +174,31 @@ Enemy::Dir Enemy::DecMoveDir(Enemy::Dir dir)
 				// ランダムで出す
 				if (std::rand() % 2 == 0)
 				{
-					result = Right;
+					result = Dir::Right;
 				}
 				else
 				{
-					result = Left;
+					result = Dir::Left;
 				}
 			}
 			else if (!canRight && canLeft)
 			{
-				result = Right;
+				result = Dir::Right;
 			}
 			else if (canRight && !canLeft)
 			{
-				result = Left;
+				result = Dir::Left;
 			}
 			else
 			{
-				result = Down;
+				result = Dir::Down;
 			}
 		}
 
 		break;
-	case Enemy::Down:
-		canRight = texCol->CheckNotBRight(position, LENGTH);
-		canLeft = texCol->CheckNotBLeft(position, LENGTH);
+	case Dir::Down:
+		canRight = texCol->CheckNot(ArgColor::Blue, Dir::Right, position, LENGTH);
+		canLeft = texCol->CheckNot(ArgColor::Blue, Dir::Left, position, LENGTH);
 
 		// 移動方向算出
 		{
@@ -192,31 +207,31 @@ Enemy::Dir Enemy::DecMoveDir(Enemy::Dir dir)
 				// ランダムで出す
 				if (std::rand() % 2 == 0)
 				{
-					result = Right;
+					result = Dir::Right;
 				}
 				else
 				{
-					result = Left;
+					result = Dir::Left;
 				}
 			}
 			else if (!canRight && canLeft)
 			{
-				result = Right;
+				result = Dir::Right;
 			}
 			else if (canRight && !canLeft)
 			{
-				result = Left;
+				result = Dir::Left;
 			}
 			else
 			{
-				result = Up;
+				result = Dir::Up;
 			}
 		}
 
 		break;
-	case Enemy::Right:
-		canUp = texCol->CheckNotBUp(position, LENGTH);
-		canDown = texCol->CheckNotBDown(position, LENGTH);
+	case Dir::Right:
+		canUp = texCol->CheckNot(ArgColor::Blue, Dir::Up, position, LENGTH);
+		canDown = texCol->CheckNot(ArgColor::Blue, Dir::Down, position, LENGTH);
 
 		// 移動方向算出
 		{
@@ -225,31 +240,31 @@ Enemy::Dir Enemy::DecMoveDir(Enemy::Dir dir)
 				// ランダムで出す
 				if (std::rand() % 2 == 0)
 				{
-					result = Up;
+					result = Dir::Up;
 				}
 				else
 				{
-					result = Down;
+					result = Dir::Down;
 				}
 			}
 			else if (!canUp && canDown)
 			{
-				result = Up;
+				result = Dir::Up;
 			}
 			else if (canUp && !canDown)
 			{
-				result = Down;
+				result = Dir::Down;
 			}
 			else
 			{
-				result = Left;
+				result = Dir::Left;
 			}
 		}
 
 		break;
-	case Enemy::Left:
-		canUp = texCol->CheckNotBUp(position, LENGTH);
-		canDown = texCol->CheckNotBDown(position, LENGTH);
+	case Dir::Left:
+		canUp = texCol->CheckNot(ArgColor::Blue, Dir::Up, position, LENGTH);
+		canDown = texCol->CheckNot(ArgColor::Blue, Dir::Down, position, LENGTH);
 
 		// 移動方向算出
 		{
@@ -258,24 +273,24 @@ Enemy::Dir Enemy::DecMoveDir(Enemy::Dir dir)
 				// ランダムで出す
 				if (std::rand() % 2 == 0)
 				{
-					result = Up;
+					result = Dir::Up;
 				}
 				else
 				{
-					result = Down;
+					result = Dir::Down;
 				}
 			}
 			else if (!canUp && canDown)
 			{
-				result = Up;
+				result = Dir::Up;
 			}
 			else if (canUp && !canDown)
 			{
-				result = Down;
+				result = Dir::Down;
 			}
 			else
 			{
-				result = Right;
+				result = Dir::Right;
 			}
 		}
 
@@ -286,16 +301,16 @@ Enemy::Dir Enemy::DecMoveDir(Enemy::Dir dir)
 
 	switch (result)
 	{
-	case Enemy::Up:
+	case Dir::Up:
 		rotation = { 0,0,0 };
 		break;
-	case Enemy::Down:
+	case Dir::Down:
 		rotation = { 0,180,0 };
 		break;
-	case Enemy::Right:
+	case Dir::Right:
 		rotation = { 0,90,0 };
 		break;
-	case Enemy::Left:
+	case Dir::Left:
 		rotation = { 0,-90,0 };
 		break;
 	default:
