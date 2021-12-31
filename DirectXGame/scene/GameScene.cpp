@@ -23,6 +23,8 @@ GameScene::~GameScene()
 	delete minimap;
 	delete mini;
 	delete[] enemy;
+	delete mapAllFrame;
+	delete mapAllPoint;
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -80,8 +82,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		// スプライト用テクスチャ読み込み
 		{
 			Sprite::LoadTexture(1, L"Resources/texture/option.png");
-			Sprite::LoadTexture(2, L"Resources/texture/map_01_ref.png");
+			//Sprite::LoadTexture(2, L"Resources/texture/map_01_ref.png");
+			Sprite::LoadTexture(2, L"Resources/texture/map_02_ref.png");
 			Sprite::LoadTexture(3, L"Resources/texture/miniMap.png");
+			Sprite::LoadTexture(4, L"Resources/texture/map02_all_frame.png");
+			Sprite::LoadTexture(5, L"Resources/texture/map_all_point.png");
 		}
 
 		// スプライト生成
@@ -89,6 +94,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			optionSprite = Sprite::Create(1, { 0,0 });
 			minimap = Sprite::Create(2, { 0,0 });
 			mini = Sprite::Create(3, { 1280 - 300, 0 });
+			mapAllFrame = Sprite::Create(4, { 0,0 });
+			mapAllPoint = Sprite::Create(5, { 0,0 });
 		}
 
 		// スプライト初期設定
@@ -96,6 +103,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			minimap->SetPosition({ 1280 - 300, -700 });
 			minimap->SetSize({ 1000, 1000 });
 			minimap->SetPosUV({ 0, 0.7f });
+			mapAllFrame->SetPosition({ (float)((WINDOW_WIDTH - 867) / 2), (float)((WINDOW_HEIGHT - 713) / 2) });
+			mapAllPoint->SetPosition({ (float)((WINDOW_WIDTH - 867) / 2), (float)((WINDOW_HEIGHT - 713) / 2) });
 		}
 	}
 
@@ -110,7 +119,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			map[i] = new Fbx();
 			map[i]->Initialize();
 			map[i]->SetModel(modelMng->GetModel(i + 1));
-			map[i]->SetPosition({ -10,0,-1 });
+			//map[i]->SetPosition({ -10,3,-1 });
+			map[i]->SetPosition({ -1,3,-1 });
 		}
 
 		// 空初期化
@@ -130,7 +140,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 		// 当たり判定用テクスチャのロード
 		texCol = new TexCollision(3390, 2775, 1, 1);
-		texCol->LoadTexture(0, 0, L"Resources/texture/map_01.png");
+		//texCol->LoadTexture(0, 0, L"Resources/texture/map_01.png");
+		texCol->LoadTexture(0, 0, L"Resources/texture/map_02.png");
 
 		objMng = new ObjectManager();
 
@@ -179,6 +190,9 @@ void GameScene::Update()
 	// オプション中
 	if (option)
 	{
+		// マップ状態は解除
+		isMap = false;
+
 		// スペースで指定のシーンへ
 		if (input->TriggerKey(DIK_SPACE) || xinput.TriggerButtom(0, xinput_A))
 		{
@@ -209,6 +223,18 @@ void GameScene::Update()
 		playerPos.z /= MAP_HEIGHT;
 		minimap->SetPosUV({ playerPos.x - 0.15f, playerPos.z -0.15f });
 
+		playerPos = player->GetPosition();
+		XMFLOAT2 tmpF2 = { playerPos.x / 4.0f + (float)((WINDOW_WIDTH  - 867) / 2),
+						  -playerPos.z / 4.0f + (float)((WINDOW_HEIGHT - 713) / 2) };
+		// マップ移動
+		mapAllPoint->SetPosition(tmpF2);
+
+		// マップ表示
+		if (input->TriggerKey(DIK_M))
+		{
+			isMap = !isMap;
+		}
+
 		// 各種更新
 		{
 			// マップの更新
@@ -227,6 +253,7 @@ void GameScene::Update()
 				mainCamera->UpdateProjectionMatrix(1000.0f);
 			}
 
+			// 地面の更新
 			floor->Update();
 
 			// オブジェクトマネージャーの更新
@@ -290,8 +317,16 @@ void GameScene::Draw()
 	{
 		Sprite::PreDraw(cmdList);
 		{
-			minimap->Draw();
-			mini->Draw();
+			if (!isMap)
+			{
+				minimap->Draw();
+				mini->Draw();
+			}
+			else
+			{
+				mapAllFrame->Draw();
+				mapAllPoint->Draw();
+			}
 
 			// オプション画面
 			if (option)

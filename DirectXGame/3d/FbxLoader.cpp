@@ -194,7 +194,7 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
     for (int i = 0; i < polygonCount; i++) {
         // 面を構成する頂点の数を取得（3なら三角形ポリゴン)
         const int polygonSize = fbxMesh->GetPolygonSize(i);
-        //assert(polygonSize <= 12);
+        assert(polygonSize <= 12);
 
         // 1頂点ずつ処理
         for (int j = 0; j < polygonSize; j++) {
@@ -231,16 +231,21 @@ void FbxLoader::ParseMeshFaces(FbxModel* model, FbxMesh* fbxMesh)
                 // 1点追加し、他の2点と三角形を構築する
                 indices.push_back(index);
             }
-
             // 4頂点目以降
             else {
                 // 面の最初の頂点と現在、一個前で三角形を構築
-                int index0 = indices[indices.size() - (j - 2) * 3];
+                /*int index0 = indices[indices.size() - (j - 2) * 3];
                 int index1 = indices[indices.size() - 1];
                 int index2 = index;
                 indices.push_back(index0);
                 indices.push_back(index1);
+                indices.push_back(index2);*/
+                int index2 = indices[indices.size() - 1];
+                int index3 = index;
+                int index0 = indices[indices.size() - 3];
                 indices.push_back(index2);
+                indices.push_back(index3);
+                indices.push_back(index0);
             }
 
             /*else

@@ -48,6 +48,8 @@ private:
 	Xinput xinput;
 
 	// 画面中心
+	const int WINDOW_WIDTH = 1280;
+	const int WINDOW_HEIGHT = 720;
 	const XMFLOAT2 SCREEN_CENTER = { 1280.0f / 2.0f, 720.0f / 2.0f };
 
 	XMFLOAT2 mousePos;
@@ -65,16 +67,25 @@ private:
 	Sprite* optionSprite = nullptr;
 	Sprite* cursorSprite = nullptr;
 
-	// ミニマップ用
+#pragma region マップ
+
+	// ミニマップ
 	Sprite* minimap = nullptr;
 	Sprite* mini = nullptr;
 
-	// マップ（一時的）
+	// 全体マップ
+	Sprite* mapAllFrame = nullptr;
+	Sprite* mapAllPoint = nullptr;
+	bool isMap = false;
+
+	// マップオブジェクト
 	Fbx* map[9] = {};
 	Fbx* floor = nullptr;
 	Fbx* skydome = nullptr;
 	const float WORLD_HEIGHT = 1130 * 3;
 	const float WORLD_WIDTH = 925 * 3;
+
+#pragma endregion
 
 	// 移動量保存用変数
 	XMFLOAT3 keepVec = { 0,0,0 };
