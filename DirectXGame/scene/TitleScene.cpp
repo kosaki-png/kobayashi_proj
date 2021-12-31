@@ -33,7 +33,7 @@ void AsyncLoad()
 	std::this_thread::sleep_for(sleepTime);*/
 
 	//modelMngTitle->Load(4, "01_77");	// 4
-	modelMngTitle->Load(4, "02_31");	// 4
+	modelMngTitle->Load(4, "02_41");	// 4
 
 	SetLockFlag(true);
 }

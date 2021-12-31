@@ -61,15 +61,15 @@ void IntervalAsyncLoad()
 	//modelMngLoad->Load(8, "01_68");		AddRatio(LOAD_RATIO);	// 8
 	//modelMngLoad->Load(9, "01_69");		AddRatio(LOAD_RATIO);	// 9
 
-	modelMngLoad->Load(1, "02_41");		AddRatio(LOAD_RATIO);	// 1
-	modelMngLoad->Load(2, "02_42");		AddRatio(LOAD_RATIO);	// 2
-	modelMngLoad->Load(3, "02_43");		AddRatio(LOAD_RATIO);	// 3
+	modelMngLoad->Load(1, "02_51");		AddRatio(LOAD_RATIO);	// 1
+	modelMngLoad->Load(2, "02_52");		AddRatio(LOAD_RATIO);	// 2
+	modelMngLoad->Load(3, "02_53");		AddRatio(LOAD_RATIO);	// 3
 	//modelMng->Load("01_77");	// 4
-	modelMngLoad->Load(5, "02_32");		AddRatio(LOAD_RATIO);	// 5
-	modelMngLoad->Load(6, "02_33");		AddRatio(LOAD_RATIO);	// 6
-	modelMngLoad->Load(7, "02_21");		AddRatio(LOAD_RATIO);	// 7
-	modelMngLoad->Load(8, "02_22");		AddRatio(LOAD_RATIO);	// 8
-	modelMngLoad->Load(9, "02_23");		AddRatio(LOAD_RATIO);	// 9
+	modelMngLoad->Load(5, "02_42");		AddRatio(LOAD_RATIO);	// 5
+	modelMngLoad->Load(6, "02_43");		AddRatio(LOAD_RATIO);	// 6
+	modelMngLoad->Load(7, "02_31");		AddRatio(LOAD_RATIO);	// 7
+	modelMngLoad->Load(8, "02_32");		AddRatio(LOAD_RATIO);	// 8
+	modelMngLoad->Load(9, "02_33");		AddRatio(LOAD_RATIO);	// 9
 
 	modelMngLoad->Load(10, "floor");	AddRatio(LOAD_RATIO);	// 10
 	modelMngLoad->Load(11, "skydome");	AddRatio(LOAD_RATIO);	// 11

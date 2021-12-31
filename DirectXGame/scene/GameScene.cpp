@@ -120,14 +120,14 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			map[i]->Initialize();
 			map[i]->SetModel(modelMng->GetModel(i + 1));
 			//map[i]->SetPosition({ -10,3,-1 });
-			map[i]->SetPosition({ -1,3,-1 });
+			map[i]->SetPosition({ -1,0,-1 });
 		}
 
 		// 空初期化
 		skydome = new Fbx();
 		skydome->Initialize();
 		skydome->SetModel(modelMng->GetModel(11));
-		skydome->SetScale({ 1.5f, 1.5f, 1.5f });
+		skydome->SetScale({ 2, 2, 2 });
 		skydome->SetPosition({ WORLD_WIDTH / 2, 3, WORLD_HEIGHT / 2 });
 
 		floor = new Fbx();
@@ -141,7 +141,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		// 当たり判定用テクスチャのロード
 		texCol = new TexCollision(3390, 2775, 1, 1);
 		//texCol->LoadTexture(0, 0, L"Resources/texture/map_01.png");
-		texCol->LoadTexture(0, 0, L"Resources/texture/map_02.png");
+		//texCol->LoadTexture(0, 0, L"Resources/texture/map_02.png");
+		texCol->LoadTexture(0, 0, L"Resources/texture/cleanCol.png");
 
 		objMng = new ObjectManager();
 
@@ -180,7 +181,7 @@ void GameScene::Update()
 	//CreateParticles();
 	
 	// ESCAPEでオプションを開く
-	if (input->TriggerKey(DIK_ESCAPE))
+	if (input->TriggerKey(DIK_ESCAPE) && !isMap)
 	{
 		option = !option;
 		// マウスカーソルの表示非表示
@@ -226,13 +227,20 @@ void GameScene::Update()
 		playerPos = player->GetPosition();
 		XMFLOAT2 tmpF2 = { playerPos.x / 4.0f + (float)((WINDOW_WIDTH  - 867) / 2),
 						  -playerPos.z / 4.0f + (float)((WINDOW_HEIGHT - 713) / 2) };
-		// マップ移動
-		mapAllPoint->SetPosition(tmpF2);
 
 		// マップ表示
 		if (input->TriggerKey(DIK_M))
 		{
 			isMap = !isMap;
+		}
+		if (isMap)
+		{
+			// マップ移動
+			mapAllPoint->SetPosition(tmpF2);
+			if (input->TriggerKey(DIK_ESCAPE))
+			{
+				isMap = false;
+			}
 		}
 
 		// 各種更新
