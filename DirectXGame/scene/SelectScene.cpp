@@ -113,10 +113,15 @@ void SelectScene::Update()
 		xinput.Update();
 
 		// シーン移行
-		if (input->TriggerKey(DIK_SPACE) || xinput.TriggerButtom(0, xinput_A))
+		if (input->TriggerKey(DIK_0))
 		{
 			// 選択したマップでゲームシーンへ
-			nextScene = new LoadScene();
+			nextScene = new LoadScene(0);
+		}
+		if (input->TriggerKey(DIK_1))
+		{
+			// 選択したマップでゲームシーンへ
+			nextScene = new LoadScene(1);
 		}
 
 		// ESCAPEでゲーム終了

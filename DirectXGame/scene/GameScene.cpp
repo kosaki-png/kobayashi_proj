@@ -7,7 +7,8 @@
 
 using namespace DirectX;
 
-GameScene::GameScene()
+GameScene::GameScene(int stage)
+	:	stage(stage)
 {
 }
 
@@ -15,16 +16,21 @@ GameScene::~GameScene()
 {
 	delete objMng;
 	delete player;
-	delete texCol;
-	delete[] map;
-	delete floor;
-	delete skydome;
-	delete optionSprite;
-	delete minimap;
-	delete mini;
 	delete[] enemy;
+
+	delete texCol;
+	
+	delete[] map;
 	delete mapAllFrame;
 	delete mapAllPoint;
+	delete mapAll;
+	delete minimap;
+	delete miniFrame;
+
+	delete floor;
+	delete skydome;
+
+	delete optionSprite;
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -82,20 +88,35 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		// スプライト用テクスチャ読み込み
 		{
 			Sprite::LoadTexture(1, L"Resources/texture/option.png");
-			//Sprite::LoadTexture(2, L"Resources/texture/map_01_ref.png");
-			Sprite::LoadTexture(2, L"Resources/texture/map_02_ref.png");
-			Sprite::LoadTexture(3, L"Resources/texture/miniMap.png");
-			Sprite::LoadTexture(4, L"Resources/texture/map02_all_frame.png");
-			Sprite::LoadTexture(5, L"Resources/texture/map_all_point.png");
+			Sprite::LoadTexture(2, L"Resources/texture/miniMap.png");
+			Sprite::LoadTexture(3, L"Resources/texture/map_all_frame.png");
+			Sprite::LoadTexture(4, L"Resources/texture/map_all_point.png");
+
+			switch (stage)
+			{
+			case 0:
+				Sprite::LoadTexture(5, L"Resources/texture/map_01_ref.png");
+				Sprite::LoadTexture(6, L"Resources/texture/map_01_frame.png");
+				break;
+
+			case 1:
+				Sprite::LoadTexture(5, L"Resources/texture/map_02_ref.png");
+				Sprite::LoadTexture(6, L"Resources/texture/map_02_frame.png");
+				break;
+
+			default:
+				break;
+			}
 		}
 
 		// スプライト生成
 		{
 			optionSprite = Sprite::Create(1, { 0,0 });
-			minimap = Sprite::Create(2, { 0,0 });
-			mini = Sprite::Create(3, { 1280 - 300, 0 });
-			mapAllFrame = Sprite::Create(4, { 0,0 });
-			mapAllPoint = Sprite::Create(5, { 0,0 });
+			miniFrame = Sprite::Create(2, { 1280 - 300, 0 });
+			mapAllFrame = Sprite::Create(3, { 0,0 });
+			mapAllPoint = Sprite::Create(4, { 0,0 });
+			minimap = Sprite::Create(5, { 0,0 });
+			mapAll = Sprite::Create(6, { 0,0 });
 		}
 
 		// スプライト初期設定
@@ -103,8 +124,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			minimap->SetPosition({ 1280 - 300, -700 });
 			minimap->SetSize({ 1000, 1000 });
 			minimap->SetPosUV({ 0, 0.7f });
-			mapAllFrame->SetPosition({ (float)((WINDOW_WIDTH - 867) / 2), (float)((WINDOW_HEIGHT - 713) / 2) });
-			mapAllPoint->SetPosition({ (float)((WINDOW_WIDTH - 867) / 2), (float)((WINDOW_HEIGHT - 713) / 2) });
 		}
 	}
 
@@ -118,38 +137,66 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		{
 			map[i] = new Fbx();
 			map[i]->Initialize();
-			map[i]->SetModel(modelMng->GetModel(i + 1));
-			//map[i]->SetPosition({ -10,3,-1 });
-			map[i]->SetPosition({ -1,0,-1 });
+
+			switch (stage)
+			{
+			case 0:
+				map[i]->SetModel(modelMng->GetModel(i + 10));
+				map[i]->SetPosition({ -10,0,-1 });
+
+				break;
+
+			case 1:
+				map[i]->SetModel(modelMng->GetModel(i + 30));
+				map[i]->SetPosition({ -1,0,-1 });
+				break;
+
+			default:
+				break;
+			}
 		}
+
+		// 床初期化
+		floor = new Fbx();
+		floor->Initialize();
+		floor->SetModel(modelMng->GetModel(19));
+		floor->SetPosition({ 10,3,0 });
 
 		// 空初期化
 		skydome = new Fbx();
 		skydome->Initialize();
-		skydome->SetModel(modelMng->GetModel(11));
+		skydome->SetModel(modelMng->GetModel(20));
 		skydome->SetScale({ 2, 2, 2 });
 		skydome->SetPosition({ WORLD_WIDTH / 2, 3, WORLD_HEIGHT / 2 });
-
-		floor = new Fbx();
-		floor->Initialize();
-		floor->SetModel(modelMng->GetModel(10));
-		floor->SetPosition({ 10,3,0 });
 	}
 	
 	// 各クラス初期設定
 	{
 		// 当たり判定用テクスチャのロード
 		texCol = new TexCollision(3390, 2775, 1, 1);
-		//texCol->LoadTexture(0, 0, L"Resources/texture/map_01.png");
-		//texCol->LoadTexture(0, 0, L"Resources/texture/map_02.png");
-		texCol->LoadTexture(0, 0, L"Resources/texture/cleanCol.png");
-
+		switch (stage)
+		{
+		case 0:
+			texCol->LoadTexture(0, 0, L"Resources/texture/map_01.png");
+			//texCol->LoadTexture(0, 0, L"Resources/texture/cleanCol.png");
+			break;
+		case 1:
+			texCol->LoadTexture(0, 0, L"Resources/texture/map_02.png");
+			//texCol->LoadTexture(0, 0, L"Resources/texture/cleanCol.png");
+			break;
+		default:
+			break;
+		}
+		
+		// オブジェクトマネージャー生成
 		objMng = new ObjectManager();
 
+		// プレイヤー生成
 		player = new Player(WinApp::window_width, WinApp::window_height);
 		// オブジェクトマネージャーに登録
 		objMng->AddObject(player);
 
+		// 敵生成
 		for (auto x : enemy)
 		{
 			x = new Enemy();
@@ -225,8 +272,7 @@ void GameScene::Update()
 		minimap->SetPosUV({ playerPos.x - 0.15f, playerPos.z -0.15f });
 
 		playerPos = player->GetPosition();
-		XMFLOAT2 tmpF2 = { playerPos.x / 4.0f + (float)((WINDOW_WIDTH  - 867) / 2),
-						  -playerPos.z / 4.0f + (float)((WINDOW_HEIGHT - 713) / 2) };
+		XMFLOAT2 tmpF2 = { playerPos.x / 4.0f, -playerPos.z / 4.0f };
 
 		// マップ表示
 		if (input->TriggerKey(DIK_M))
@@ -328,11 +374,12 @@ void GameScene::Draw()
 			if (!isMap)
 			{
 				minimap->Draw();
-				mini->Draw();
+				miniFrame->Draw();
 			}
 			else
 			{
 				mapAllFrame->Draw();
+				mapAll->Draw();
 				mapAllPoint->Draw();
 			}
 

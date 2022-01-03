@@ -21,7 +21,7 @@ private:
 	using ArgColor = TexCollision::ArgColor;
 
 public:
-	GameScene();
+	GameScene(int stage);
 	~GameScene();
 
 	void Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio) override;
@@ -31,6 +31,7 @@ public:
 	void Draw() override;
 
 	void Finalize() override;
+
 private:
 	const float MAP_WIDTH = 3390.0f;
 	const float MAP_HEIGHT = 2775.0f;
@@ -69,13 +70,17 @@ private:
 
 #pragma region マップ
 
+	// 指定ステージ
+	int stage = 0;
+
 	// ミニマップ
 	Sprite* minimap = nullptr;
-	Sprite* mini = nullptr;
+	Sprite* miniFrame = nullptr;
 
 	// 全体マップ
 	Sprite* mapAllFrame = nullptr;
 	Sprite* mapAllPoint = nullptr;
+	Sprite* mapAll = nullptr;
 	bool isMap = false;
 
 	// マップオブジェクト

@@ -13,7 +13,7 @@ class LoadScene :
 	public BaseScene
 {
 public:
-	LoadScene();
+	LoadScene(int stage);
 	~LoadScene();
 
 	void Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio) override;
@@ -43,6 +43,8 @@ private:
 	Sprite* tmpSprite = nullptr;
 
 #pragma region 非同期ロード
+
+	int stage = 0;
 
 	// 非同期ロード用
 	std::thread* th;

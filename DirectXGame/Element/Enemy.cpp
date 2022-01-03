@@ -16,7 +16,7 @@ void Enemy::Initialize(Input* input, TexCollision* texCol)
 
 	enemyObj = new Fbx();
 	enemyObj->Initialize();
-	enemyObj->SetModel(modelMng->GetModel(12));
+	enemyObj->SetModel(modelMng->GetModel(1));
 	//enemyObj->SetScale({5, 5, 5});
 	position = { 100, 3, 10 };
 

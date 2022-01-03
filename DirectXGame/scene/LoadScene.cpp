@@ -6,94 +6,146 @@
 
 using namespace DirectX;
 
-// 非同期ロード用
-bool isLoadedLoad = false;
-std::mutex isLoadedMutexLoad;
 // モデル管理クラスのインスタンス取得
 ModelManager* modelMngLoad = ModelManager::GetInstance();
 
 // ロードバー割合
-float loadRatio = 0;
-const int LOAD_MODEL_COUNT = 12;	// 読み込むオブジェクトの数
-const float LOAD_RATIO = 1.0f / LOAD_MODEL_COUNT;	// オブジェクトを読み込んだ時に進む割合
-
-// 非同期ロード用
-void LoadSetLockFlag(bool _)
-{
-	std::lock_guard<std::mutex>  lock(isLoadedMutexLoad);
-	isLoadedLoad = true;
-}
-
-bool LoadGetLockFlag()
-{
-	std::lock_guard<std::mutex>  lock(isLoadedMutexLoad);
-	return isLoadedLoad;
-}
+float loadRatio[2] = { 0, 0 };
+int modelCnt = 0;	// 読み込むオブジェクトの数
+float ratioPiece = 0;	// オブジェクトを読み込んだ時に進む割合
 
 // ロードバーを進める
-void AddRatio(float rate)
+void AddRatio(int stage)
 {
-	loadRatio += rate;
+	loadRatio[stage] += ratioPiece;
+}
+float GetRatio(int stage)
+{
+	return loadRatio[stage];
 }
 
-float GetRatio()
+#pragma region デフォルトロード
+
+bool loadDefault = false;
+std::mutex mutexDefault;
+
+// ロードトリガー系
+void SetLoadDefault(bool flag)
 {
-	return loadRatio;
+	std::lock_guard<std::mutex>  lock(mutexDefault);
+	loadDefault = flag;
+}
+bool GetLoadDefault()
+{
+	std::lock_guard<std::mutex>  lock(mutexDefault);
+	return loadDefault;
 }
 
-// 非同期ロード関数
-void IntervalAsyncLoad()
+void LoadDefault(int stage)
 {
 	//ダミーで10秒待つ
 	/*auto sleepTime = std::chrono::seconds(10);
 	std::this_thread::sleep_for(sleepTime);*/
 
 	// モデルをロードして割合を増やす
-	modelMngLoad->Load(0, "player");	AddRatio(LOAD_RATIO);	// 0
+	modelMngLoad->Load(0, "player");	AddRatio(stage);	// 0
+	modelMngLoad->Load(1, "Enemy");		AddRatio(stage);		// 1
 
-	//modelMngLoad->Load(1, "01_87");		AddRatio(LOAD_RATIO);	// 1
-	//modelMngLoad->Load(2, "01_88");		AddRatio(LOAD_RATIO);	// 2
-	//modelMngLoad->Load(3, "01_89");		AddRatio(LOAD_RATIO);	// 3
-	////modelMng->Load("01_77");	// 4
-	//modelMngLoad->Load(5, "01_78");		AddRatio(LOAD_RATIO);	// 5
-	//modelMngLoad->Load(6, "01_79");		AddRatio(LOAD_RATIO);	// 6
-	//modelMngLoad->Load(7, "01_67");		AddRatio(LOAD_RATIO);	// 7
-	//modelMngLoad->Load(8, "01_68");		AddRatio(LOAD_RATIO);	// 8
-	//modelMngLoad->Load(9, "01_69");		AddRatio(LOAD_RATIO);	// 9
-
-	modelMngLoad->Load(1, "02_51");		AddRatio(LOAD_RATIO);	// 1
-	modelMngLoad->Load(2, "02_52");		AddRatio(LOAD_RATIO);	// 2
-	modelMngLoad->Load(3, "02_53");		AddRatio(LOAD_RATIO);	// 3
-	//modelMng->Load("01_77");	// 4
-	modelMngLoad->Load(5, "02_42");		AddRatio(LOAD_RATIO);	// 5
-	modelMngLoad->Load(6, "02_43");		AddRatio(LOAD_RATIO);	// 6
-	modelMngLoad->Load(7, "02_31");		AddRatio(LOAD_RATIO);	// 7
-	modelMngLoad->Load(8, "02_32");		AddRatio(LOAD_RATIO);	// 8
-	modelMngLoad->Load(9, "02_33");		AddRatio(LOAD_RATIO);	// 9
-
-	modelMngLoad->Load(10, "floor");	AddRatio(LOAD_RATIO);	// 10
-	modelMngLoad->Load(11, "skydome");	AddRatio(LOAD_RATIO);	// 11
-	modelMngLoad->Load(12, "Enemy");	AddRatio(LOAD_RATIO);	// 12
-
-	// ロード軽い
-	//modelMngLoad->Load(0, "player");	// 0
-	//modelMngLoad->Load(1, "player");	// 1
-	//modelMngLoad->Load(2, "player");	// 2
-	//modelMngLoad->Load(3, "player");	// 3
-	////modelMng->Load("01_77");	// 4
-	//modelMngLoad->Load(5, "player");	// 5
-	//modelMngLoad->Load(6, "player");	// 6
-	//modelMngLoad->Load(7, "player");	// 7
-	//modelMngLoad->Load(8, "player");	// 8
-	//modelMngLoad->Load(9, "player");	// 9
-	//modelMngLoad->Load(10, "player");	// 10
-	//modelMngLoad->Load(11, "player");	// 11
-	//modelMngLoad->Load(12, "player");	// 12
-
-	LoadSetLockFlag(true);
+	SetLoadDefault(true);
 }
 
-LoadScene::LoadScene()
+#pragma endregion
+
+#pragma region ステージロード
+
+const int STAGE_COUNT = 2;
+
+bool loadStage[STAGE_COUNT] = {};
+std::mutex mutexStage[STAGE_COUNT];
+
+// ロードトリガー系
+void SetLoadStage(int stage, bool flag)
+{
+	std::lock_guard<std::mutex>  lock(mutexStage[stage]);
+	loadStage[stage] = flag;
+}
+bool GetLoadStage(int stage)
+{
+	std::lock_guard<std::mutex>  lock(mutexStage[stage]);
+	return loadStage[stage];
+}
+
+// ステージのロード
+void LoadStage(int stage)
+{
+	switch (stage)
+	{
+	case 0:
+		modelMngLoad->Load(10, "01_87");		AddRatio(stage);	// 10
+		modelMngLoad->Load(11, "01_88");		AddRatio(stage);	// 11
+		modelMngLoad->Load(12, "01_89");		AddRatio(stage);	// 12
+		//modelMng->Load("01_77");	// 13
+		modelMngLoad->Load(14, "01_78");		AddRatio(stage);	// 14
+		modelMngLoad->Load(15, "01_79");		AddRatio(stage);	// 15
+		modelMngLoad->Load(16, "01_67");		AddRatio(stage);	// 16
+		modelMngLoad->Load(17, "01_68");		AddRatio(stage);	// 17
+		modelMngLoad->Load(18, "01_69");		AddRatio(stage);	// 18
+		modelMngLoad->Load(19, "floor");		AddRatio(stage);	// 19
+		modelMngLoad->Load(20, "skydome");		AddRatio(stage);	// 20
+		break;											 
+														 
+	case 1:												 
+		modelMngLoad->Load(30, "02_51");		AddRatio(stage);	// 30
+		modelMngLoad->Load(31, "02_52");		AddRatio(stage);	// 31
+		modelMngLoad->Load(32, "02_53");		AddRatio(stage);	// 32
+		//modelMng->Load("01_77");	// 33				 
+		modelMngLoad->Load(34, "02_42");		AddRatio(stage);	// 34
+		modelMngLoad->Load(35, "02_43");		AddRatio(stage);	// 35
+		modelMngLoad->Load(36, "02_31");		AddRatio(stage);	// 36
+		modelMngLoad->Load(37, "02_32");		AddRatio(stage);	// 37
+		modelMngLoad->Load(38, "02_33");		AddRatio(stage);	// 38
+		modelMngLoad->Load(39, "floor");		AddRatio(stage);	// 39
+		modelMngLoad->Load(40, "skydome");		AddRatio(stage);	// 40
+		break;
+
+	default:
+		break;
+	}
+
+	SetLoadStage(stage, true);
+}
+
+#pragma endregion
+
+void AsyncLoadStage(int stage)
+{
+	// 予め読み込む数を取得
+	modelCnt = 0;	// 一旦初期化
+	if (!GetLoadDefault())
+	{
+		modelCnt += 2;
+	}
+	if (!GetLoadStage(stage))
+	{
+		modelCnt += 10;
+
+		// バーを進める値設定
+		ratioPiece = 1.0f / modelCnt;
+	}
+
+	// ロードしてないならする
+	if (!GetLoadDefault())
+	{
+		LoadDefault(stage);
+	}
+	if (!GetLoadStage(stage))
+	{
+		LoadStage(stage);
+	}
+}
+
+LoadScene::LoadScene(int stage)
+	:	stage(stage)
 {
 }
 
@@ -174,7 +226,17 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 		kogakuin = new Fbx();
 		kogakuin->Initialize();
-		kogakuin->SetModel(modelMngLoad->GetModel(4));
+		switch (stage)
+		{
+		case 0:
+			kogakuin->SetModel(modelMngLoad->GetModel(13));
+			break;
+		case 1:
+			kogakuin->SetModel(modelMngLoad->GetModel(33));
+			break;
+		default:
+			break;
+		}
 		kogakuin->SetPosition({ -1130 / 2, 0, -925 - 925 / 2 });
 	}
 
@@ -184,16 +246,16 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	}
 
 	// 非同期ロード開始
-	if (!isLoadedLoad)
+	if (!GetLoadStage(stage))
 	{
-		th = new std::thread(IntervalAsyncLoad);
+		th = new std::thread(AsyncLoadStage, stage);
 	}
 }
 
 void LoadScene::Update()
 {
 	// 非同期ロード中
-	if (!LoadGetLockFlag())
+	if (!GetLoadStage(stage))
 	{
 
 	}
@@ -202,13 +264,13 @@ void LoadScene::Update()
 		// SPACEで次のシーン
 		if (input->TriggerKey(DIK_SPACE))
 		{
-			nextScene = new GameScene();
+			nextScene = new GameScene(stage);
 		}
 	}
 
 	// ロードバー加算
-	float bar = GetRatio() * 800.0f;
-	loadBarWhite->SetPosUV({ -GetRatio() + 1.0f, 0 });
+	float bar = GetRatio(stage) * 800.0f;
+	loadBarWhite->SetPosUV({ -GetRatio(stage) + 1.0f, 0 });
 
 	// FBX更新
 	{
@@ -246,7 +308,7 @@ void LoadScene::Draw()
 		Object3d::PreDraw(cmdList);
 		{
 			// 非同期ロード中
-			if (!LoadGetLockFlag())
+			if (!GetLoadStage(stage))
 			{
 
 			}
@@ -271,7 +333,7 @@ void LoadScene::Draw()
 			loadBarWhite->Draw();
 			loadBar->Draw();
 			// 非同期ロード中
-			if (!LoadGetLockFlag())
+			if (!GetLoadStage(stage))
 			{
 				loading->Draw();
 			}
@@ -297,7 +359,7 @@ void LoadScene::Draw()
 
 void LoadScene::Finalize()
 {
-	if (!isLoadedLoad)
+	if (!GetLoadStage)
 	{
 		th->join();
 	}
