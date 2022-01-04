@@ -104,6 +104,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 				Sprite::LoadTexture(6, L"Resources/texture/map_02_frame.png");
 				break;
 
+			case 2:
+				Sprite::LoadTexture(5, L"Resources/texture/map_03_ref.png");
+				Sprite::LoadTexture(6, L"Resources/texture/map_03_frame.png");
+				break;
+
 			default:
 				break;
 			}
@@ -151,6 +156,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 				map[i]->SetPosition({ -1,0,-1 });
 				break;
 
+			case 2:
+				map[i]->SetModel(modelMng->GetModel(i + 50));
+				map[i]->SetPosition({ -1,3,-1 });
+				break;
+
 			default:
 				break;
 			}
@@ -159,15 +169,49 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		// 床初期化
 		floor = new Fbx();
 		floor->Initialize();
-		floor->SetModel(modelMng->GetModel(19));
-		floor->SetPosition({ 10,3,0 });
 
 		// 空初期化
 		skydome = new Fbx();
-		skydome->Initialize();
-		skydome->SetModel(modelMng->GetModel(20));
-		skydome->SetScale({ 2, 2, 2 });
-		skydome->SetPosition({ WORLD_WIDTH / 2, 3, WORLD_HEIGHT / 2 });
+		skydome->Initialize();	
+
+		switch (stage)
+		{
+		case 0:
+			// 床初期化
+			floor->SetModel(modelMng->GetModel(19));
+			floor->SetPosition({ 10,3,0 });
+
+			// 空初期化
+			skydome->SetModel(modelMng->GetModel(20));
+			skydome->SetScale({ 2, 2, 2 });
+			skydome->SetPosition({ WORLD_WIDTH / 2, 3, WORLD_HEIGHT / 2 });
+			break;
+
+		case 1:
+			// 床初期化
+			floor->SetModel(modelMng->GetModel(39));
+			floor->SetPosition({ 10,3,0 });
+
+			// 空初期化
+			skydome->SetModel(modelMng->GetModel(40));
+			skydome->SetScale({ 2, 2, 2 });
+			skydome->SetPosition({ WORLD_WIDTH / 2, 3, WORLD_HEIGHT / 2 });
+			break;
+
+		case 2:
+			// 床初期化
+			floor->SetModel(modelMng->GetModel(59));
+			floor->SetPosition({ 10,3,0 });
+
+			// 空初期化
+			skydome->SetModel(modelMng->GetModel(60));
+			skydome->SetScale({ 2, 2, 2 });
+			skydome->SetPosition({ WORLD_WIDTH / 2, 3, WORLD_HEIGHT / 2 });
+			break;
+
+		default:
+			break;
+		}
 	}
 	
 	// 各クラス初期設定
@@ -182,6 +226,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			break;
 		case 1:
 			texCol->LoadTexture(0, 0, L"Resources/texture/map_02.png");
+			//texCol->LoadTexture(0, 0, L"Resources/texture/cleanCol.png");
+			break;
+		case 2:
+			texCol->LoadTexture(0, 0, L"Resources/texture/map_03.png");
 			//texCol->LoadTexture(0, 0, L"Resources/texture/cleanCol.png");
 			break;
 		default:
@@ -206,8 +254,20 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		objMng->Initialize(input, texCol);
 
-		player->SetPosition({ 100, 3, 10 });
-		
+		switch (stage)
+		{
+		case 0:
+			player->SetPosition({ 100, 3, 10 });
+			break;
+		case 1:
+			player->SetPosition({ 100, 3, 10 });
+			break;
+		case 2:
+			player->SetPosition({ 100, 3, 1 });
+			break;
+		default:
+			break;
+		}
 	}
 
 	// カメラの初期設定

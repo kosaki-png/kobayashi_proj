@@ -3,7 +3,6 @@
 
 class Enemy : public Object
 {
-
 public: // メンバ関数
     Enemy();
     ~Enemy();
@@ -12,12 +11,17 @@ public: // メンバ関数
     void Update() override;
     void Draw(ID3D12GraphicsCommandList* cmdList) override;
 
+    /// <summary>
+    /// 敵配置
+    /// </summary>
     void Placement();
 
-    XMFLOAT3 GetPosition() { return position; }
-    void SetPosition(XMFLOAT3 position) { this->position = position; }
-
 private:
+    /// <summary>
+    /// 当たり判定から向き変更
+    /// </summary>
+    /// <param name="dir">現在の向き</param>
+    /// <returns>変更後の向き</returns>
     TexCollision::Dir DecMoveDir(TexCollision::Dir dir);
 
 private: // メンバ変数
@@ -26,27 +30,13 @@ private: // メンバ変数
     XMFLOAT3 move = { 0,0,0 };
 
     float speed = 2.0f;
-    bool isMove = false;
+    bool canMove = true;
 
-    // 感度設定用
-    float sence = 2.0f;
-
-    int WINDOW_WIDTH = 0;
-    int WINDOW_HEIGHT = 0;
-
-    bool canUp = true;
-    bool canDown = true;
-    bool canRight = true;
-    bool canLeft = true;
-
-    TexCollision::Dir dir = TexCollision::Dir::Up;
-    const int LENGTH = 3;
+    TexCollision::Dir dir = TexCollision::Dir::Up;   // 最初の向き
+    const int LENGTH = 3;   // 移動判定の幅
 
     int count = 0;
-    // 方向変更時の停止時間
-    const int CHANGEDIR_STOP = 0;
-    // 方向変更時間
-    const int CHANGEDIR = 0;
+    const int CHANGEDIR_STOP = 0;   // 方向変更時の停止時間
 
-    bool canMove = true;
+    bool tracking = false;
 };

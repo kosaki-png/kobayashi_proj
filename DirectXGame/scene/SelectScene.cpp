@@ -123,6 +123,11 @@ void SelectScene::Update()
 			// 選択したマップでゲームシーンへ
 			nextScene = new LoadScene(1);
 		}
+		if (input->TriggerKey(DIK_2))
+		{
+			// 選択したマップでゲームシーンへ
+			nextScene = new LoadScene(2);
+		}
 
 		// ESCAPEでゲーム終了
 		if (input->PushKey(DIK_ESCAPE))

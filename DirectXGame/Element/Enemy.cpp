@@ -120,10 +120,6 @@ void Enemy::Update()
 		}
 		if (count == CHANGEDIR_STOP)
 		{
-
-		}
-		if (count == CHANGEDIR + CHANGEDIR_STOP)
-		{
 			dir = DecMoveDir(dir);
 			canMove = true;
 		}
@@ -153,12 +149,13 @@ void Enemy::Placement()
 			break;
 		}
 	}
-	
 }
 
 Dir Enemy::DecMoveDir(Dir dir)
 {
 	Dir result;
+
+	bool canRight, canLeft, canUp, canDown;
 
 	// ˆÚ“®•ûŒü‚É‚æ‚Á‚ÄZo
 	switch (dir)
@@ -299,6 +296,7 @@ Dir Enemy::DecMoveDir(Dir dir)
 		break;
 	}
 
+	// Œü‚«•ÏX
 	switch (result)
 	{
 	case Dir::Up:

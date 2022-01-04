@@ -9,8 +9,10 @@ using namespace DirectX;
 // モデル管理クラスのインスタンス取得
 ModelManager* modelMngLoad = ModelManager::GetInstance();
 
+const int STAGE_COUNT = 3;
+
 // ロードバー割合
-float loadRatio[2] = { 0, 0 };
+float loadRatio[STAGE_COUNT] = { 0, 0, 0 };
 int modelCnt = 0;	// 読み込むオブジェクトの数
 float ratioPiece = 0;	// オブジェクトを読み込んだ時に進む割合
 
@@ -58,8 +60,6 @@ void LoadDefault(int stage)
 
 #pragma region ステージロード
 
-const int STAGE_COUNT = 2;
-
 bool loadStage[STAGE_COUNT] = {};
 std::mutex mutexStage[STAGE_COUNT];
 
@@ -106,6 +106,20 @@ void LoadStage(int stage)
 		modelMngLoad->Load(38, "02_33");		AddRatio(stage);	// 38
 		modelMngLoad->Load(39, "floor");		AddRatio(stage);	// 39
 		modelMngLoad->Load(40, "skydome");		AddRatio(stage);	// 40
+		break;
+
+	case 2:
+		modelMngLoad->Load(50, "03_50");		AddRatio(stage);	// 50
+		modelMngLoad->Load(51, "03_51");		AddRatio(stage);	// 51
+		modelMngLoad->Load(52, "03_52");		AddRatio(stage);	// 52
+		//modelMng->Load("01_77");	// 33				 
+		modelMngLoad->Load(54, "03_41");		AddRatio(stage);	// 54
+		modelMngLoad->Load(55, "03_42");		AddRatio(stage);	// 55
+		modelMngLoad->Load(56, "03_30");		AddRatio(stage);	// 56
+		modelMngLoad->Load(57, "03_31");		AddRatio(stage);	// 57
+		modelMngLoad->Load(58, "03_32");		AddRatio(stage);	// 58
+		modelMngLoad->Load(59, "floor");		AddRatio(stage);	// 59
+		modelMngLoad->Load(60, "skydome");		AddRatio(stage);	// 60
 		break;
 
 	default:
@@ -224,20 +238,23 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 	// FBXオブジェクト初期設定
 	{
-		kogakuin = new Fbx();
-		kogakuin->Initialize();
+		mapObj = new Fbx();
+		mapObj->Initialize();
 		switch (stage)
 		{
 		case 0:
-			kogakuin->SetModel(modelMngLoad->GetModel(13));
+			mapObj->SetModel(modelMngLoad->GetModel(13));
 			break;
 		case 1:
-			kogakuin->SetModel(modelMngLoad->GetModel(33));
+			mapObj->SetModel(modelMngLoad->GetModel(33));
+			break;
+		case 2:
+			mapObj->SetModel(modelMngLoad->GetModel(53));
 			break;
 		default:
 			break;
 		}
-		kogakuin->SetPosition({ -1130 / 2, 0, -925 - 925 / 2 });
+		mapObj->SetPosition({ -1130 / 2, 0, -925 - 925 / 2 });
 	}
 
 	// カメラ初期設定
@@ -274,7 +291,7 @@ void LoadScene::Update()
 
 	// FBX更新
 	{
-		kogakuin->Update();
+		mapObj->Update();
 	}
 
 	// カメラ更新
@@ -317,7 +334,7 @@ void LoadScene::Draw()
 
 			}
 
-			kogakuin->Draw(cmdList, true);
+			mapObj->Draw(cmdList, true);
 		}
 		Object3d::PostDraw();
 

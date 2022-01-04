@@ -59,5 +59,5 @@ private:
 
 	bool isEffect = false;
 
-	Fbx* kogakuin = nullptr;
+	Fbx* mapObj = nullptr;
 };
