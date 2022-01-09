@@ -10,6 +10,7 @@ public: // メンバ関数
     void Initialize(Input* input, TexCollision* texCol) override;
     void Update() override;
     void Draw(ID3D12GraphicsCommandList* cmdList) override;
+    void SpriteDraw() override;
 
     /// <summary>
     /// 敵配置
@@ -26,17 +27,19 @@ private:
 
 private: // メンバ変数
     Fbx* enemyObj = nullptr;
-    XMFLOAT3 position = { 10,10,10 };
+    Fbx* circleObj = nullptr;
+
     XMFLOAT3 move = { 0,0,0 };
 
-    float speed = 2.0f;
+    const float speedLow = 0.3f;
+    const float speedHigh = 0.8f;
     bool canMove = true;
 
     TexCollision::Dir dir = TexCollision::Dir::Up;   // 最初の向き
     const int LENGTH = 3;   // 移動判定の幅
 
-    int count = 0;
-    const int CHANGEDIR_STOP = 0;   // 方向変更時の停止時間
+    int stopCnt = 0;
+    const int CHANGEDIR_STOP = 60;   // 方向変更時の停止時間
 
     bool tracking = false;
 };

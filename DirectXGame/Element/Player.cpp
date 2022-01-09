@@ -14,10 +14,14 @@ Player::Player(int window_width, int window_height) :
 Player::~Player()
 {
 	delete playerObj;
+	delete dangerSpr;
 }
 
 void Player::Initialize(Input* input, TexCollision* texCol)
 {
+	Sprite::LoadTexture(10, L"Resources/texture/danger.png");
+	dangerSpr = Sprite::Create(10, { 0,0 });
+
 	Object::Initialize(input, texCol);
 
 	playerObj = new Fbx();
@@ -128,6 +132,14 @@ void Player::Update()
 void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	playerObj->Draw(cmdList, true);
+}
+
+void Player::SpriteDraw()
+{
+	if (danger)
+	{
+		dangerSpr->Draw();
+	}
 }
 
 void Player::SetSence(float sence)

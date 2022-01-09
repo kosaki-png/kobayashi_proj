@@ -8,6 +8,8 @@ Enemy::Enemy()
 
 Enemy::~Enemy()
 {
+	delete enemyObj;
+	delete circleObj;
 }
 
 void Enemy::Initialize(Input* input, TexCollision* texCol)
@@ -18,15 +20,18 @@ void Enemy::Initialize(Input* input, TexCollision* texCol)
 	enemyObj->Initialize();
 	enemyObj->SetModel(modelMng->GetModel(1));
 	//enemyObj->SetScale({5, 5, 5});
-	position = { 100, 3, 10 };
 
-	count = 1000;
+	circleObj = new Fbx();
+	circleObj->Initialize();
+	circleObj->SetModel(modelMng->GetModel(2));
+
+	stopCnt = 1000;
 	Placement();
 }
 
 void Enemy::Update()
 {
-	// 自分の向きに応じて
+	// 自分の向きに応じて進む
 	switch (dir)
 	{
 	case Dir::Up:
@@ -35,7 +40,7 @@ void Enemy::Update()
 		{
 			if (canMove)
 			{
-				count = 0;
+				stopCnt = 0;
 			}
 
 			canMove = false;
@@ -45,7 +50,7 @@ void Enemy::Update()
 		// 動けるなら動かす
 		if (canMove)
 		{
-			position.z += speed;
+			position.z += speedLow;
 		}
 		break;
 
@@ -55,7 +60,7 @@ void Enemy::Update()
 		{
 			if (canMove)
 			{
-				count = 0;
+				stopCnt = 0;
 			}
 
 			canMove = false;
@@ -65,7 +70,7 @@ void Enemy::Update()
 		// 動けるなら動かす
 		if (canMove)
 		{
-			position.z -= speed;
+			position.z -= speedLow;
 		}
 		break;
 
@@ -75,7 +80,7 @@ void Enemy::Update()
 		{
 			if (canMove)
 			{
-				count = 0;
+				stopCnt = 0;
 			}
 
 			canMove = false;
@@ -85,7 +90,7 @@ void Enemy::Update()
 		// 動けるなら動かす
 		if (canMove)
 		{
-			position.x += speed;
+			position.x += speedLow;
 		}
 		break;
 
@@ -95,7 +100,7 @@ void Enemy::Update()
 		{
 			if (canMove)
 			{
-				count = 0;
+				stopCnt = 0;
 			}
 			canMove = false;
 			break;
@@ -104,7 +109,7 @@ void Enemy::Update()
 		// 動けるなら動かす
 		if (canMove)
 		{
-			position.x -= speed;
+			position.x -= speedLow;
 		}
 		break;
 
@@ -114,11 +119,11 @@ void Enemy::Update()
 
 	// 方向変換
 	{
-		if (count == 0)
+		if (stopCnt == 0)
 		{
 			
 		}
-		if (count == CHANGEDIR_STOP)
+		if (stopCnt == CHANGEDIR_STOP)
 		{
 			dir = DecMoveDir(dir);
 			canMove = true;
@@ -131,19 +136,30 @@ void Enemy::Update()
 	enemyObj->SetScale(scale);
 	enemyObj->Update();
 
-	count++;
+	circleObj->SetPosition(position);
+	circleObj->SetRotation(rotation);
+	circleObj->Update();
+
+	stopCnt++;
 }
 
 void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	enemyObj->Draw(cmdList, true);
+	circleObj->Draw(cmdList, false);
+}
+
+void Enemy::SpriteDraw()
+{
 }
 
 void Enemy::Placement()
 {
 	while (true)
 	{
+		// 座標セット
 		position = { (float)(std::rand() % 3390), 3, (float)(std::rand() % 2775) };
+		// そこが青なら配置完了
 		if (texCol->GetHitFlag(ArgColor::Blue, position))
 		{
 			break;

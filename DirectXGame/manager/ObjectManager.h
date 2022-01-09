@@ -32,8 +32,9 @@ public:
 
 	void AddObject(Object* object);
 	void Initialize(Input* input, TexCollision* texCol);
-	void Update();
-	void Draw(ID3D12GraphicsCommandList* cmdList);
+	void Update(XMFLOAT3 playerPos = { 0,0,0 }, float length = 0);
+	void Draw(ID3D12GraphicsCommandList* cmdList, XMFLOAT3 playerPos = { 0,0,0 }, float length = 0);
+	void SpriteDraw();
 
 private:
 	std::vector<Object*> objects;

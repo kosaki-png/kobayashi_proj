@@ -245,11 +245,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		objMng->AddObject(player);
 
 		// 敵生成
-		for (auto x : enemy)
+		for (int i = 0; i < ENEMY_COUNT; i++)
 		{
-			x = new Enemy();
+			enemy[i] = new Enemy();
 			// オブジェクトマネージャーに登録
-			objMng->AddObject(x);
+			objMng->AddObject(enemy[i]);
 		}
 
 		objMng->Initialize(input, texCol);
@@ -327,12 +327,7 @@ void GameScene::Update()
 
 		// ミニマップ移動
 		XMFLOAT3 playerPos = player->GetPosition();
-		playerPos.x /= MAP_WIDTH;
-		playerPos.z /= MAP_HEIGHT;
-		minimap->SetPosUV({ playerPos.x - 0.15f, playerPos.z -0.15f });
-
-		playerPos = player->GetPosition();
-		XMFLOAT2 tmpF2 = { playerPos.x / 4.0f, -playerPos.z / 4.0f };
+		minimap->SetPosUV({ playerPos.x / MAP_WIDTH - 0.15f, playerPos.z / MAP_HEIGHT -0.15f });
 
 		// マップ表示
 		if (input->TriggerKey(DIK_M))
@@ -342,12 +337,38 @@ void GameScene::Update()
 		if (isMap)
 		{
 			// マップ移動
-			mapAllPoint->SetPosition(tmpF2);
+			mapAllPoint->SetPosition({ playerPos.x / 4.0f, -playerPos.z / 4.0f });
 			if (input->TriggerKey(DIK_ESCAPE))
 			{
 				isMap = false;
 			}
 		}
+
+		// プレイヤーと敵の判定
+		{
+			player->SetDanger(false);
+
+			for (int i = 0; i < ENEMY_COUNT; i++)
+			{
+				XMFLOAT3 lengthPE = { enemy[i]->GetPosition().x - playerPos.x, 0, enemy[i]->GetPosition().z - playerPos.z };
+				{
+					// 一旦大まかに四角の判定
+					if (abs(lengthPE.x) < 75 && abs(lengthPE.z) < 75)
+					{
+						float tmpLength = sqrt(pow(lengthPE.x, 2) + pow(lengthPE.z, 2));
+						// 円状の判定
+						if (tmpLength < 75)
+						{
+							player->SetDanger(true);
+						}
+					}
+				}
+			}
+		}
+
+		/*XMFLOAT3 pE0 = enemy[0]->Object::GetPosition();
+		XMFLOAT3 pE1 = enemy[1]->Object::GetPosition();
+		XMFLOAT3 pE2 = enemy[2]->Object::GetPosition();*/
 
 		// 各種更新
 		{
@@ -371,7 +392,7 @@ void GameScene::Update()
 			floor->Update();
 
 			// オブジェクトマネージャーの更新
-			objMng->Update();
+			objMng->Update(player->GetPosition(), 500);
 			
 			// メインカメラの更新
 			{
@@ -411,7 +432,7 @@ void GameScene::Draw()
 	{
 		Object3d::PreDraw(cmdList);
 		{
-			objMng->Draw(cmdList);
+			objMng->Draw(cmdList, player->GetPosition(), 500);
 
 			// マップモデルの描画
 			for (int i = 0; i < 9; i++)
@@ -431,6 +452,8 @@ void GameScene::Draw()
 	{
 		Sprite::PreDraw(cmdList);
 		{
+			objMng->SpriteDraw();
+
 			if (!isMap)
 			{
 				minimap->Draw();

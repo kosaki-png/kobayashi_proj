@@ -57,7 +57,8 @@ private:
 
 	// 各クラス宣言宣言
 	Player* player = nullptr;
-	Enemy* enemy[1] = {};
+	static const int ENEMY_COUNT = 100;
+	Enemy* enemy[ENEMY_COUNT] = {};
 	
 	ModelManager* modelMng = nullptr;
 	ObjectManager* objMng = nullptr;

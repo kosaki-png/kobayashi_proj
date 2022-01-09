@@ -32,6 +32,7 @@ public:
 	virtual void Initialize(Input* input, TexCollision* texCol);
 	virtual void Update() = 0;
 	virtual void Draw(ID3D12GraphicsCommandList* cmdList) = 0;
+	virtual void SpriteDraw() = 0;
 
 	void SetPosition(XMFLOAT3 position) { this->position = position; }
 	XMFLOAT3 GetPosition() { return position; }

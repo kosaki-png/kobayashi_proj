@@ -9,7 +9,10 @@ using namespace DirectX;
 // モデル管理クラスのインスタンス取得
 ModelManager* modelMngLoad = ModelManager::GetInstance();
 
-const int STAGE_COUNT = 3;
+const int STAGE_COUNT = 3;		// ステージの数
+
+const int LOAD_DEF_MODEL_CNT = 3;		// デフォルトでロードするモデルの数
+const int LOAD_STAGE_MODEL_CNT = 10;	// ステージ			〃
 
 // ロードバー割合
 float loadRatio[STAGE_COUNT] = { 0, 0, 0 };
@@ -28,10 +31,11 @@ float GetRatio(int stage)
 
 #pragma region デフォルトロード
 
+#pragma region トリガー系
+
 bool loadDefault = false;
 std::mutex mutexDefault;
 
-// ロードトリガー系
 void SetLoadDefault(bool flag)
 {
 	std::lock_guard<std::mutex>  lock(mutexDefault);
@@ -43,6 +47,8 @@ bool GetLoadDefault()
 	return loadDefault;
 }
 
+#pragma endregion
+
 void LoadDefault(int stage)
 {
 	//ダミーで10秒待つ
@@ -50,8 +56,9 @@ void LoadDefault(int stage)
 	std::this_thread::sleep_for(sleepTime);*/
 
 	// モデルをロードして割合を増やす
-	modelMngLoad->Load(0, "player");	AddRatio(stage);	// 0
-	modelMngLoad->Load(1, "Enemy");		AddRatio(stage);		// 1
+	modelMngLoad->Load(0, "player");			AddRatio(stage);	// 0
+	modelMngLoad->Load(1, "Enemy");				AddRatio(stage);	// 1
+	modelMngLoad->Load(2, "Enemy_circle");		AddRatio(stage);	// 2
 
 	SetLoadDefault(true);
 }
@@ -59,6 +66,8 @@ void LoadDefault(int stage)
 #pragma endregion
 
 #pragma region ステージロード
+
+#pragma region トリガー系
 
 bool loadStage[STAGE_COUNT] = {};
 std::mutex mutexStage[STAGE_COUNT];
@@ -74,6 +83,8 @@ bool GetLoadStage(int stage)
 	std::lock_guard<std::mutex>  lock(mutexStage[stage]);
 	return loadStage[stage];
 }
+
+#pragma endregion
 
 // ステージのロード
 void LoadStage(int stage)
@@ -137,11 +148,11 @@ void AsyncLoadStage(int stage)
 	modelCnt = 0;	// 一旦初期化
 	if (!GetLoadDefault())
 	{
-		modelCnt += 2;
+		modelCnt += LOAD_DEF_MODEL_CNT;
 	}
 	if (!GetLoadStage(stage))
 	{
-		modelCnt += 10;
+		modelCnt += LOAD_STAGE_MODEL_CNT;
 
 		// バーを進める値設定
 		ratioPiece = 1.0f / modelCnt;
