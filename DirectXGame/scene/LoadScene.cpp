@@ -9,9 +9,9 @@ using namespace DirectX;
 // モデル管理クラスのインスタンス取得
 ModelManager* modelMngLoad = ModelManager::GetInstance();
 
-const int STAGE_COUNT = 3;		// ステージの数
+const int STAGE_COUNT = 4;		// ステージの数
 
-const int LOAD_DEF_MODEL_CNT = 3;		// デフォルトでロードするモデルの数
+const int LOAD_DEF_MODEL_CNT = 5;		// デフォルトでロードするモデルの数
 const int LOAD_STAGE_MODEL_CNT = 10;	// ステージ			〃
 
 // ロードバー割合
@@ -59,6 +59,8 @@ void LoadDefault(int stage)
 	modelMngLoad->Load(0, "player");			AddRatio(stage);	// 0
 	modelMngLoad->Load(1, "Enemy");				AddRatio(stage);	// 1
 	modelMngLoad->Load(2, "Enemy_circle");		AddRatio(stage);	// 2
+	modelMngLoad->Load(3, "crystal");			AddRatio(stage);	// 2
+	modelMngLoad->Load(4, "crystalCircle");		AddRatio(stage);	// 2
 
 	SetLoadDefault(true);
 }
@@ -131,6 +133,20 @@ void LoadStage(int stage)
 		modelMngLoad->Load(58, "03_32");		AddRatio(stage);	// 58
 		modelMngLoad->Load(59, "floor");		AddRatio(stage);	// 59
 		modelMngLoad->Load(60, "skydome");		AddRatio(stage);	// 60
+		break;
+
+	case 3:
+		modelMngLoad->Load(70, "04_75");		AddRatio(stage);	// 50
+		modelMngLoad->Load(71, "04_76");		AddRatio(stage);	// 51
+		modelMngLoad->Load(72, "04_77");		AddRatio(stage);	// 52
+		//modelMng->Load("01_77");	// 33				 
+		modelMngLoad->Load(74, "04_86");		AddRatio(stage);	// 54
+		modelMngLoad->Load(75, "04_87");		AddRatio(stage);	// 55
+		modelMngLoad->Load(76, "04_95");		AddRatio(stage);	// 56
+		modelMngLoad->Load(77, "04_96");		AddRatio(stage);	// 57
+		modelMngLoad->Load(78, "04_97");		AddRatio(stage);	// 58
+		modelMngLoad->Load(79, "floor");		AddRatio(stage);	// 59
+		modelMngLoad->Load(80, "skydome");		AddRatio(stage);	// 60
 		break;
 
 	default:
@@ -261,6 +277,9 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			break;
 		case 2:
 			mapObj->SetModel(modelMngLoad->GetModel(53));
+			break;
+		case 3:
+			mapObj->SetModel(modelMngLoad->GetModel(73));
 			break;
 		default:
 			break;

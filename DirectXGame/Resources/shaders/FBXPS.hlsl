@@ -23,8 +23,8 @@ PSOutput main(VSOutput input)
 	float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);
 
 	// 陰影とテクスチャの色を合成
-	output.target0 = shadecolor * texcolor;
-	output.target1 = /*shadecolor * */texcolor;
+	output.target0 = lerp(shadecolor * texcolor, float4(1,1,1,1), input.fog);
+	output.target1 = shadecolor * texcolor;
 	return output;
 }
 

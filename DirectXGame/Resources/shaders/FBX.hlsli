@@ -3,6 +3,7 @@ cbuffer cbuff0 : register(b0)
 	matrix viewproj; // ビュープロジェクション行列
 	matrix world; // ワールド行列
 	float3 cameraPos; // カメラ座標（ワールド座標）
+	bool isFog;	// フォグをかけるか
 };
 
 //cbuffer cbuff1 : register(b0)
@@ -26,4 +27,5 @@ struct VSOutput
 	float4 svpos : SV_POSITION; // システム用頂点座標
 	float3 normal :NORMAL; // 法線
 	float2 uv  :TEXCOORD; // uv値
+	float fog : TEXCOORD1;	// フォグ
 };

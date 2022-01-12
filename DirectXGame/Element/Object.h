@@ -43,6 +43,15 @@ public:
 	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
 	XMFLOAT3 GetScale() { return scale; }
 
+	// Ž€‚ñ‚¾‚©
+	void SetIsDead(bool isDead) { this->isDead = isDead; }
+	bool GetIsDead() { return isDead; }
+
+	/// <summary>
+	/// ”z’u
+	/// </summary>
+	void Placement(TexCollision::ArgColor color);
+
 protected:
 	Input* input = nullptr;
 	TexCollision* texCol = nullptr;
@@ -52,6 +61,7 @@ protected:
 	XMFLOAT3 rotation = { 0,0,0 };
 	XMFLOAT3 scale = { 1,1,1 };
 
+	bool isDead = false;
 	int a = 0;
 };
 

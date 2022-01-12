@@ -11,6 +11,7 @@
 
 #include "Player.h"
 #include "Enemy.h"
+#include "Crystal.h"
 
 #include "TexCollision.h"
 
@@ -31,6 +32,8 @@ public:
 	void Draw() override;
 
 	void Finalize() override;
+
+	void CreateParticles();
 
 private:
 	const float MAP_WIDTH = 3390.0f;
@@ -56,9 +59,16 @@ private:
 	XMFLOAT2 mousePos;
 
 	// 各クラス宣言宣言
+	// プレイヤー
 	Player* player = nullptr;
+
+	// 敵
 	static const int ENEMY_COUNT = 100;
 	Enemy* enemy[ENEMY_COUNT] = {};
+
+	// クリスタル
+	static const int CRYSTAL_COUNT = 200;
+	Crystal* crystal[CRYSTAL_COUNT] = {};
 	
 	ModelManager* modelMng = nullptr;
 	ObjectManager* objMng = nullptr;

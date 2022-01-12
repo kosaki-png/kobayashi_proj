@@ -26,7 +26,7 @@ void Enemy::Initialize(Input* input, TexCollision* texCol)
 	circleObj->SetModel(modelMng->GetModel(2));
 
 	stopCnt = 1000;
-	Placement();
+	Placement(TexCollision::ArgColor::Blue);
 }
 
 void Enemy::Update()
@@ -151,20 +151,6 @@ void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 
 void Enemy::SpriteDraw()
 {
-}
-
-void Enemy::Placement()
-{
-	while (true)
-	{
-		// 座標セット
-		position = { (float)(std::rand() % 3390), 3, (float)(std::rand() % 2775) };
-		// そこが青なら配置完了
-		if (texCol->GetHitFlag(ArgColor::Blue, position))
-		{
-			break;
-		}
-	}
 }
 
 Dir Enemy::DecMoveDir(Dir dir)

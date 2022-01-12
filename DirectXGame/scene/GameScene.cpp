@@ -17,6 +17,7 @@ GameScene::~GameScene()
 	delete objMng;
 	delete player;
 	delete[] enemy;
+	delete[] crystal;
 
 	delete texCol;
 	
@@ -109,6 +110,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 				Sprite::LoadTexture(6, L"Resources/texture/map_03_frame.png");
 				break;
 
+			case 3:
+				Sprite::LoadTexture(5, L"Resources/texture/map_04_ref.png");
+				Sprite::LoadTexture(6, L"Resources/texture/map_04_frame.png");
+				break;
+
 			default:
 				break;
 			}
@@ -158,7 +164,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 			case 2:
 				map[i]->SetModel(modelMng->GetModel(i + 50));
-				map[i]->SetPosition({ -1,3,-1 });
+				map[i]->SetPosition({ -1,0,-1 });
+				break;
+
+			case 3:
+				map[i]->SetModel(modelMng->GetModel(i + 70));
+				map[i]->SetPosition({ -1,0,-1 });
 				break;
 
 			default:
@@ -172,19 +183,19 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		// 空初期化
 		skydome = new Fbx();
-		skydome->Initialize();	
+		skydome->Initialize(false);	
 
 		switch (stage)
 		{
 		case 0:
 			// 床初期化
 			floor->SetModel(modelMng->GetModel(19));
-			floor->SetPosition({ 10,3,0 });
+			floor->SetPosition({ 10,0,0 });
 
 			// 空初期化
 			skydome->SetModel(modelMng->GetModel(20));
 			skydome->SetScale({ 2, 2, 2 });
-			skydome->SetPosition({ WORLD_WIDTH / 2, 3, WORLD_HEIGHT / 2 });
+			skydome->SetPosition({ WORLD_WIDTH / 2, 0, WORLD_HEIGHT / 2 });
 			break;
 
 		case 1:
@@ -207,6 +218,17 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			skydome->SetModel(modelMng->GetModel(60));
 			skydome->SetScale({ 2, 2, 2 });
 			skydome->SetPosition({ WORLD_WIDTH / 2, 3, WORLD_HEIGHT / 2 });
+			break;
+
+		case 3:
+			// 床初期化
+			floor->SetModel(modelMng->GetModel(79));
+			floor->SetPosition({ 10,0,0 });
+
+			// 空初期化
+			skydome->SetModel(modelMng->GetModel(80));
+			skydome->SetScale({ 2, 2, 2 });
+			skydome->SetPosition({ WORLD_WIDTH / 2, 0, WORLD_HEIGHT / 2 });
 			break;
 
 		default:
@@ -232,6 +254,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			texCol->LoadTexture(0, 0, L"Resources/texture/map_03.png");
 			//texCol->LoadTexture(0, 0, L"Resources/texture/cleanCol.png");
 			break;
+		case 3:
+			texCol->LoadTexture(0, 0, L"Resources/texture/map_04.png");
+			//texCol->LoadTexture(0, 0, L"Resources/texture/cleanCol.png");
+			break;
 		default:
 			break;
 		}
@@ -252,6 +278,15 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			objMng->AddObject(enemy[i]);
 		}
 
+		// クリスタル生成
+		for (int i = 0; i < CRYSTAL_COUNT; i++)
+		{
+			crystal[i] = new Crystal();
+			// オブジェクトマネージャーに登録
+			objMng->AddObject(crystal[i]);
+		}
+
+		// オブジェクト初期化
 		objMng->Initialize(input, texCol);
 
 		switch (stage)
@@ -264,6 +299,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			break;
 		case 2:
 			player->SetPosition({ 100, 3, 1 });
+			break;
+		case 3:
+			player->SetPosition({ 100, 0, 1 });
 			break;
 		default:
 			break;
@@ -351,24 +389,25 @@ void GameScene::Update()
 			for (int i = 0; i < ENEMY_COUNT; i++)
 			{
 				XMFLOAT3 lengthPE = { enemy[i]->GetPosition().x - playerPos.x, 0, enemy[i]->GetPosition().z - playerPos.z };
+				enemy[i]->SetTrack(false);
+
+				// 一旦大まかに四角の判定
+				if (abs(lengthPE.x) < 75 && abs(lengthPE.z) < 75)
 				{
-					// 一旦大まかに四角の判定
-					if (abs(lengthPE.x) < 75 && abs(lengthPE.z) < 75)
+					float tmpLength = sqrt(pow(lengthPE.x, 2) + pow(lengthPE.z, 2));
+					// 円状の判定
+					if (tmpLength < 75)
 					{
-						float tmpLength = sqrt(pow(lengthPE.x, 2) + pow(lengthPE.z, 2));
-						// 円状の判定
-						if (tmpLength < 75)
+						player->SetDanger(true);
+						// プレイヤーが走っていたら追いかけ始める
+						if (input->TriggerKey(DIK_LSHIFT))
 						{
-							player->SetDanger(true);
+							enemy[i]->SetTrack(true);
 						}
 					}
 				}
 			}
 		}
-
-		/*XMFLOAT3 pE0 = enemy[0]->Object::GetPosition();
-		XMFLOAT3 pE1 = enemy[1]->Object::GetPosition();
-		XMFLOAT3 pE2 = enemy[2]->Object::GetPosition();*/
 
 		// 各種更新
 		{
@@ -407,6 +446,11 @@ void GameScene::Update()
 		}
 	}
 	
+	if (input->PushKey(DIK_P))
+	{
+		CreateParticles();
+	}
+
 	//lightGroup->Update();
 	particleMan->Update();
 }
@@ -426,6 +470,9 @@ void GameScene::Draw()
 
 		// 深度バッファクリア
 		dxCommon->ClearDepthBuffer();
+
+		// パーティクルの描画
+		particleMan->Draw(cmdList);
 	}
 	
 	// 3Dオブジェクト描画
@@ -443,9 +490,6 @@ void GameScene::Draw()
 			floor->Draw(cmdList, true);
 		}
 		Object3d::PostDraw();
-
-		// パーティクルの描画
-		particleMan->Draw(cmdList);
 	}
 	
 	// 前景スプライト描画
@@ -480,13 +524,38 @@ void GameScene::Draw()
 
 	// ImGui描画
 	{
-		ImGui::Begin("OPTION");
+		/*ImGui::Begin("OPTION");
 		ImGui::SetWindowSize(ImVec2(100, 100));
 		ImGui::SliderFloat("感度", &sence, 0.01f, 5.0f);
-		ImGui::End();
+		ImGui::End();*/
 	}
 }
 
 void GameScene::Finalize()
 {
+}
+
+void GameScene::CreateParticles()
+{
+	for (int i = 0; i < 10; i++) {
+		// X,Y,Z全て[-5.0f,+5.0f]でランダムに分布
+		const float rnd_pos = 10.0f;
+		XMFLOAT3 pos{};
+		pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+		pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+		pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
+
+		const float rnd_vel = 0.2f;
+		XMFLOAT3 vel{};
+		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
+
+		XMFLOAT3 acc{};
+		const float rnd_acc = 0.001f;
+		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
+
+		// 追加
+		particleMan->Add(60, {0,0,0}, vel, acc, 1.0f, 0.0f);
+	}
 }

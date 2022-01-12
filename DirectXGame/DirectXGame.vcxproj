@@ -106,6 +106,7 @@
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="camera\MainCamera.cpp" />
     <ClCompile Include="camera\OrbitCamera.cpp" />
+    <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="dynamics\Collision.cpp" />
     <ClCompile Include="dynamics\CollisionPrimitive.cpp" />
     <ClCompile Include="dynamics\TexCollision.cpp" />
@@ -114,6 +115,7 @@
     <ClCompile Include="Element\Enemy.cpp" />
     <ClCompile Include="Element\Object.cpp" />
     <ClCompile Include="Element\Player.cpp" />
+    <ClCompile Include="FixedCamera.cpp" />
     <ClCompile Include="FlameRate\FlameRate.cpp" />
     <ClCompile Include="input\XinputControll.cpp" />
     <ClCompile Include="manager\ModelManager.cpp" />
@@ -164,6 +166,7 @@
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="camera\MainCamera.h" />
     <ClInclude Include="camera\OrbitCamera.h" />
+    <ClInclude Include="Crystal.h" />
     <ClInclude Include="dynamics\Collision.h" />
     <ClInclude Include="dynamics\CollisionPrimitive.h" />
     <ClInclude Include="dynamics\TexCollision.h" />
@@ -172,6 +175,7 @@
     <ClInclude Include="Element\Enemy.h" />
     <ClInclude Include="Element\Object.h" />
     <ClInclude Include="Element\Player.h" />
+    <ClInclude Include="FixedCamera.h" />
     <ClInclude Include="FlameRate\FlameRate.h" />
     <ClInclude Include="input\XinputControll.h" />
     <ClInclude Include="manager\ModelManager.h" />

@@ -37,7 +37,7 @@ void Player::Update()
 	// マウスの入力を取得
 	Input::MouseMove mouseMove = input->GetMouseMove();
 
-	// マウスの移動量分カメラを回転させる
+	// マウスの移動量分回転させる
 	{
 		float dy = mouseMove.lX * scaleY;
 		float dx = mouseMove.lY * scaleX;
@@ -118,6 +118,23 @@ void Player::Update()
 		if (input->PushKey(DIK_X)) move.y = -1;
 	}
 
+	if (danger)
+	{
+		if (dangerAlpha < 1)
+		{
+			dangerAlpha += 0.02f;
+		}
+	}
+	else
+	{
+		if (dangerAlpha > 0)
+		{
+			dangerAlpha -= 0.02f;
+		}
+	}
+
+	dangerSpr->SetAlpha(dangerAlpha);
+
 	// プレイヤーの向きを設定
 	playerObj->SetRotation({ 0, cameraPhi - 90, 0 });
 
@@ -136,10 +153,7 @@ void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 
 void Player::SpriteDraw()
 {
-	if (danger)
-	{
-		dangerSpr->Draw();
-	}
+	dangerSpr->Draw();
 }
 
 void Player::SetSence(float sence)

@@ -12,10 +12,9 @@ public: // メンバ関数
     void Draw(ID3D12GraphicsCommandList* cmdList) override;
     void SpriteDraw() override;
 
-    /// <summary>
-    /// 敵配置
-    /// </summary>
-    void Placement();
+    // 追尾用
+    void SetTrack(bool isTrack) { tracking = isTrack; }
+    bool GetTrack() { return tracking; }
 
 private:
     /// <summary>

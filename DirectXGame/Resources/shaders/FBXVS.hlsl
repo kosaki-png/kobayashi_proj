@@ -12,6 +12,7 @@ VSOutput main(VSInput input)
 	output.normal = wnormal.xyz;
 	// 入力値をそのまま次のステージに渡す
 	output.uv = input.uv;
+	output.fog = distance(mul(world, input.pos), cameraPos) / 1000 * isFog;
 
 	return output;
 }

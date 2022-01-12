@@ -63,29 +63,27 @@ void Camera::UpdateViewMatrix()
 	matView = XMMatrixLookAtLH(eyePosition, targetPosition, upVector);
 
 	{
+		// カメラZ軸（視線方向）
+		XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
+		// 0ベクトルだと向きが定まらないので除外
+		assert(!XMVector3Equal(cameraAxisZ, XMVectorZero()));
+		assert(!XMVector3IsInfinite(cameraAxisZ));
+		assert(!XMVector3Equal(upVector, XMVectorZero()));
+		assert(!XMVector3IsInfinite(upVector));
+		// ベクトルを正規化
+		cameraAxisZ = XMVector3Normalize(cameraAxisZ);
 
+		// カメラのX軸（右方向）
+		XMVECTOR cameraAxisX;
+		// X軸は上方向→Z軸の外積で求まる
+		cameraAxisX = XMVector3Cross(upVector, cameraAxisZ);
+		// ベクトルを正規化
+		cameraAxisX = XMVector3Normalize(cameraAxisX);
 
-		//// カメラZ軸（視線方向）
-		//XMVECTOR cameraAxisZ = XMVectorSubtract(targetPosition, eyePosition);
-		//// 0ベクトルだと向きが定まらないので除外
-		//assert(!XMVector3Equal(cameraAxisZ, XMVectorZero()));
-		//assert(!XMVector3IsInfinite(cameraAxisZ));
-		//assert(!XMVector3Equal(upVector, XMVectorZero()));
-		//assert(!XMVector3IsInfinite(upVector));
-		//// ベクトルを正規化
-		//cameraAxisZ = XMVector3Normalize(cameraAxisZ);
-
-		//// カメラのX軸（右方向）
-		//XMVECTOR cameraAxisX;
-		//// X軸は上方向→Z軸の外積で求まる
-		//cameraAxisX = XMVector3Cross(upVector, cameraAxisZ);
-		//// ベクトルを正規化
-		//cameraAxisX = XMVector3Normalize(cameraAxisX);
-
-		//// カメラのY軸（上方向）
-		//XMVECTOR cameraAxisY;
-		//// Y軸はZ軸→X軸の外積で求まる
-		//cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
+		// カメラのY軸（上方向）
+		XMVECTOR cameraAxisY;
+		// Y軸はZ軸→X軸の外積で求まる
+		cameraAxisY = XMVector3Cross(cameraAxisZ, cameraAxisX);
 
 		//// ここまでで直交した3方向のベクトルが揃う
 		////（ワールド座標系でのカメラの右方向、上方向、前方向）	
@@ -113,10 +111,10 @@ void Camera::UpdateViewMatrix()
 
 #pragma region 全方向ビルボード行列の計算
 	// ビルボード行列
-	/*matBillboard.r[0] = cameraAxisX;
+	matBillboard.r[0] = cameraAxisX;
 	matBillboard.r[1] = cameraAxisY;
 	matBillboard.r[2] = cameraAxisZ;
-	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);*/
+	matBillboard.r[3] = XMVectorSet(0, 0, 0, 1);
 #pragma region
 
 #pragma region Y軸回りビルボード行列の計算

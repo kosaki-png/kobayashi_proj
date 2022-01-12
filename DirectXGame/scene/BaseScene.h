@@ -19,6 +19,7 @@
 
 // ƒJƒƒ‰ŠÖŒW
 #include "DebugCamera.h"
+#include "FixedCamera.h"
 #include "MainCamera.h"
 #include "OrbitCamera.h"
 

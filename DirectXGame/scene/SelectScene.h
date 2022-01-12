@@ -39,4 +39,8 @@ private:
 	XMFLOAT2 mousePos;
 
 	Sprite* tmpSprite = nullptr;
+
+	Fbx* map[4] = {};
+	XMFLOAT3 mapPos[4] = {};
+	float mapRad = 0;
 };

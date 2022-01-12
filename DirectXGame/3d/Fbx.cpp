@@ -166,8 +166,10 @@ void Fbx::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void Fbx::Initialize()
+void Fbx::Initialize(bool isFog)
 {
+	this->isFog = isFog;
+
 	HRESULT result;
 	// 定数バッファの生成
 	result = device->CreateCommittedResource(
@@ -212,6 +214,7 @@ void Fbx::Update()
 		constMap->viewproj = matViewProjection;
 		constMap->world = modelTransform * matWorld;
 		constMap->cameraPos = cameraPos;
+		constMap->isFog = isFog;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 }

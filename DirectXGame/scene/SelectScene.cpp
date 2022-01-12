@@ -51,7 +51,7 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 	{
 		// スプライト用テクスチャ読み込み
 		{
-			Sprite::LoadTexture(1, L"Resources/texture/select_tmp.png");
+			Sprite::LoadTexture(1, L"Resources/texture/star.png");
 		}
 
 		// スプライト生成
@@ -81,22 +81,20 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 
 	// FBXオブジェクト初期設定
 	{
-		// モデル読み込み
+		// モデル生成
 		{
-		}
-
-		// 3Dオブジェクト生成
-		{
-		}
-
-		// 3Dオブジェクト初期設定
-		{
+			for (int i = 0; i < 4; i++)
+			{
+				map[i] = new Fbx();
+				map[i]->Initialize();
+				map[i]->SetModel(ModelManager::GetInstance()->GetModel(i * 20 + 13));
+			}
 		}
 	}
 
 	// カメラ注視点をセット
 	camera->SetTarget({ 0, 1, 0 });
-	camera->SetDistance(10.0f);
+	//camera->SetDistance(10.0f);
 
 	// 各クラスの初期化
 	{
@@ -128,6 +126,11 @@ void SelectScene::Update()
 			// 選択したマップでゲームシーンへ
 			nextScene = new LoadScene(2);
 		}
+		if (input->TriggerKey(DIK_3))
+		{
+			// 選択したマップでゲームシーンへ
+			nextScene = new LoadScene(3);
+		}
 
 		// ESCAPEでゲーム終了
 		if (input->PushKey(DIK_ESCAPE))
@@ -152,7 +155,15 @@ void SelectScene::Update()
 	particleMan->Update();
 
 	// 3Dオブジェクト更新
-	{}
+	{
+
+
+		for (int i = 0; i < 4; i++)
+		{
+			map[i]->Update();
+		}
+	}
+
 	// 各クラスの更新
 	{}
 
@@ -187,6 +198,10 @@ void SelectScene::Draw()
 		/// <summary>
 		/// ここに3Dオブジェクトの描画処理を追加
 		/// </summary>
+		for (int i = 0; i < 4; i++)
+		{
+			map[i]->Draw(cmdList, true);
+		}
 
 		Object3d::PostDraw();
 		// パーティクルの描画

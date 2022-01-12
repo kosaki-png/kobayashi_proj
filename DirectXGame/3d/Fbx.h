@@ -28,6 +28,7 @@ public: // サブクラス
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
+		bool isFog;
 	};
 
 public: // 静的メンバ関数
@@ -53,7 +54,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize(bool isFog = true);
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -116,5 +117,7 @@ protected: // メンバ変数
 	XMMATRIX matWorld;
 	// モデル
 	FbxModel* model = nullptr;
+	// フォグ
+	bool isFog;
 };
 

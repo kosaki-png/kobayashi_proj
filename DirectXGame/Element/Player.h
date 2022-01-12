@@ -34,6 +34,9 @@ public: // メンバ関数
     void SetDanger(bool danger) { this->danger = danger; }
     bool GetDanger() { return danger; }
 
+    // クリスタル所持
+
+
 private: // メンバ変数
     float scaleX = 1.0f;
     float scaleY = 1.0f;
@@ -57,4 +60,7 @@ private: // メンバ変数
 
     bool danger = false;
     Sprite* dangerSpr = nullptr;
+    float dangerAlpha = 0;
+
+    int crystalCnt = 0;
 };

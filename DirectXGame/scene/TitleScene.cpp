@@ -35,6 +35,7 @@ void AsyncLoad()
 	modelMngTitle->Load(13, "01_77");	// 13
 	modelMngTitle->Load(33, "02_41");	// 33
 	modelMngTitle->Load(53, "03_40");	// 53
+	modelMngTitle->Load(73, "04_85");	// 73
 
 	SetLockFlag(true);
 }
