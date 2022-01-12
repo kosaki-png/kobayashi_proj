@@ -28,6 +28,8 @@ public: // サブクラス
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
+		float gomi;
+		XMFLOAT3 lightDir;
 		bool isFog;
 	};
 
@@ -54,7 +56,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(bool isFog = true);
+	void Initialize(XMFLOAT3 lightDir = { 0,-1,0 }, bool isFog = true);
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -117,6 +119,8 @@ protected: // メンバ変数
 	XMMATRIX matWorld;
 	// モデル
 	FbxModel* model = nullptr;
+	// ライトの向き
+	XMFLOAT3 lightDir;
 	// フォグ
 	bool isFog;
 };

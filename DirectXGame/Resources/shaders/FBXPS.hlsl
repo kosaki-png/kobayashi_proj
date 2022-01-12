@@ -16,14 +16,14 @@ PSOutput main(VSOutput input)
 	// テクスチャマッピング
 	float4 texcolor = tex.Sample(smp, input.uv);
 	// Lambert反射
-	float3 light = normalize(float3(0,1,0)); // 真下からのライト
+	float3 light = normalize(input.lightDir); // 真下からのライト
 	//float3 light = normalize(float3(1, -1, 1));
-	float diffuse = saturate(dot(-light, input.normal));
+	float diffuse = saturate(dot(light, input.normal));
 	float brightness = diffuse + 0.3f;
 	float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);
 
 	// 陰影とテクスチャの色を合成
-	output.target0 = lerp(shadecolor * texcolor, float4(1,1,1,1), input.fog);
+	output.target0 = lerp(shadecolor * texcolor, float4(0,0,0,1), input.fog);
 	output.target1 = shadecolor * texcolor;
 	return output;
 }

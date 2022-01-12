@@ -166,8 +166,9 @@ void Fbx::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void Fbx::Initialize(bool isFog)
+void Fbx::Initialize(XMFLOAT3 lightDir, bool isFog)
 {
+	this->lightDir = lightDir;
 	this->isFog = isFog;
 
 	HRESULT result;
@@ -214,6 +215,7 @@ void Fbx::Update()
 		constMap->viewproj = matViewProjection;
 		constMap->world = modelTransform * matWorld;
 		constMap->cameraPos = cameraPos;
+		constMap->lightDir = lightDir;
 		constMap->isFog = isFog;
 		constBuffTransform->Unmap(0, nullptr);
 	}

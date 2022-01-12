@@ -183,7 +183,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		// 空初期化
 		skydome = new Fbx();
-		skydome->Initialize(false);	
+		skydome->Initialize({ 0, -1, 0 }, false);
 
 		switch (stage)
 		{
