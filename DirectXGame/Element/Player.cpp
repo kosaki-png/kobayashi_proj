@@ -28,6 +28,8 @@ void Player::Initialize(Input* input, TexCollision* texCol)
 	playerObj->Initialize();
 	playerObj->SetModel(modelMng->GetModel(0));
 	playerObj->SetScale({1.5f, 1.5f, 1.5f});
+
+	Placement(TexCollision::ArgColor::Green);
 }
 
 void Player::Update()

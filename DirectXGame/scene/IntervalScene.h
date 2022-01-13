@@ -19,6 +19,7 @@ private:
 		Sprite* sprite = nullptr;
 		XMFLOAT2 position = { 0,0 };
 		XMFLOAT2 speed = { 0,0 };
+		XMFLOAT2 size = { 1,1 };
 	};
 
 public:
@@ -65,6 +66,9 @@ private:
 
 	float alpha = 0;
 
+	Trance line[2];
+	float width = 10;
+
 	// ââèoÇ™ã@î\ÇµÇƒÇ¢ÇÈÇ©
 	bool isEffect = false;
 
@@ -77,6 +81,6 @@ private:
 #pragma endregion
 
 private:
-	const float WINDOW_WIGTH = 1280.0f;
+	const float WINDOW_WIDTH = 1280.0f;
 	const float WINDOW_HEIGHT = 720.0f;
 };

@@ -13,7 +13,7 @@ VSOutput main(VSInput input)
 	// 入力値をそのまま次のステージに渡す
 	output.uv = input.uv;
 	output.lightDir = lightDir;
-	output.fog = distance(mul(world, input.pos), cameraPos) / 1000 * isFog;
+	output.fog = distance(mul(world, input.pos), cameraPos) / 500 * isFog;
 
 	return output;
 }

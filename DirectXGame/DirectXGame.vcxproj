@@ -46,11 +46,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input\;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)dynamics\;$(ProjectDir)gameObject\;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)flameRate\;$(ProjectDir)Element\;$(ProjectDir)Effect\;$(IncludePath);$(ProjectDir)manager\</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input\;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)dynamics\;$(ProjectDir)gameObject\;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)flameRate\;$(ProjectDir)Element\;$(ProjectDir)Effect\;$(IncludePath);$(ProjectDir)manager\;$(ProjectDir)Particle\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input\;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)dynamics\;$(ProjectDir)gameObject\;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)flameRate\;$(ProjectDir)Element\;$(ProjectDir)Effect\;$(ProjectDir)manager\;$(IncludePath);$(ProjectDir)manager\</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input\;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)dynamics\;$(ProjectDir)gameObject\;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)flameRate\;$(ProjectDir)Element\;$(ProjectDir)Effect\;$(ProjectDir)manager\;$(IncludePath);$(ProjectDir)manager\;$(ProjectDir)Particle\</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -121,6 +121,8 @@
     <ClCompile Include="manager\ModelManager.cpp" />
     <ClCompile Include="manager\ObjectManager.cpp" />
     <ClCompile Include="manager\SceneManager.cpp" />
+    <ClCompile Include="Particle\Gush.cpp" />
+    <ClCompile Include="Particle\Particle3D.cpp" />
     <ClCompile Include="scene\BaseScene.cpp" />
     <ClCompile Include="scene\EndScene.cpp" />
     <ClCompile Include="scene\GameScene.cpp" />
@@ -181,6 +183,8 @@
     <ClInclude Include="manager\ModelManager.h" />
     <ClInclude Include="manager\ObjectManager.h" />
     <ClInclude Include="manager\SceneManager.h" />
+    <ClInclude Include="Particle\Gush.h" />
+    <ClInclude Include="Particle\Particle3D.h" />
     <ClInclude Include="scene\BaseScene.h" />
     <ClInclude Include="scene\EndScene.h" />
     <ClInclude Include="scene\GameScene.h" />

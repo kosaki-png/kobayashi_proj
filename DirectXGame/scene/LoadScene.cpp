@@ -11,7 +11,7 @@ ModelManager* modelMngLoad = ModelManager::GetInstance();
 
 const int STAGE_COUNT = 4;		// ステージの数
 
-const int LOAD_DEF_MODEL_CNT = 5;		// デフォルトでロードするモデルの数
+const int LOAD_DEF_MODEL_CNT = 6;		// デフォルトでロードするモデルの数
 const int LOAD_STAGE_MODEL_CNT = 10;	// ステージ			〃
 
 // ロードバー割合
@@ -59,8 +59,9 @@ void LoadDefault(int stage)
 	modelMngLoad->Load(0, "player");			AddRatio(stage);	// 0
 	modelMngLoad->Load(1, "Enemy");				AddRatio(stage);	// 1
 	modelMngLoad->Load(2, "Enemy_circle");		AddRatio(stage);	// 2
-	modelMngLoad->Load(3, "crystal");			AddRatio(stage);	// 2
-	modelMngLoad->Load(4, "crystalCircle");		AddRatio(stage);	// 2
+	modelMngLoad->Load(3, "crystal");			AddRatio(stage);	// 3
+	modelMngLoad->Load(4, "crystalCircle");		AddRatio(stage);	// 4
+	modelMngLoad->Load(5, "Particle_Cube");		AddRatio(stage);	// 5
 
 	SetLoadDefault(true);
 }

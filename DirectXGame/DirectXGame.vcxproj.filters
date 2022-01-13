@@ -94,6 +94,12 @@
     <Filter Include="ヘッダー ファイル\Manager">
       <UniqueIdentifier>{4341b10a-1945-4d8b-b8de-7741a6aff0d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Particle">
+      <UniqueIdentifier>{bfd162db-47a4-457d-aad0-a8a579608018}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Particle">
+      <UniqueIdentifier>{b2344298-02e0-4867-9980-81be5195b062}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -233,6 +239,12 @@
     </ClCompile>
     <ClCompile Include="FixedCamera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle\Particle3D.cpp">
+      <Filter>ソース ファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle\Gush.cpp">
+      <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -385,6 +397,12 @@
     </ClInclude>
     <ClInclude Include="FixedCamera.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle\Gush.h">
+      <Filter>ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle\Particle3D.h">
+      <Filter>ヘッダー ファイル\Particle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -15,6 +15,8 @@
 
 #include "TexCollision.h"
 
+#include "Gush.h"
+
 class GameScene :
 	public BaseScene
 {
@@ -78,6 +80,8 @@ private:
 	bool option = false;
 	Sprite* optionSprite = nullptr;
 	Sprite* cursorSprite = nullptr;
+
+	Gush* gush[50] = {};
 
 #pragma region マップ
 

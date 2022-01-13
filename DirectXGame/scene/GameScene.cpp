@@ -18,6 +18,7 @@ GameScene::~GameScene()
 	delete player;
 	delete[] enemy;
 	delete[] crystal;
+	delete[] gush;
 
 	delete texCol;
 	
@@ -159,7 +160,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 			case 1:
 				map[i]->SetModel(modelMng->GetModel(i + 30));
-				map[i]->SetPosition({ -1,0,-1 });
+				map[i]->SetPosition({ 0,0,-1 });
 				break;
 
 			case 2:
@@ -188,52 +189,39 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		switch (stage)
 		{
 		case 0:
-			// 床初期化
+			// 床、空のモデルセット
 			floor->SetModel(modelMng->GetModel(19));
-			floor->SetPosition({ 10,0,0 });
-
-			// 空初期化
 			skydome->SetModel(modelMng->GetModel(20));
-			skydome->SetScale({ 2, 2, 2 });
-			skydome->SetPosition({ WORLD_WIDTH / 2, 0, WORLD_HEIGHT / 2 });
 			break;
 
 		case 1:
-			// 床初期化
+			// 床、空のモデルセット
 			floor->SetModel(modelMng->GetModel(39));
-			floor->SetPosition({ 10,3,0 });
-
-			// 空初期化
-			skydome->SetModel(modelMng->GetModel(40));
-			skydome->SetScale({ 2, 2, 2 });
-			skydome->SetPosition({ WORLD_WIDTH / 2, 3, WORLD_HEIGHT / 2 });
+			skydome->SetModel(modelMng->GetModel(40));		
 			break;
 
 		case 2:
-			// 床初期化
+			// 床、空のモデルセット
 			floor->SetModel(modelMng->GetModel(59));
-			floor->SetPosition({ 10,3,0 });
-
-			// 空初期化
 			skydome->SetModel(modelMng->GetModel(60));
-			skydome->SetScale({ 2, 2, 2 });
-			skydome->SetPosition({ WORLD_WIDTH / 2, 3, WORLD_HEIGHT / 2 });
 			break;
 
 		case 3:
-			// 床初期化
+			// 床、空のモデルセット
 			floor->SetModel(modelMng->GetModel(79));
-			floor->SetPosition({ 10,0,0 });
-
-			// 空初期化
 			skydome->SetModel(modelMng->GetModel(80));
-			skydome->SetScale({ 2, 2, 2 });
-			skydome->SetPosition({ WORLD_WIDTH / 2, 0, WORLD_HEIGHT / 2 });
 			break;
 
 		default:
 			break;
 		}
+
+		// 床初期値
+		floor->SetPosition({ 10,0,0 });
+
+		// 空初期値
+		skydome->SetScale({ 2, 2, 2 });
+		skydome->SetPosition({ WORLD_WIDTH / 2, 0, WORLD_HEIGHT / 2 });
 	}
 	
 	// 各クラス初期設定
@@ -262,6 +250,13 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			break;
 		}
 		
+		// パーティクル生成
+		for (int i = 0; i < 50; i++)
+		{
+			gush[i] = new Gush();
+			gush[i]->Initialize();
+		}
+
 		// オブジェクトマネージャー生成
 		objMng = new ObjectManager();
 
@@ -288,24 +283,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		// オブジェクト初期化
 		objMng->Initialize(input, texCol);
-
-		switch (stage)
-		{
-		case 0:
-			player->SetPosition({ 100, 3, 10 });
-			break;
-		case 1:
-			player->SetPosition({ 100, 3, 10 });
-			break;
-		case 2:
-			player->SetPosition({ 100, 3, 1 });
-			break;
-		case 3:
-			player->SetPosition({ 100, 0, 1 });
-			break;
-		default:
-			break;
-		}
 	}
 
 	// カメラの初期設定
@@ -430,6 +407,13 @@ void GameScene::Update()
 			// 地面の更新
 			floor->Update();
 
+			// パーティクルの更新
+			for (int i = 0; i < 50; i++)
+			{
+				gush[i]->SetPlayerPos(playerPos);
+				gush[i]->Update();
+			}
+
 			// オブジェクトマネージャーの更新
 			objMng->Update(player->GetPosition(), 500);
 			
@@ -488,6 +472,10 @@ void GameScene::Draw()
 			}
 			skydome->Draw(cmdList, true);
 			floor->Draw(cmdList, true);
+			for (int i = 0; i < 50; i++)
+			{
+				gush[i]->Draw(cmdList);
+			}
 		}
 		Object3d::PostDraw();
 	}
