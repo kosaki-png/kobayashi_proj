@@ -27,6 +27,12 @@ void Crystal::Initialize(Input* input, TexCollision* texCol)
 
 void Crystal::Update()
 {
+	// Ž€‚ñ‚¾‚ç’n‰º‘—‚è
+	if (isDead)
+	{
+		position = { 0, -50, 0 };
+	}
+
 	crystalObj->SetPosition(position);
 	crystalObj->Update();
 

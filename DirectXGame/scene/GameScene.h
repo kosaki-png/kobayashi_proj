@@ -69,8 +69,9 @@ private:
 	Enemy* enemy[ENEMY_COUNT] = {};
 
 	// クリスタル
-	static const int CRYSTAL_COUNT = 200;
+	static const int CRYSTAL_COUNT = 50;
 	Crystal* crystal[CRYSTAL_COUNT] = {};
+	XMFLOAT3 crystalpos[CRYSTAL_COUNT];
 	
 	ModelManager* modelMng = nullptr;
 	ObjectManager* objMng = nullptr;
@@ -91,6 +92,7 @@ private:
 	// ミニマップ
 	Sprite* minimap = nullptr;
 	Sprite* miniFrame = nullptr;
+	Sprite* mapCursor = nullptr;
 
 	// 全体マップ
 	Sprite* mapAllFrame = nullptr;

@@ -162,12 +162,6 @@
     <ClCompile Include="scene\BaseScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="dynamics\Collision.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="dynamics\CollisionPrimitive.cpp">
-      <Filter>ソース ファイル\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="scene\EndScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
     </ClCompile>
@@ -319,12 +313,6 @@
     </ClInclude>
     <ClInclude Include="scene\BaseScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="dynamics\Collision.h">
-      <Filter>ヘッダー ファイル\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="dynamics\CollisionPrimitive.h">
-      <Filter>ヘッダー ファイル\Collision</Filter>
     </ClInclude>
     <ClInclude Include="scene\EndScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>

@@ -29,12 +29,17 @@ void Player::Initialize(Input* input, TexCollision* texCol)
 	playerObj->SetModel(modelMng->GetModel(0));
 	playerObj->SetScale({1.5f, 1.5f, 1.5f});
 
+	arrowObj = new Fbx();
+	arrowObj->Initialize({ 0,1,0 });
+	arrowObj->SetModel(modelMng->GetModel(6));
+
 	Placement(TexCollision::ArgColor::Green);
 }
 
 void Player::Update()
 {
 	playerObj->SetPosition({ position.x + move.x, position.y + move.y, position.z + move.z });
+	arrowObj->SetPosition({ position.x + move.x, position.y + move.y, position.z + move.z });
 
 	// マウスの入力を取得
 	Input::MouseMove mouseMove = input->GetMouseMove();
@@ -71,6 +76,8 @@ void Player::Update()
 	// 三角関数の計算
 	cameraAngleX = -cameraPhi * XM_PI / 180;
 	cameraAngleY = -cameraTheta * XM_PI / 180;
+
+	rotation = { 0, cameraPhi - 90, 0 };
 
 	float sinX = sinf(cameraAngleX);
 	float cosX = cosf(cameraAngleX);
@@ -138,19 +145,23 @@ void Player::Update()
 	dangerSpr->SetAlpha(dangerAlpha);
 
 	// プレイヤーの向きを設定
-	playerObj->SetRotation({ 0, cameraPhi - 90, 0 });
+	playerObj->SetRotation(rotation);
 
 	// 移動量に当たり判定を反映
 	move = texCol->Hit2Color(ArgColor::Red, position, move);
 
+	arrowRot.y = crystalRad * 180.0f / 3.14f + 180.0f;
+	arrowObj->SetRotation(arrowRot);
+
 	// 更新
 	playerObj->Update();
-
+	arrowObj->Update();
 }
 
 void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	playerObj->Draw(cmdList, true);
+	arrowObj->Draw(cmdList, true);
 }
 
 void Player::SpriteDraw()

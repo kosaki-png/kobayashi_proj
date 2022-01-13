@@ -28,6 +28,7 @@ GameScene::~GameScene()
 	delete mapAll;
 	delete minimap;
 	delete miniFrame;
+	delete mapCursor;
 
 	delete floor;
 	delete skydome;
@@ -119,12 +120,15 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			default:
 				break;
 			}
+			
+			Sprite::LoadTexture(7, L"Resources/texture/map_Cursor.png");
 		}
 
 		// スプライト生成
 		{
 			optionSprite = Sprite::Create(1, { 0,0 });
 			miniFrame = Sprite::Create(2, { 1280 - 300, 0 });
+			mapCursor = Sprite::Create(7, { 1280 - 150, 150});
 			mapAllFrame = Sprite::Create(3, { 0,0 });
 			mapAllPoint = Sprite::Create(4, { 0,0 });
 			minimap = Sprite::Create(5, { 0,0 });
@@ -136,6 +140,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			minimap->SetPosition({ 1280 - 300, -700 });
 			minimap->SetSize({ 1000, 1000 });
 			minimap->SetPosUV({ 0, 0.7f });
+
+			mapCursor->SetAnchorPoint({ 0.5f, 0.5f });
 		}
 	}
 
@@ -285,6 +291,11 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		objMng->Initialize(input, texCol);
 	}
 
+	for (int i = 0; i < CRYSTAL_COUNT; i++)
+	{
+		crystalpos[i] = crystal[i]->GetPosition();
+	}
+
 	// カメラの初期設定
 	{
 	}
@@ -386,6 +397,31 @@ void GameScene::Update()
 			}
 		}
 
+		// 一番近いクリスタルの選別
+		{
+			float dis = 10000;
+			XMFLOAT3 tmpPos = { 0,0,0 };
+			for (int i = 0; i < CRYSTAL_COUNT; i++)
+			{
+				// クリスタルとの当たり判定
+				if (abs(crystalpos[i].x + 0.5f - playerPos.x) <= 1.0f && abs(crystalpos[i].z + 0.5f - playerPos.z) <= 1.0f)
+				{
+					crystalpos[i] = { -4000,0,0 };
+					crystal[i]->SetIsDead(true);
+				}
+
+				// 一番近くのクリスタル判定
+				float tmpDis = sqrt(pow(crystalpos[i].x - playerPos.x, 2) + pow(crystalpos[i].z - playerPos.z, 2));
+				if (dis > tmpDis)
+				{
+					dis = tmpDis;
+					tmpPos = crystalpos[i];
+				}
+			}
+
+			player->SetCrystalRad(atan2(tmpPos.x - playerPos.x, tmpPos.z - playerPos.z));
+		}
+
 		// 各種更新
 		{
 			// マップの更新
@@ -430,6 +466,8 @@ void GameScene::Update()
 		}
 	}
 	
+	mapCursor->SetRotation(player->GetRotation().y);
+
 	if (input->PushKey(DIK_P))
 	{
 		CreateParticles();
@@ -490,6 +528,7 @@ void GameScene::Draw()
 			{
 				minimap->Draw();
 				miniFrame->Draw();
+				mapCursor->Draw();
 			}
 			else
 			{

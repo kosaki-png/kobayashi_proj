@@ -61,12 +61,8 @@ private:
 #pragma region 演出
 
 	// 演出用スプライト
-	Sprite* back = nullptr;
-	Trance trance[4];
-
-	float alpha = 0;
-
 	Trance line[2];
+
 	float width = 10;
 
 	// 演出が機能しているか

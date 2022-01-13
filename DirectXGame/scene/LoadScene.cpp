@@ -11,7 +11,7 @@ ModelManager* modelMngLoad = ModelManager::GetInstance();
 
 const int STAGE_COUNT = 4;		// ステージの数
 
-const int LOAD_DEF_MODEL_CNT = 6;		// デフォルトでロードするモデルの数
+const int LOAD_DEF_MODEL_CNT = 7;		// デフォルトでロードするモデルの数
 const int LOAD_STAGE_MODEL_CNT = 10;	// ステージ			〃
 
 // ロードバー割合
@@ -62,6 +62,7 @@ void LoadDefault(int stage)
 	modelMngLoad->Load(3, "crystal");			AddRatio(stage);	// 3
 	modelMngLoad->Load(4, "crystalCircle");		AddRatio(stage);	// 4
 	modelMngLoad->Load(5, "Particle_Cube");		AddRatio(stage);	// 5
+	modelMngLoad->Load(6, "Arrow");				AddRatio(stage);	// 6
 
 	SetLoadDefault(true);
 }

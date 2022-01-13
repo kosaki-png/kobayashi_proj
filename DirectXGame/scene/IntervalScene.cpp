@@ -12,11 +12,8 @@ IntervalScene::IntervalScene()
 
 IntervalScene::~IntervalScene()
 {
-	delete back;
-	for (int i = 0; i < 4; i++)
-	{
-		delete trance[i].sprite;
-	}
+	delete line[0].sprite;
+	delete line[1].sprite;
 }
 
 void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)

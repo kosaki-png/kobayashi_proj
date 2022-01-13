@@ -34,8 +34,8 @@ public: // メンバ関数
     void SetDanger(bool danger) { this->danger = danger; }
     bool GetDanger() { return danger; }
 
-    // クリスタル所持
-
+    // 一番近いクリスタルとの角度取得
+    void SetCrystalRad(float rad) { crystalRad = rad; }
 
 private: // メンバ変数
     float scaleX = 1.0f;
@@ -43,6 +43,9 @@ private: // メンバ変数
 
     Fbx* playerObj = nullptr;
     XMFLOAT3 move = { 0,0,0 };
+
+    Fbx* arrowObj = nullptr;
+    XMFLOAT3 arrowRot = { 0,0,0 };
 
     float cameraTheta = 0;
     float cameraPhi = 90;
@@ -62,5 +65,5 @@ private: // メンバ変数
     Sprite* dangerSpr = nullptr;
     float dangerAlpha = 0;
 
-    int crystalCnt = 0;
+    float crystalRad = 0;
 };
