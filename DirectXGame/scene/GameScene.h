@@ -69,7 +69,7 @@ private:
 	Enemy* enemy[ENEMY_COUNT] = {};
 
 	// クリスタル
-	static const int CRYSTAL_COUNT = 50;
+	static const int CRYSTAL_COUNT = 3;
 	Crystal* crystal[CRYSTAL_COUNT] = {};
 	XMFLOAT3 crystalpos[CRYSTAL_COUNT];
 	
@@ -116,4 +116,6 @@ private:
 	float sence = 1.0f;
 
 	XMFLOAT3 tmp = { 0,0,0 };
+
+	int clearCnt = 0;
 };

@@ -408,7 +408,7 @@ void LoadScene::Draw()
 
 void LoadScene::Finalize()
 {
-	if (!GetLoadStage)
+	if (!GetLoadStage(stage))
 	{
 		th->join();
 	}

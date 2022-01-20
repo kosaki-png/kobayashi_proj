@@ -51,7 +51,7 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 		// スプライト用テクスチャ読み込み
 		{
-			Sprite::LoadTexture(1, L"Resources/texture/end_tmp.png");
+			Sprite::LoadTexture(1, L"Resources/texture/clear.png");
 		}
 
 		// スプライト生成

@@ -210,6 +210,8 @@ void Fbx::Update()
 	HRESULT result;
 	// 定数バッファへデータ転送
 	ConstBufferDataTransform* constMap = nullptr;
+
+	XMFLOAT4 a = { 0.2f, 0.0f, 0.0f, 1 };
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
 		constMap->viewproj = matViewProjection;
@@ -217,6 +219,7 @@ void Fbx::Update()
 		constMap->cameraPos = cameraPos;
 		constMap->lightDir = lightDir;
 		constMap->isFog = isFog;
+		constMap->fogColor = a;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 }

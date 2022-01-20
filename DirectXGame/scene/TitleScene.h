@@ -7,7 +7,7 @@
 #include "EndScene.h"
 #include "IntervalScene.h"
 
-#include "TexCollision.h";
+#include "TexCollision.h"
 
 #include <mutex>
 #include <thread>

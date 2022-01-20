@@ -28,9 +28,10 @@ public: // サブクラス
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
-		float gomi;
+		float gomi1;
 		XMFLOAT3 lightDir;
 		bool isFog;
+		XMFLOAT4 fogColor;
 	};
 
 public: // 静的メンバ関数

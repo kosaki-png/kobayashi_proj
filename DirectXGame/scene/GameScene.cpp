@@ -397,7 +397,7 @@ void GameScene::Update()
 			}
 		}
 
-		// 一番近いクリスタルの選別
+		// クリスタル判定
 		{
 			float dis = 10000;
 			XMFLOAT3 tmpPos = { 0,0,0 };
@@ -408,6 +408,7 @@ void GameScene::Update()
 				{
 					crystalpos[i] = { -4000,0,0 };
 					crystal[i]->SetIsDead(true);
+					clearCnt++;
 				}
 
 				// 一番近くのクリスタル判定
@@ -420,6 +421,12 @@ void GameScene::Update()
 			}
 
 			player->SetCrystalRad(atan2(tmpPos.x - playerPos.x, tmpPos.z - playerPos.z));
+		}
+
+		// ゲームクリア
+		if (clearCnt == CRYSTAL_COUNT)
+		{
+			nextScene = new EndScene();
 		}
 
 		// 各種更新
