@@ -16,13 +16,26 @@ GameScene::~GameScene()
 {
 	delete objMng;
 	delete player;
-	delete[] enemy;
-	delete[] crystal;
-	delete[] gush;
+	for (auto x : enemy)
+	{
+		delete x;
+	}
+	for (auto x : crystal)
+	{
+		delete x;
+	}
+	for (auto x : gush)
+	{
+		delete x;
+	}
 
 	delete texCol;
 	
-	delete[] map;
+	// マップ系
+	for (auto x : map)
+	{
+		delete x;
+	}
 	delete mapAllFrame;
 	delete mapAllPoint;
 	delete mapAll;

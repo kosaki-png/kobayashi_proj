@@ -21,9 +21,9 @@ struct Node
 	// ローカル移動
 	DirectX::XMVECTOR translation = { 0,0,0,1 };
 	// ローカル変形行列
-	DirectX::XMMATRIX transform;
+	DirectX::XMMATRIX transform = {};
 	// グローバル変形行列
-	DirectX::XMMATRIX globalTransform;
+	DirectX::XMMATRIX globalTransform = {};
 	// 親ノード
 	Node* parent = nullptr;
 };

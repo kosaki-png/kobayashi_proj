@@ -121,7 +121,6 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// カメラ注視点をセット
 	camera->SetTarget({ 0, -1, 0 });
 	camera->SetDistance(25.0f);
-
 }
 
 void TitleScene::Update()

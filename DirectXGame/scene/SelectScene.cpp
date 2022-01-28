@@ -23,7 +23,7 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 	// 汎用的初期化
 	{
 		// カメラ生成
-		camera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
+		camera = new MainCamera(WinApp::window_width, WinApp::window_height, input);
 
 		// 3Dオブジェクトにカメラをセット
 		Object3d::SetCamera(camera);

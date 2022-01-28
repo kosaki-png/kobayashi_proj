@@ -100,6 +100,12 @@
     <Filter Include="ヘッダー ファイル\Particle">
       <UniqueIdentifier>{b2344298-02e0-4867-9980-81be5195b062}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Data">
+      <UniqueIdentifier>{6740f7ab-018c-4e01-a336-55111df4ac95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Data">
+      <UniqueIdentifier>{ad844288-a9b7-479d-bbda-e8c23f5b8147}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -239,6 +245,9 @@
     </ClCompile>
     <ClCompile Include="Particle\Gush.cpp">
       <Filter>ソース ファイル\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="json\StageDataStorage.cpp">
+      <Filter>ソース ファイル\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -391,6 +400,9 @@
     </ClInclude>
     <ClInclude Include="Particle\Particle3D.h">
       <Filter>ヘッダー ファイル\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="json\StageDataStorage.h">
+      <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

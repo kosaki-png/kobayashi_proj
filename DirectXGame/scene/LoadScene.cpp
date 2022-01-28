@@ -194,6 +194,10 @@ LoadScene::LoadScene(int stage)
 
 LoadScene::~LoadScene()
 {
+	delete loading;
+	delete loaded;
+	delete loadBar;
+	delete loadBarWhite;
 }
 
 void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -262,6 +266,35 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		// スプライト初期設定
 		{
+			switch (stage)
+			{
+			case 0:
+				loading->SetColor({ 0,1,1,1 });
+				loaded->SetColor({ 0,1,1,1 });
+				loadBar->SetColor({ 0,1,1,1 });
+				break;
+
+			case 1:
+				loading->SetColor({ 1,0,1,1 });
+				loaded->SetColor({ 1,0,1,1 });
+				loadBar->SetColor({ 1,0,1,1 });
+				break;
+
+			case 2:
+				loading->SetColor({ 1,1,0,1 });
+				loaded->SetColor({ 1,1,0,1 });
+				loadBar->SetColor({ 1,1,0,1 });
+				break;
+
+			case 3:
+				loading->SetColor({ 0,0,1,1 });
+				loaded->SetColor({ 0,0,1,1 });
+				loadBar->SetColor({ 0,0,1,1 });
+				break;
+
+			default:
+				break;
+			}
 		}
 	}
 

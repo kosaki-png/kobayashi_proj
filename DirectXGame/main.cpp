@@ -12,6 +12,7 @@
 
 #include "Fade.h"
 #include "ModelManager.h"
+#include "StageDataStorage.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
@@ -78,6 +79,8 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	//postEffect = new PostEffect();
 	//postEffect->Initialize();
 
+	StageDataStorage::GetInstance()->LoadJson();
+
 	// 最初のシーンの初期化
 	sceneMng->Start(dxCommon, input, audio);
 
@@ -119,6 +122,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	FbxLoader::GetInstance()->Finalize();
 	ModelManager::GetInstance()->Destroy();
 	SceneManager::GetInstance()->Destroy();
+	StageDataStorage::GetInstance()->Destroy();
 	safe_delete(audio);
 	safe_delete(dxCommon);
 	safe_delete(flamerate);

@@ -46,11 +46,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input\;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)dynamics\;$(ProjectDir)gameObject\;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)flameRate\;$(ProjectDir)Element\;$(ProjectDir)Effect\;$(IncludePath);$(ProjectDir)manager\;$(ProjectDir)Particle\</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input\;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)dynamics\;$(ProjectDir)gameObject\;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)flameRate\;$(ProjectDir)Element\;$(ProjectDir)Effect\;$(IncludePath);$(ProjectDir)manager\;$(ProjectDir)Particle\;$(ProjectDir)json\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input\;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)dynamics\;$(ProjectDir)gameObject\;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)flameRate\;$(ProjectDir)Element\;$(ProjectDir)Effect\;$(ProjectDir)manager\;$(IncludePath);$(ProjectDir)manager\;$(ProjectDir)Particle\</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input\;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)dynamics\;$(ProjectDir)gameObject\;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)flameRate\;$(ProjectDir)Element\;$(ProjectDir)Effect\;$(ProjectDir)manager\;$(IncludePath);$(ProjectDir)manager\;$(ProjectDir)Particle\;$(ProjectDir)json\</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -59,7 +59,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(SolutionDir)imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(SolutionDir)imgui;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -75,7 +75,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(SolutionDir)imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DirectXTex;$(SolutionDir)imgui;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -116,6 +116,7 @@
     <ClCompile Include="FixedCamera.cpp" />
     <ClCompile Include="FlameRate\FlameRate.cpp" />
     <ClCompile Include="input\XinputControll.cpp" />
+    <ClCompile Include="json\StageDataStorage.cpp" />
     <ClCompile Include="manager\ModelManager.cpp" />
     <ClCompile Include="manager\ObjectManager.cpp" />
     <ClCompile Include="manager\SceneManager.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="FixedCamera.h" />
     <ClInclude Include="FlameRate\FlameRate.h" />
     <ClInclude Include="input\XinputControll.h" />
+    <ClInclude Include="json\StageDataStorage.h" />
     <ClInclude Include="manager\ModelManager.h" />
     <ClInclude Include="manager\ObjectManager.h" />
     <ClInclude Include="manager\SceneManager.h" />

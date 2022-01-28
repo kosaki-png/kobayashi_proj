@@ -24,7 +24,7 @@ public:
 
 private:
 	Text* text;
-	DebugCamera* camera = nullptr;
+	MainCamera* camera = nullptr;
 
 	Xinput xinput;
 
