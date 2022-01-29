@@ -10,7 +10,6 @@
 
 // オブジェクト関係
 #include "Sprite.h"
-#include "Object3d.h"
 #include "Fbx.h"
 #include "FbxLoader.h"
 #include "ParticleManager.h"
@@ -26,6 +25,9 @@
 // 管理関係
 #include "Objectmanager.h"
 #include "ModelManager.h"
+
+// データ関係
+#include "StageDataStorage.h"
 
 struct SceneButton
 {
@@ -66,9 +68,10 @@ protected:
 	Input* input = nullptr;
 	Audio* audio = nullptr;
 
+	// 次のシーンへのトリガー
 	BaseScene* nextScene = nullptr;
 
-	bool nextSceneFlag = true;
+	StageDataStorage* stageData = StageDataStorage::GetInstance();
 
 	bool stop = true;
 

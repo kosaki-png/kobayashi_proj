@@ -59,9 +59,6 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		// カメラ生成
 		camera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
 
-		// 3Dオブジェクトにカメラをセット
-		Object3d::SetCamera(camera);
-
 		// デバッグテキスト用テクスチャ読み込み
 		if (!Sprite::LoadTexture(texNumber, L"Resources/debugfont.png")) {
 			assert(0);
@@ -73,9 +70,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		// ライト生成
 		lightGroup = LightGroup::Create();
-		// 3Dオブエクトにライトをセット
-		Object3d::SetLightGroup(lightGroup);
-
+	
 		// デバイスをセット
 		Fbx::SetDevice(dxCommon->GetDevice());
 		// カメラをセット
@@ -190,11 +185,6 @@ void TitleScene::Draw()
 
 	// 3Dオブジェクト描画
 	{
-		Object3d::PreDraw(cmdList);
-		{
-			
-		}
-		Object3d::PostDraw();
 
 		// パーティクルの描画
 		particleMan->Draw(cmdList);

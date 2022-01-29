@@ -12,6 +12,7 @@ ModelManager::~ModelManager()
 	{
 		delete x;
 	}
+	delete instance;
 }
 
 ModelManager* ModelManager::GetInstance()

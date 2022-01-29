@@ -10,7 +10,6 @@
 
 #include "SceneManager.h"
 
-#include "Fade.h"
 #include "ModelManager.h"
 #include "StageDataStorage.h"
 
@@ -66,8 +65,6 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	LightGroup::StaticInitialize(dxCommon->GetDevice());
 	// パーティクルマネージャ初期化
 	ParticleManager::GetInstance()->Initialize(dxCommon->GetDevice());
-	// OBJ関連静的初期化
-	//Object3d::StaticInitialize(dxCommon->GetDevice());
 	// FBX関連静的初期化
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 

@@ -45,7 +45,6 @@ class Xinput
 {
 
 public:
-
 	Xinput();
 	~Xinput() {};
 
@@ -63,14 +62,11 @@ public:
 	// 接続中のコントローラー数を返す
 	int IsControllNUM() { return controllerNum; }
 
-	// 
-
 private:
 
 	XINPUT_STATE state[4] = {};
 	// トリガー用
 	XINPUT_STATE pastState[4] = {};
-
 
 	int controllerNum = 4; // 接続されているコントローラーの数
 	SetController pad ={};

@@ -2,7 +2,6 @@
 
 SceneManager* SceneManager::instance = nullptr;
 
-
 SceneManager::SceneManager()
 {
 }
@@ -10,6 +9,7 @@ SceneManager::SceneManager()
 SceneManager::~SceneManager()
 {
 	delete scene;
+	delete instance;
 }
 
 SceneManager* SceneManager::GetInstance()

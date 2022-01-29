@@ -60,10 +60,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		//camera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
 		mainCamera = new MainCamera(WinApp::window_width, WinApp::window_height, input);
 
-		// 3Dオブジェクトにカメラをセット
-		//Object3d::SetCamera(camera);
-		Object3d::SetCamera(mainCamera);
-
 		// デバッグテキスト用テクスチャ読み込み
 		if (!Sprite::LoadTexture(texNumber, L"Resources/debugfont.png")) {
 			assert(0);
@@ -519,23 +515,19 @@ void GameScene::Draw()
 	
 	// 3Dオブジェクト描画
 	{
-		Object3d::PreDraw(cmdList);
-		{
-			objMng->Draw(cmdList, player->GetPosition(), 500);
+		objMng->Draw(cmdList, player->GetPosition(), 500);
 
-			// マップモデルの描画
-			for (int i = 0; i < 9; i++)
-			{
-				map[i]->Draw(cmdList, true);
-			}
-			skydome->Draw(cmdList, true);
-			floor->Draw(cmdList, true);
-			for (int i = 0; i < 50; i++)
-			{
-				gush[i]->Draw(cmdList);
-			}
+		// マップモデルの描画
+		for (int i = 0; i < 9; i++)
+		{
+			map[i]->Draw(cmdList, true);
 		}
-		Object3d::PostDraw();
+		skydome->Draw(cmdList, true);
+		floor->Draw(cmdList, true);
+		for (int i = 0; i < 50; i++)
+		{
+			gush[i]->Draw(cmdList);
+		}	
 	}
 	
 	// 前景スプライト描画

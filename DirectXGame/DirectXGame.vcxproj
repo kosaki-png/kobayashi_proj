@@ -94,26 +94,20 @@
     <ClCompile Include="3d\Fbx.cpp" />
     <ClCompile Include="3d\LightGroup.cpp" />
     <ClCompile Include="3d\FbxModel.cpp" />
-    <ClCompile Include="3d\Material.cpp" />
-    <ClCompile Include="3d\Mesh.cpp" />
-    <ClCompile Include="3d\Model.cpp" />
-    <ClCompile Include="3d\Object3d.cpp" />
     <ClCompile Include="3d\ParticleManager.cpp" />
     <ClCompile Include="audio\Audio.cpp" />
     <ClCompile Include="camera\Camera.cpp" />
     <ClCompile Include="camera\DebugCamera.cpp" />
     <ClCompile Include="2d\DebugText.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
+    <ClCompile Include="camera\FixedCamera.cpp" />
     <ClCompile Include="camera\MainCamera.cpp" />
     <ClCompile Include="camera\OrbitCamera.cpp" />
-    <ClCompile Include="Crystal.cpp" />
     <ClCompile Include="dynamics\TexCollision.cpp" />
-    <ClCompile Include="Effect\BaseEffect.cpp" />
-    <ClCompile Include="Effect\Fade.cpp" />
+    <ClCompile Include="Element\Crystal.cpp" />
     <ClCompile Include="Element\Enemy.cpp" />
     <ClCompile Include="Element\Object.cpp" />
     <ClCompile Include="Element\Player.cpp" />
-    <ClCompile Include="FixedCamera.cpp" />
     <ClCompile Include="FlameRate\FlameRate.cpp" />
     <ClCompile Include="input\XinputControll.cpp" />
     <ClCompile Include="json\StageDataStorage.cpp" />
@@ -132,8 +126,6 @@
     <ClCompile Include="scene\LoadScene.cpp" />
     <ClCompile Include="scene\SelectScene.cpp" />
     <ClCompile Include="scene\TitleScene.cpp" />
-    <ClCompile Include="Vector\Vector2.cpp" />
-    <ClCompile Include="Vector\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DirectXTex\DirectXTex_Desktop_2017_Win10.vcxproj">
@@ -153,10 +145,6 @@
     <ClInclude Include="3d\Fbx.h" />
     <ClInclude Include="3d\LightGroup.h" />
     <ClInclude Include="3d\FbxModel.h" />
-    <ClInclude Include="3d\Material.h" />
-    <ClInclude Include="3d\Mesh.h" />
-    <ClInclude Include="3d\Model.h" />
-    <ClInclude Include="3d\Object3d.h" />
     <ClInclude Include="3d\ParticleManager.h" />
     <ClInclude Include="3d\PointLight.h" />
     <ClInclude Include="3d\SpotLight.h" />
@@ -165,16 +153,14 @@
     <ClInclude Include="camera\DebugCamera.h" />
     <ClInclude Include="2d\DebugText.h" />
     <ClInclude Include="base\DirectXCommon.h" />
+    <ClInclude Include="camera\FixedCamera.h" />
     <ClInclude Include="camera\MainCamera.h" />
     <ClInclude Include="camera\OrbitCamera.h" />
-    <ClInclude Include="Crystal.h" />
     <ClInclude Include="dynamics\TexCollision.h" />
-    <ClInclude Include="Effect\BaseEffect.h" />
-    <ClInclude Include="Effect\Fade.h" />
+    <ClInclude Include="Element\Crystal.h" />
     <ClInclude Include="Element\Enemy.h" />
     <ClInclude Include="Element\Object.h" />
     <ClInclude Include="Element\Player.h" />
-    <ClInclude Include="FixedCamera.h" />
     <ClInclude Include="FlameRate\FlameRate.h" />
     <ClInclude Include="input\XinputControll.h" />
     <ClInclude Include="json\StageDataStorage.h" />
@@ -193,8 +179,6 @@
     <ClInclude Include="scene\LoadScene.h" />
     <ClInclude Include="scene\SelectScene.h" />
     <ClInclude Include="scene\TitleScene.h" />
-    <ClInclude Include="Vector\Vector2.h" />
-    <ClInclude Include="Vector\Vector3.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\FBXPS.hlsl">

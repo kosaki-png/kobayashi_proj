@@ -6,7 +6,10 @@ ObjectManager::ObjectManager()
 
 ObjectManager::~ObjectManager()
 {
-	objects.clear();
+	for (auto x : objects)
+	{
+		delete x;
+	}
 }
 
 void ObjectManager::AddObject(Object* object)
@@ -17,6 +20,7 @@ void ObjectManager::AddObject(Object* object)
 
 void ObjectManager::Initialize(Input* input, TexCollision* texCol)
 {
+	// 初期化と一度だけ更新
 	for (auto x : objects)
 	{
 		x->Initialize(input, texCol);
@@ -26,6 +30,7 @@ void ObjectManager::Initialize(Input* input, TexCollision* texCol)
 
 void ObjectManager::Update(XMFLOAT3 playerPos, float length)
 {
+	// 範囲指定がないなら全て更新
 	if (length == 0)
 	{
 		for (auto x : objects)
@@ -49,6 +54,7 @@ void ObjectManager::Update(XMFLOAT3 playerPos, float length)
 
 void ObjectManager::Draw(ID3D12GraphicsCommandList* cmdList, XMFLOAT3 playerPos, float length)
 {
+	// 範囲指定がないなら全て描画
 	if (length == 0)
 	{
 		for (auto x : objects)

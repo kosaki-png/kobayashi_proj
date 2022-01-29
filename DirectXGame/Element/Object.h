@@ -2,7 +2,6 @@
 #include "SafeDelete.h"
 #include <DirectXMath.h>
 #include "Sprite.h"
-#include "Object3d.h"
 #include "Fbx.h"
 #include "FbxLoader.h"
 #include "Text.h"
