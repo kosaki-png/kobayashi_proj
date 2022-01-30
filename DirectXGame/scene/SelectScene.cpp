@@ -23,7 +23,7 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 	// 汎用的初期化
 	{
 		// カメラ生成
-		camera = new MainCamera(WinApp::window_width, WinApp::window_height, input);
+		camera = new FixedCamera(WinApp::window_width, WinApp::window_height);
 
 		// デバッグテキスト用テクスチャ読み込み
 		if (!Sprite::LoadTexture(texNumber, L"Resources/debugfont.png")) {
@@ -36,6 +36,14 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 
 		// ライト生成
 		lightGroup = LightGroup::Create();
+
+		// デバイスをセット
+		Fbx::SetDevice(dxCommon->GetDevice());
+		// カメラをセット
+		//Fbx::SetCamera(camera);
+		Fbx::SetCamera(camera);
+		// グラフィックスパイプライン生成
+		Fbx::CreateGraphicsPipeline();
 
 		// パーティクルマネージャ生成
 		particleMan = ParticleManager::GetInstance();

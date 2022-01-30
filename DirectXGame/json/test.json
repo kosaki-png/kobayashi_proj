@@ -2,6 +2,7 @@
     "totalMapNum" : 4,
     "stage0" : {
         "color" : [ 0, 1, 1 ],
+        "fogColor" : [1,1,1,0.1],
         "firstNum" : 10,
         "modelNames" : [
         "01_87",
@@ -15,12 +16,11 @@
         "01_69",
         "floor",
         "skydome"],
-        "gap" : [ -10, 0, -1 ],
-        "texColName" : "map_01",
-        "texMapName" : "map_01_frame"
+        "gap" : [ -10, 0, -1 ]
     },
     "stage1" : {
         "color" : [ 1, 0, 1 ],
+        "fogColor" : [1,1,1,0.1],
         "firstNum" : 30,
         "modelNames" : [
         "02_51",
@@ -34,12 +34,11 @@
         "02_33",
         "floor",
         "skydome"],
-        "gap" : [ 0, 0, -1 ],
-        "texColName" : "map_02",
-        "texMapName" : "map_02_frame"
+        "gap" : [ 0, 0, -1 ]
     },
     "stage2" : {
         "color" : [ 1, 1, 0 ],
+        "fogColor" : [1,1,1,0.1],
         "firstNum" : 50,
         "modelNames" : [
         "03_50",
@@ -53,12 +52,11 @@
         "03_32",
         "floor",
         "skydome"],
-        "gap" : [ -1, 0, -1 ],
-        "texColName" : "map_03",
-        "texMapName" : "map_03_frame"
+        "gap" : [ -1, 0, -1 ]
     },
     "stage3" : {
         "color" : [ 0, 0, 1 ],
+        "fogColor" : [1,1,1,0.1],
         "firstNum" : 70,
         "modelNames" : [
         "04_75",
@@ -72,8 +70,6 @@
         "04_97",
         "floor",
         "skydome"],
-        "gap" : [ -1, 0, -1 ],
-        "texColName" : "map_04",
-        "texMapName" : "map_04_frame"
+        "gap" : [ -1, 0, -1 ]
     }
 }

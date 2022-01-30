@@ -71,8 +71,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		// ライト生成
 		//lightGroup = LightGroup::Create();
-		// 3Dオブエクトにライトをセット
-		//Object3d::SetLightGroup(lightGroup);
 
 		// デバイスをセット
 		Fbx::SetDevice(dxCommon->GetDevice());
@@ -103,45 +101,29 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			Sprite::LoadTexture(2, L"Resources/texture/miniMap.png");
 			Sprite::LoadTexture(3, L"Resources/texture/map_all_frame.png");
 			Sprite::LoadTexture(4, L"Resources/texture/map_all_point.png");
+			Sprite::LoadTexture(5, L"Resources/texture/map_Cursor.png");
 
-			switch (stage)
-			{
-			case 0:
-				Sprite::LoadTexture(5, L"Resources/texture/map_01_ref.png");
-				Sprite::LoadTexture(6, L"Resources/texture/map_01_frame.png");
-				break;
-
-			case 1:
-				Sprite::LoadTexture(5, L"Resources/texture/map_02_ref.png");
-				Sprite::LoadTexture(6, L"Resources/texture/map_02_frame.png");
-				break;
-
-			case 2:
-				Sprite::LoadTexture(5, L"Resources/texture/map_03_ref.png");
-				Sprite::LoadTexture(6, L"Resources/texture/map_03_frame.png");
-				break;
-
-			case 3:
-				Sprite::LoadTexture(5, L"Resources/texture/map_04_ref.png");
-				Sprite::LoadTexture(6, L"Resources/texture/map_04_frame.png");
-				break;
-
-			default:
-				break;
-			}
+			// マップ系
+			Sprite::LoadTexture(20, L"Resources/texture/map_01_ref.png");
+			Sprite::LoadTexture(21, L"Resources/texture/map_02_ref.png");
+			Sprite::LoadTexture(22, L"Resources/texture/map_03_ref.png");
+			Sprite::LoadTexture(23, L"Resources/texture/map_04_ref.png");
+			Sprite::LoadTexture(24, L"Resources/texture/map_01_frame.png");
+			Sprite::LoadTexture(25, L"Resources/texture/map_02_frame.png");
+			Sprite::LoadTexture(26, L"Resources/texture/map_03_frame.png");
+			Sprite::LoadTexture(27, L"Resources/texture/map_04_frame.png");
 			
-			Sprite::LoadTexture(7, L"Resources/texture/map_Cursor.png");
 		}
 
 		// スプライト生成
 		{
 			optionSprite = Sprite::Create(1, { 0,0 });
 			miniFrame = Sprite::Create(2, { 1280 - 300, 0 });
-			mapCursor = Sprite::Create(7, { 1280 - 150, 150});
 			mapAllFrame = Sprite::Create(3, { 0,0 });
 			mapAllPoint = Sprite::Create(4, { 0,0 });
-			minimap = Sprite::Create(5, { 0,0 });
-			mapAll = Sprite::Create(6, { 0,0 });
+			mapCursor = Sprite::Create(5, { 1280 - 150, 150});
+			minimap = Sprite::Create(stage + 20, { 0,0 });
+			mapAll = Sprite::Create(stage + 24, { 0,0 });
 		}
 
 		// スプライト初期設定
@@ -165,71 +147,22 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			map[i] = new Fbx();
 			map[i]->Initialize();
 
-			switch (stage)
-			{
-			case 0:
-				map[i]->SetModel(modelMng->GetModel(i + 10));
-				map[i]->SetPosition({ -10,0,-1 });
-
-				break;
-
-			case 1:
-				map[i]->SetModel(modelMng->GetModel(i + 30));
-				map[i]->SetPosition({ 0,0,-1 });
-				break;
-
-			case 2:
-				map[i]->SetModel(modelMng->GetModel(i + 50));
-				map[i]->SetPosition({ -1,0,-1 });
-				break;
-
-			case 3:
-				map[i]->SetModel(modelMng->GetModel(i + 70));
-				map[i]->SetPosition({ -1,0,-1 });
-				break;
-
-			default:
-				break;
-			}
+			// マップモデルセット
+			map[i]->SetModel(modelMng->GetModel(i + stage * 20 + 10));
+			map[i]->SetPosition({ stageData->GetStageData(stage).gap });
 		}
 
 		// 床初期化
 		floor = new Fbx();
-		floor->Initialize();
+		floor->Initialize({ 0, 1, 0 });
 
 		// 空初期化
 		skydome = new Fbx();
 		skydome->Initialize({ 0, -1, 0 }, false);
 
-		switch (stage)
-		{
-		case 0:
-			// 床、空のモデルセット
-			floor->SetModel(modelMng->GetModel(19));
-			skydome->SetModel(modelMng->GetModel(20));
-			break;
-
-		case 1:
-			// 床、空のモデルセット
-			floor->SetModel(modelMng->GetModel(39));
-			skydome->SetModel(modelMng->GetModel(40));		
-			break;
-
-		case 2:
-			// 床、空のモデルセット
-			floor->SetModel(modelMng->GetModel(59));
-			skydome->SetModel(modelMng->GetModel(60));
-			break;
-
-		case 3:
-			// 床、空のモデルセット
-			floor->SetModel(modelMng->GetModel(79));
-			skydome->SetModel(modelMng->GetModel(80));
-			break;
-
-		default:
-			break;
-		}
+		// モデルセット
+		floor->SetModel(modelMng->GetModel(stage * 20 + 19));
+		skydome->SetModel(modelMng->GetModel(stage * 20 + 20));
 
 		// 床初期値
 		floor->SetPosition({ 10,0,0 });
@@ -238,10 +171,9 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		skydome->SetScale({ 2, 2, 2 });
 		skydome->SetPosition({ WORLD_WIDTH / 2, 0, WORLD_HEIGHT / 2 });
 	}
-	
-	// 各クラス初期設定
+
+	// 当たり判定用テクスチャのロード
 	{
-		// 当たり判定用テクスチャのロード
 		texCol = new TexCollision(3390, 2775, 1, 1);
 		switch (stage)
 		{
@@ -264,14 +196,10 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		default:
 			break;
 		}
-		
-		// パーティクル生成
-		for (int i = 0; i < 50; i++)
-		{
-			gush[i] = new Gush();
-			gush[i]->Initialize();
-		}
+	}
 
+	// エレメント初期化
+	{
 		// オブジェクトマネージャー生成
 		objMng = new ObjectManager();
 
@@ -299,7 +227,18 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		// オブジェクト初期化
 		objMng->Initialize(input, texCol);
 	}
+	
+	// その他各クラス初期設定
+	{	
+		// パーティクル生成
+		for (int i = 0; i < 50; i++)
+		{
+			gush[i] = new Gush();
+			gush[i]->Initialize();
+		}
+	}
 
+	// クリスタルの座標を保存
 	for (int i = 0; i < CRYSTAL_COUNT; i++)
 	{
 		crystalpos[i] = crystal[i]->GetPosition();
@@ -385,13 +324,14 @@ void GameScene::Update()
 
 			for (int i = 0; i < ENEMY_COUNT; i++)
 			{
+				// 敵と自機の距離
 				XMFLOAT3 lengthPE = { enemy[i]->GetPosition().x - playerPos.x, 0, enemy[i]->GetPosition().z - playerPos.z };
 				enemy[i]->SetTrack(false);
 
 				// 一旦大まかに四角の判定
 				if (abs(lengthPE.x) < 75 && abs(lengthPE.z) < 75)
 				{
-					float tmpLength = sqrt(pow(lengthPE.x, 2) + pow(lengthPE.z, 2));
+					double tmpLength = sqrt(pow(lengthPE.x, 2) + pow(lengthPE.z, 2));
 					// 円状の判定
 					if (tmpLength < 75)
 					{
@@ -408,7 +348,7 @@ void GameScene::Update()
 
 		// クリスタル判定
 		{
-			float dis = 10000;
+			float dis = 0;
 			XMFLOAT3 tmpPos = { 0,0,0 };
 			for (int i = 0; i < CRYSTAL_COUNT; i++)
 			{
@@ -422,13 +362,14 @@ void GameScene::Update()
 
 				// 一番近くのクリスタル判定
 				float tmpDis = sqrt(pow(crystalpos[i].x - playerPos.x, 2) + pow(crystalpos[i].z - playerPos.z, 2));
-				if (dis > tmpDis)
+				if (dis > tmpDis || dis == 0)
 				{
 					dis = tmpDis;
 					tmpPos = crystalpos[i];
 				}
 			}
 
+			// 自機とクリスタルの位置から角度を計算
 			player->SetCrystalRad(atan2(tmpPos.x - playerPos.x, tmpPos.z - playerPos.z));
 		}
 

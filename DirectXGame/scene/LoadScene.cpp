@@ -12,11 +12,10 @@ ModelManager* modelMngLoad = ModelManager::GetInstance();
 const int STAGE_COUNT = 4;		// ステージの数
 
 const int LOAD_DEF_MODEL_CNT = 7;		// デフォルトでロードするモデルの数
-const int LOAD_STAGE_MODEL_CNT = 10;	// ステージ			〃
+const int LOAD_STAGE_MODEL_CNT = 11;	// ステージ			〃
 
 // ロードバー割合
 float loadRatio[STAGE_COUNT] = { 0, 0, 0 };
-int modelCnt = 0;	// 読み込むオブジェクトの数
 float ratioPiece = 0;	// オブジェクトを読み込んだ時に進む割合
 
 // ロードバーを進める
@@ -93,66 +92,14 @@ bool GetLoadStage(int stage)
 // ステージのロード
 void LoadStage(int stage)
 {
-	switch (stage)
+	// 指定したステージ情報の取得
+	StageDataStorage::StageData stageData = StageDataStorage::GetInstance()->GetStageData(stage);
+
+	// ステージ情報からモデルをロード
+	for (int i = 0; i < stageData.modelName.size(); i++)
 	{
-	case 0:
-		modelMngLoad->Load(10, "01_87");		AddRatio(stage);	// 10
-		modelMngLoad->Load(11, "01_88");		AddRatio(stage);	// 11
-		modelMngLoad->Load(12, "01_89");		AddRatio(stage);	// 12
-		//modelMng->Load("01_77");	// 13
-		modelMngLoad->Load(14, "01_78");		AddRatio(stage);	// 14
-		modelMngLoad->Load(15, "01_79");		AddRatio(stage);	// 15
-		modelMngLoad->Load(16, "01_67");		AddRatio(stage);	// 16
-		modelMngLoad->Load(17, "01_68");		AddRatio(stage);	// 17
-		modelMngLoad->Load(18, "01_69");		AddRatio(stage);	// 18
-		modelMngLoad->Load(19, "floor");		AddRatio(stage);	// 19
-		modelMngLoad->Load(20, "skydome");		AddRatio(stage);	// 20
-		break;											 
-														 
-	case 1:												 
-		modelMngLoad->Load(30, "02_51");		AddRatio(stage);	// 30
-		modelMngLoad->Load(31, "02_52");		AddRatio(stage);	// 31
-		modelMngLoad->Load(32, "02_53");		AddRatio(stage);	// 32
-		//modelMng->Load("01_77");	// 33				 
-		modelMngLoad->Load(34, "02_42");		AddRatio(stage);	// 34
-		modelMngLoad->Load(35, "02_43");		AddRatio(stage);	// 35
-		modelMngLoad->Load(36, "02_31");		AddRatio(stage);	// 36
-		modelMngLoad->Load(37, "02_32");		AddRatio(stage);	// 37
-		modelMngLoad->Load(38, "02_33");		AddRatio(stage);	// 38
-		modelMngLoad->Load(39, "floor");		AddRatio(stage);	// 39
-		modelMngLoad->Load(40, "skydome");		AddRatio(stage);	// 40
-		break;
-
-	case 2:
-		modelMngLoad->Load(50, "03_50");		AddRatio(stage);	// 50
-		modelMngLoad->Load(51, "03_51");		AddRatio(stage);	// 51
-		modelMngLoad->Load(52, "03_52");		AddRatio(stage);	// 52
-		//modelMng->Load("01_77");	// 33				 
-		modelMngLoad->Load(54, "03_41");		AddRatio(stage);	// 54
-		modelMngLoad->Load(55, "03_42");		AddRatio(stage);	// 55
-		modelMngLoad->Load(56, "03_30");		AddRatio(stage);	// 56
-		modelMngLoad->Load(57, "03_31");		AddRatio(stage);	// 57
-		modelMngLoad->Load(58, "03_32");		AddRatio(stage);	// 58
-		modelMngLoad->Load(59, "floor");		AddRatio(stage);	// 59
-		modelMngLoad->Load(60, "skydome");		AddRatio(stage);	// 60
-		break;
-
-	case 3:
-		modelMngLoad->Load(70, "04_75");		AddRatio(stage);	// 50
-		modelMngLoad->Load(71, "04_76");		AddRatio(stage);	// 51
-		modelMngLoad->Load(72, "04_77");		AddRatio(stage);	// 52
-		//modelMng->Load("01_77");	// 33				 
-		modelMngLoad->Load(74, "04_86");		AddRatio(stage);	// 54
-		modelMngLoad->Load(75, "04_87");		AddRatio(stage);	// 55
-		modelMngLoad->Load(76, "04_95");		AddRatio(stage);	// 56
-		modelMngLoad->Load(77, "04_96");		AddRatio(stage);	// 57
-		modelMngLoad->Load(78, "04_97");		AddRatio(stage);	// 58
-		modelMngLoad->Load(79, "floor");		AddRatio(stage);	// 59
-		modelMngLoad->Load(80, "skydome");		AddRatio(stage);	// 60
-		break;
-
-	default:
-		break;
+		modelMngLoad->Load(stageData.firstNum + i, stageData.modelName[i]);
+		AddRatio(stage);
 	}
 
 	SetLoadStage(stage, true);
@@ -163,7 +110,7 @@ void LoadStage(int stage)
 void AsyncLoadStage(int stage)
 {
 	// 予め読み込む数を取得
-	modelCnt = 0;	// 一旦初期化
+	int modelCnt = 0;
 	if (!GetLoadDefault())
 	{
 		modelCnt += LOAD_DEF_MODEL_CNT;
@@ -194,6 +141,7 @@ LoadScene::LoadScene(int stage)
 
 LoadScene::~LoadScene()
 {
+	delete mapObj;
 	delete loading;
 	delete loaded;
 	delete loadBar;
@@ -261,35 +209,13 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		// スプライト初期設定
 		{
-			switch (stage)
-			{
-			case 0:
-				loading->SetColor({ 0,1,1,1 });
-				loaded->SetColor({ 0,1,1,1 });
-				loadBar->SetColor({ 0,1,1,1 });
-				break;
-
-			case 1:
-				loading->SetColor({ 1,0,1,1 });
-				loaded->SetColor({ 1,0,1,1 });
-				loadBar->SetColor({ 1,0,1,1 });
-				break;
-
-			case 2:
-				loading->SetColor({ 1,1,0,1 });
-				loaded->SetColor({ 1,1,0,1 });
-				loadBar->SetColor({ 1,1,0,1 });
-				break;
-
-			case 3:
-				loading->SetColor({ 0,0,1,1 });
-				loaded->SetColor({ 0,0,1,1 });
-				loadBar->SetColor({ 0,0,1,1 });
-				break;
-
-			default:
-				break;
-			}
+			// ロードバーなどの色をセット
+			XMFLOAT4 color = { stageData->GetStageData(stage).color.x,
+							   stageData->GetStageData(stage).color.y,
+							   stageData->GetStageData(stage).color.z, 1 };
+			loading->SetColor(color);
+			loaded->SetColor(color);
+			loadBar->SetColor(color);
 		}
 	}
 
@@ -297,29 +223,9 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 		mapObj = new Fbx();
 		mapObj->Initialize();
-		switch (stage)
-		{
-		case 0:
-			mapObj->SetModel(modelMngLoad->GetModel(13));
-			break;
-		case 1:
-			mapObj->SetModel(modelMngLoad->GetModel(33));
-			break;
-		case 2:
-			mapObj->SetModel(modelMngLoad->GetModel(53));
-			break;
-		case 3:
-			mapObj->SetModel(modelMngLoad->GetModel(73));
-			break;
-		default:
-			break;
-		}
+		// マップモデルセット
+		mapObj->SetModel(modelMngLoad->GetModel(stage * 20 + 13));
 		mapObj->SetPosition({ -1130 / 2, 0, -925 - 925 / 2 });
-	}
-
-	// カメラ初期設定
-	{
-		//camera->SetMouseFlag(false);
 	}
 
 	// 非同期ロード開始
@@ -382,14 +288,7 @@ void LoadScene::Draw()
 
 	// 3Dオブジェクト描画
 	{
-		// 非同期ロード中
-		if (!GetLoadStage(stage))
-		{
-		}
-		else   // ロード終了後
-		{
-		}
-
+		// マップ描画
 		mapObj->Draw(cmdList, true);
 
 		// パーティクルの描画
@@ -417,14 +316,6 @@ void LoadScene::Draw()
 			text->DrawAll(cmdList);
 		}
 		Sprite::PostDraw();
-	}
-
-	// ImGui描画
-	{
-		/*ImGui::Begin("OPTION");
-		ImGui::SetWindowSize(ImVec2(100, 100));
-		ImGui::SliderFloat("感度", &sence, 0.01f, 5.0f);
-		ImGui::End();*/
 	}
 }
 

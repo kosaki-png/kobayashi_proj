@@ -117,12 +117,12 @@ protected: // メンバ変数
 	// ローカル座標
 	XMFLOAT3 position = { 0,0,0 };
 	// ローカルワールド変換行列
-	XMMATRIX matWorld;
+	XMMATRIX matWorld = {};
 	// モデル
 	FbxModel* model = nullptr;
 	// ライトの向き
-	XMFLOAT3 lightDir;
+	XMFLOAT3 lightDir = { 0,0,0 };
 	// フォグ
-	bool isFog;
+	bool isFog = false;
 };
 

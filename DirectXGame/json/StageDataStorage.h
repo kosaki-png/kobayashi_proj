@@ -14,15 +14,14 @@ private: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-private:
+public:
 	struct StageData
 	{
 		XMFLOAT3 color = { 0,0,0 };				// ステージの色
+		XMFLOAT4 fogColor = { 0,0,0,0 };		// フォグの色
 		int firstNum = 0;						// モデル登録の始めの番号
 		std::vector<std::string> modelName;		// モデルの名前
 		XMFLOAT3 gap = { 0,0,0 };				// ステージのズレ
-		std::string texColName = "";			// 当たり判定用画像の名前
-		std::string texMapName = "";			// マップ用画像の名前
 	};
 
 public:

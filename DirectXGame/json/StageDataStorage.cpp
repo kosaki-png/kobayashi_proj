@@ -36,6 +36,12 @@ void StageDataStorage::LoadJson()
 		stageDatas[i].color.y = j[stagePath]["color"][1].get<float>();
 		stageDatas[i].color.z = j[stagePath]["color"][2].get<float>();
 
+		// フォグ色情報
+		stageDatas[i].fogColor.x = j[stagePath]["fogColor"][0].get<float>();
+		stageDatas[i].fogColor.y = j[stagePath]["fogColor"][1].get<float>();
+		stageDatas[i].fogColor.z = j[stagePath]["fogColor"][2].get<float>();
+		stageDatas[i].fogColor.w = j[stagePath]["fogColor"][3].get<float>();
+
 		// モデル登録の最初の値
 		stageDatas[i].firstNum = j[stagePath]["firstNum"].get<int>();
 
@@ -49,12 +55,6 @@ void StageDataStorage::LoadJson()
 		stageDatas[i].gap.x = j[stagePath]["gap"][0].get<float>();
 		stageDatas[i].gap.y = j[stagePath]["gap"][1].get<float>();
 		stageDatas[i].gap.z = j[stagePath]["gap"][2].get<float>();
-
-		// 当たり判定用画像の名前
-		stageDatas[i].texColName = j[stagePath]["texColName"].get<std::string>();
-
-		// マップ用画像の名前
-		stageDatas[i].texMapName = j[stagePath]["texMapName"].get<std::string>();
 	}
 }
 
