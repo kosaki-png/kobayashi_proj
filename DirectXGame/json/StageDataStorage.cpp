@@ -16,11 +16,17 @@ StageDataStorage* StageDataStorage::GetInstance()
 void StageDataStorage::LoadJson()
 {
 	// ファイルを開く
-	std::ifstream reading("json/test.json", std::ios::in);
+	std::ifstream reading("json/stage_model.json", std::ios::in);
 
 	// ファイル読み込み
 	json j;
 	reading >> j;
+
+	// デフォルトモデルの名前読み込み
+	for (auto x : j["defoultLoad"]["modelNames"])
+	{
+		defoultModelName.push_back(x.get<std::string>());
+	}
 
 	// 総ステージ分データ配列を確保
 	stageDatas.resize(j["totalMapNum"].get<int>());

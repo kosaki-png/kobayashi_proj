@@ -38,7 +38,14 @@ public:
 	/// <returns>ステージ情報構造体</returns>
 	StageData GetStageData(int stage);
 
+	/// <summary>
+	/// デフォルトで読み込むモデルの名前取得
+	/// </summary>
+	/// <returns></returns>
+	std::vector<std::string> GetDefoultName() { return defoultModelName; }
+
 private:
+	std::vector<std::string> defoultModelName;	// デフォルトで読み込むモデルの名前
 	std::vector<StageData> stageDatas;	// マップデータ配列
 
 private:

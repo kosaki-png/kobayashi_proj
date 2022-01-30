@@ -50,18 +50,19 @@ bool GetLoadDefault()
 
 void LoadDefault(int stage)
 {
+	// 指定したステージ情報の取得
+	std::vector<std::string> modelName = StageDataStorage::GetInstance()->GetDefoultName();
+
+	// ステージ情報からモデルをロード
+	for (int i = 0; i < modelName.size(); i++)
+	{
+		modelMngLoad->Load(i, modelName[i]);
+		AddRatio(stage);
+	}
+
 	//ダミーで10秒待つ
 	/*auto sleepTime = std::chrono::seconds(10);
 	std::this_thread::sleep_for(sleepTime);*/
-
-	// モデルをロードして割合を増やす
-	modelMngLoad->Load(0, "player");			AddRatio(stage);	// 0
-	modelMngLoad->Load(1, "Enemy");				AddRatio(stage);	// 1
-	modelMngLoad->Load(2, "Enemy_circle");		AddRatio(stage);	// 2
-	modelMngLoad->Load(3, "crystal");			AddRatio(stage);	// 3
-	modelMngLoad->Load(4, "crystalCircle");		AddRatio(stage);	// 4
-	modelMngLoad->Load(5, "Particle_Cube");		AddRatio(stage);	// 5
-	modelMngLoad->Load(6, "Arrow");				AddRatio(stage);	// 6
 
 	SetLoadDefault(true);
 }
