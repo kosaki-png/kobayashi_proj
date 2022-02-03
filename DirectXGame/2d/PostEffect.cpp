@@ -212,12 +212,15 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 	//	);
 	//}
 
+	iTime += 0.01f;
+
 	// 定数バッファにデータ転送
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = this->constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
 		constMap->color = this->color;
-		constMap->mat = XMMatrixIdentity();	// 行列の合成	
+		constMap->mat = XMMatrixIdentity();	// 行列の合成
+		constMap->iTime = this->iTime;
 		this->constBuff->Unmap(0, nullptr);
 	}
 

@@ -8,8 +8,6 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-	delete scene;
-	delete instance;
 }
 
 SceneManager* SceneManager::GetInstance()
@@ -23,16 +21,17 @@ SceneManager* SceneManager::GetInstance()
 
 void SceneManager::Destroy()
 {
-	SceneManager::~SceneManager();
+	delete scene;
+	delete instance;
 }
 
 void SceneManager::Start(DirectXCommon* dxCommon, Input* input, Audio* audio)
 {
 	// Å‰‚ÌƒV[ƒ“
-	scene = new TitleScene();
+	//scene = new TitleScene();
 	//scene = new SelectScene();
 	//scene = new GameScene();
-	//scene = new EndScene();
+	scene = new EndScene();
 	//scene = new IntervalScene();
 
 	interval = new IntervalScene();

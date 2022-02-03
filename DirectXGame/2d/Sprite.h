@@ -36,6 +36,7 @@ public: // サブクラス
 	{
 		XMFLOAT4 color;	// 色 (RGBA)
 		XMMATRIX mat;	// ３Ｄ変換行列
+		float iTime;
 	};
 
 public: // 静的メンバ関数

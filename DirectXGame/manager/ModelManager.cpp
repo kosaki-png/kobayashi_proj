@@ -8,14 +8,6 @@ ModelManager::ModelManager()
 
 ModelManager::~ModelManager()
 {
-	for (auto x : models)
-	{
-		if (x != nullptr)
-		{
-			delete x;
-		}
-	}
-	delete instance;
 }
 
 ModelManager* ModelManager::GetInstance()
@@ -29,7 +21,14 @@ ModelManager* ModelManager::GetInstance()
 
 void ModelManager::Destroy()
 {
-	ModelManager::~ModelManager();
+	for (auto x : models)
+	{
+		if (x != nullptr)
+		{
+			delete x;
+		}
+	}
+	delete instance;
 }
 
 void ModelManager::Load(int modelNum, const std::string& modelName)

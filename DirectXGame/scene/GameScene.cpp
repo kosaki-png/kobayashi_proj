@@ -230,7 +230,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// その他各クラス初期設定
 	{	
 		// パーティクル生成
-		for (int i = 0; i < 50; i++)
+		for (int i = 0; i < GUSH_COUNT; i++)
 		{
 			gush[i] = new Gush();
 			gush[i]->Initialize();
@@ -399,10 +399,10 @@ void GameScene::Update()
 			floor->Update();
 
 			// パーティクルの更新
-			for (int i = 0; i < 50; i++)
+			for (auto x : gush)
 			{
-				gush[i]->SetPlayerPos(playerPos);
-				gush[i]->Update();
+				x->SetPlayerPos(playerPos);
+				x->Update();
 			}
 
 			// オブジェクトマネージャーの更新
@@ -457,15 +457,15 @@ void GameScene::Draw()
 		objMng->Draw(cmdList, player->GetPosition(), 500);
 
 		// マップモデルの描画
-		for (int i = 0; i < 9; i++)
+		for (auto x : map)
 		{
-			map[i]->Draw(cmdList, true);
+			x->Draw(cmdList, true);
 		}
 		skydome->Draw(cmdList, true);
 		floor->Draw(cmdList, true);
-		for (int i = 0; i < 50; i++)
+		for (auto x : gush)
 		{
-			gush[i]->Draw(cmdList);
+			x->Draw(cmdList);
 		}	
 	}
 	

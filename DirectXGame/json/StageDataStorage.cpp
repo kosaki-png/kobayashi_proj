@@ -75,7 +75,7 @@ StageDataStorage::StageData StageDataStorage::GetStageData(int stage)
 
 void StageDataStorage::Destroy()
 {
-	StageDataStorage::~StageDataStorage();
+	delete instance;
 }
 
 StageDataStorage::StageDataStorage()

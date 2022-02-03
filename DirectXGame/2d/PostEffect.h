@@ -67,6 +67,8 @@ public:
 private:
     // 画面クリアカラー
     static const float clearColor[4];
+    // スタートしてからの時間
+    float iTime = 0;
 
 };
 

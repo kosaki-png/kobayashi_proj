@@ -102,7 +102,7 @@ private:
 	bool isMap = false;
 
 	// マップオブジェクト
-	Fbx* map[9] = {};
+	std::array<Fbx*, 9> map;
 	Fbx* floor = nullptr;
 	Fbx* skydome = nullptr;
 	const float WORLD_HEIGHT = 1130 * 3;
