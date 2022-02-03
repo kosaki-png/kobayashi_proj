@@ -23,10 +23,11 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	Audio* audio = nullptr;
 	FlameRate* flamerate = nullptr;
 
+	// シーン切り替え
 	SceneManager* sceneMng = nullptr;
-	//BaseScene* scene = nullptr;
 
-	//PostEffect* postEffect = nullptr;
+	// ポストエフェクト
+	PostEffect* postEffect = nullptr;
 
 	// ゲームウィンドウの作成
 	win = new WinApp();
@@ -73,8 +74,8 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	// ポストエフェクト用テクスチャの読み込み
 	//Sprite::LoadTexture(100, L"Resources/background.png");
 	// ポストエフェクトの初期化
-	//postEffect = new PostEffect();
-	//postEffect->Initialize();
+	postEffect = new PostEffect();
+	postEffect->Initialize();
 
 	StageDataStorage::GetInstance()->LoadJson();
 
@@ -99,15 +100,15 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 		sceneMng->Update();
 
 		// レンダーテクスチャへの描画
-		/*postEffect->PreDrawScene(dxCommon->GetCommandList());
-		scene->Draw();
-		postEffect->PostDrawScene(dxCommon->GetCommandList());*/
+		postEffect->PreDrawScene(dxCommon->GetCommandList());
+		sceneMng->Draw();
+		postEffect->PostDrawScene(dxCommon->GetCommandList());
 		
 		// 描画開始
 		dxCommon->PreDraw();
 		// ポストエフェクトの描画
-		//postEffect->Draw(dxCommon->GetCommandList());
-		sceneMng->Draw();
+		postEffect->Draw(dxCommon->GetCommandList());
+		
 		// 描画終了
 		dxCommon->PostDraw();
 		//フレームレート待機処理
@@ -123,7 +124,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	safe_delete(audio);
 	safe_delete(dxCommon);
 	safe_delete(flamerate);
-	//delete postEffect;
+	delete postEffect;
 
 	// ゲームウィンドウの破棄
 	win->TerminateGameWindow();

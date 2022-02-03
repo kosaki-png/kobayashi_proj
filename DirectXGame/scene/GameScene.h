@@ -65,13 +65,13 @@ private:
 	Player* player = nullptr;
 
 	// 敵
-	static const int ENEMY_COUNT = 100;
-	Enemy* enemy[ENEMY_COUNT] = {};
+	//static const int ENEMY_COUNT = 100;
+	//Enemy* enemy[ENEMY_COUNT] = {};
 
 	// クリスタル
 	static const int CRYSTAL_COUNT = 3;
-	Crystal* crystal[CRYSTAL_COUNT] = {};
-	XMFLOAT3 crystalpos[CRYSTAL_COUNT];
+	std::array<Crystal*, CRYSTAL_COUNT> crystal;
+	std::array<XMFLOAT3, CRYSTAL_COUNT> crystalPos;
 	
 	ModelManager* modelMng = nullptr;
 	ObjectManager* objMng = nullptr;
@@ -82,7 +82,8 @@ private:
 	Sprite* optionSprite = nullptr;
 	Sprite* cursorSprite = nullptr;
 
-	Gush* gush[50] = {};
+	static const int GUSH_COUNT = 100;
+	std::array<Gush*, GUSH_COUNT> gush;
 
 #pragma region マップ
 

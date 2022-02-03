@@ -227,6 +227,7 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		// マップモデルセット
 		mapObj->SetModel(modelMngLoad->GetModel(stage * 20 + 13));
 		mapObj->SetPosition({ -1130 / 2, 0, -925 - 925 / 2 });
+		mapObj->SetFogColor(stageData->GetStageData(stage).fogColor);
 	}
 
 	// 非同期ロード開始

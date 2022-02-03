@@ -6,9 +6,9 @@ Gush::Gush()
 
 Gush::~Gush()
 {
-	for (int i = 0; i < CUBE_COUNT; i++)
+	for (auto x : cube)
 	{
-		delete cube[i].cubeObj;
+		delete x.cubeObj;
 	}
 }
 
@@ -16,7 +16,6 @@ void Gush::Initialize()
 {
 	for (int i = 0; i < CUBE_COUNT; i++)
 	{
-
 		cube[i].cubeObj = new Fbx();
 		cube[i].cubeObj->Initialize({0, 1, 0});
 		cube[i].cubeObj->SetModel(ModelManager::GetInstance()->GetModel(5));
@@ -49,7 +48,7 @@ void Gush::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	for (int i = 0; i < CUBE_COUNT; i++)
 	{
-		if (cube[i].cubePos.y < 3)
+		if (cube[i].cubePos.y < 5)
 		{
 			cube[i].cubeObj->Draw(cmdList, true);
 		}
@@ -60,7 +59,7 @@ void Gush::Placement()
 {
 	// 座標セット
 	position = { playerPos.x + (float)(std::rand() % 100) - 50, 
-				 -(float)(std::rand() % 3),
+				 -(float)(std::rand() % 5),
 				 playerPos.z + (float)(std::rand() % 100) - 50 };
 
 	for (int i = 0; i < CUBE_COUNT; i++)

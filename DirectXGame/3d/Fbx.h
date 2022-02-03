@@ -107,6 +107,12 @@ public: // メンバ関数
 	/// <param name="position">回転</param>
 	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
 
+	/// <summary>
+	/// 回転の設定
+	/// </summary>
+	/// <param name="position">回転</param>
+	void SetFogColor(XMFLOAT4 color) { fogColor = color; }
+
 protected: // メンバ変数
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransform;
@@ -124,5 +130,7 @@ protected: // メンバ変数
 	XMFLOAT3 lightDir = { 0,0,0 };
 	// フォグ
 	bool isFog = false;
+	// フォグの色
+	XMFLOAT4 fogColor = { 0,0,0,0 };
 };
 

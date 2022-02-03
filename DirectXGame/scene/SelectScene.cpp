@@ -96,7 +96,7 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 	}
 
 	// カメラ注視点をセット
-	camera->SetTarget({ 0, 1, 0 });
+	//camera->SetTarget({ 0, 1, 0 });
 	//camera->SetDistance(10.0f);
 
 	// 各クラスの初期化

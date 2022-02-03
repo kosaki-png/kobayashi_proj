@@ -13,7 +13,7 @@
     "totalMapNum" : 4,
     "stage0" : {
         "color" : [ 0, 1, 1 ],
-        "fogColor" : [1,1,1,0.1],
+        "fogColor" : [0,0,0.5,0.1],
         "firstNum" : 10,
         "modelNames" : [
             "01_87",
@@ -32,7 +32,7 @@
     },
     "stage1" : {
         "color" : [ 1, 0, 1 ],
-        "fogColor" : [1,1,1,0.1],
+        "fogColor" : [0.5,0,0,0.1],
         "firstNum" : 30,
         "modelNames" : [
             "02_51",
@@ -51,7 +51,7 @@
     },
     "stage2" : {
         "color" : [ 1, 1, 0 ],
-        "fogColor" : [1,1,1,0.1],
+        "fogColor" : [0,0.5,0,0.1],
         "firstNum" : 50,
         "modelNames" : [
             "03_50",
@@ -69,8 +69,8 @@
         "gap" : [ -1, 0, -1 ]
     },
     "stage3" : {
-        "color" : [ 0, 0, 1 ],
-        "fogColor" : [1,1,1,0.1],
+        "color" : [ 0, 1, 0 ],
+        "fogColor" : [0,0,0.5,0.1],
         "firstNum" : 70,
         "modelNames" : [
             "04_75",

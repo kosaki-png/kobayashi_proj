@@ -65,13 +65,14 @@ bool WinApp::ProcessMessage()
 {
 	MSG msg{};	// メッセージ
 
-	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) // メッセージがある？
+	if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 	{
 		TranslateMessage(&msg); // キー入力メッセージの処理
 		DispatchMessage(&msg); // ウィンドウプロシージャにメッセージを送る
 	}
 
-	if (msg.message == WM_QUIT) // 終了メッセージが来たらループを抜ける
+	// 終了メッセージが来たらループを抜ける
+	if (msg.message == WM_QUIT)
 	{
 		return true;
 	}

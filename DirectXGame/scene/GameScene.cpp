@@ -16,10 +16,10 @@ GameScene::~GameScene()
 {
 	delete objMng;
 	delete player;
-	for (auto x : enemy)
+	/*for (auto x : enemy)
 	{
 		delete x;
-	}
+	}*/
 	for (auto x : crystal)
 	{
 		delete x;
@@ -65,17 +65,13 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			assert(0);
 			return;
 		}
-		// デバッグテキスト初期化
+		// テキスト初期化
 		text = Text::GetInstance();
 		text->Initialize(texNumber);
-
-		// ライト生成
-		//lightGroup = LightGroup::Create();
 
 		// デバイスをセット
 		Fbx::SetDevice(dxCommon->GetDevice());
 		// カメラをセット
-		//Fbx::SetCamera(camera);
 		Fbx::SetCamera(mainCamera);
 		// グラフィックスパイプライン生成
 		Fbx::CreateGraphicsPipeline();
@@ -150,11 +146,14 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			// マップモデルセット
 			map[i]->SetModel(modelMng->GetModel(i + stage * 20 + 10));
 			map[i]->SetPosition({ stageData->GetStageData(stage).gap });
+
+			// フォグの色設定
+			map[i]->SetFogColor(stageData->GetStageData(stage).fogColor);
 		}
 
 		// 床初期化
 		floor = new Fbx();
-		floor->Initialize({ 0, 1, 0 });
+		floor->Initialize({ 0, -1, 0 });
 
 		// 空初期化
 		skydome = new Fbx();
@@ -209,12 +208,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		objMng->AddObject(player);
 
 		// 敵生成
-		for (int i = 0; i < ENEMY_COUNT; i++)
-		{
-			enemy[i] = new Enemy();
-			// オブジェクトマネージャーに登録
-			objMng->AddObject(enemy[i]);
-		}
+		//for (int i = 0; i < ENEMY_COUNT; i++)
+		//{
+		//	enemy[i] = new Enemy();
+		//	// オブジェクトマネージャーに登録
+		//	objMng->AddObject(enemy[i]);
+		//}
 
 		// クリスタル生成
 		for (int i = 0; i < CRYSTAL_COUNT; i++)
@@ -241,7 +240,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// クリスタルの座標を保存
 	for (int i = 0; i < CRYSTAL_COUNT; i++)
 	{
-		crystalpos[i] = crystal[i]->GetPosition();
+		crystalPos[i] = crystal[i]->GetPosition();
 	}
 
 	// カメラの初期設定
@@ -322,28 +321,27 @@ void GameScene::Update()
 		{
 			player->SetDanger(false);
 
-			for (int i = 0; i < ENEMY_COUNT; i++)
-			{
-				// 敵と自機の距離
-				XMFLOAT3 lengthPE = { enemy[i]->GetPosition().x - playerPos.x, 0, enemy[i]->GetPosition().z - playerPos.z };
-				enemy[i]->SetTrack(false);
-
-				// 一旦大まかに四角の判定
-				if (abs(lengthPE.x) < 75 && abs(lengthPE.z) < 75)
-				{
-					double tmpLength = sqrt(pow(lengthPE.x, 2) + pow(lengthPE.z, 2));
-					// 円状の判定
-					if (tmpLength < 75)
-					{
-						player->SetDanger(true);
-						// プレイヤーが走っていたら追いかけ始める
-						if (input->TriggerKey(DIK_LSHIFT))
-						{
-							enemy[i]->SetTrack(true);
-						}
-					}
-				}
-			}
+			//for (int i = 0; i < ENEMY_COUNT; i++)
+			//{
+			//	// 敵と自機の距離
+			//	XMFLOAT3 lengthPE = { enemy[i]->GetPosition().x - playerPos.x, 0, enemy[i]->GetPosition().z - playerPos.z };
+			//	enemy[i]->SetTrack(false);
+			//	// 一旦大まかに四角の判定
+			//	if (abs(lengthPE.x) < 75 && abs(lengthPE.z) < 75)
+			//	{
+			//		double tmpLength = sqrt(pow(lengthPE.x, 2) + pow(lengthPE.z, 2));
+			//		// 円状の判定
+			//		if (tmpLength < 75)
+			//		{
+			//			player->SetDanger(true);
+			//			// プレイヤーが走っていたら追いかけ始める
+			//			if (input->TriggerKey(DIK_LSHIFT))
+			//			{
+			//				enemy[i]->SetTrack(true);
+			//			}
+			//		}
+			//	}
+			//}
 		}
 
 		// クリスタル判定
@@ -353,19 +351,19 @@ void GameScene::Update()
 			for (int i = 0; i < CRYSTAL_COUNT; i++)
 			{
 				// クリスタルとの当たり判定
-				if (abs(crystalpos[i].x + 0.5f - playerPos.x) <= 1.0f && abs(crystalpos[i].z + 0.5f - playerPos.z) <= 1.0f)
+				if (abs(crystalPos[i].x + 0.5f - playerPos.x) <= 1.0f && abs(crystalPos[i].z + 0.5f - playerPos.z) <= 1.0f)
 				{
-					crystalpos[i] = { -4000,0,0 };
+					crystalPos[i] = { -4000,0,0 };
 					crystal[i]->SetIsDead(true);
 					clearCnt++;
 				}
 
 				// 一番近くのクリスタル判定
-				float tmpDis = sqrt(pow(crystalpos[i].x - playerPos.x, 2) + pow(crystalpos[i].z - playerPos.z, 2));
+				float tmpDis = sqrt(pow(crystalPos[i].x - playerPos.x, 2) + pow(crystalPos[i].z - playerPos.z, 2));
 				if (dis > tmpDis || dis == 0)
 				{
 					dis = tmpDis;
-					tmpPos = crystalpos[i];
+					tmpPos = crystalPos[i];
 				}
 			}
 

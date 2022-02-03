@@ -125,7 +125,7 @@ void Fbx::CreateGraphicsPipeline()
 	gpipeline.InputLayout.pInputElementDescs = inputLayout;
 	gpipeline.InputLayout.NumElements = _countof(inputLayout);
 
-	// 図形の形状設定（三角形）
+	// 図形の形状設定（三角形）--------------------------------------------------------------------------------------------------------------
 	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	//gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
 
@@ -211,7 +211,6 @@ void Fbx::Update()
 	// 定数バッファへデータ転送
 	ConstBufferDataTransform* constMap = nullptr;
 
-	XMFLOAT4 a = { 0.2f, 0.0f, 0.0f, 1 };
 	result = constBuffTransform->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result)) {
 		constMap->viewproj = matViewProjection;
@@ -219,7 +218,7 @@ void Fbx::Update()
 		constMap->cameraPos = cameraPos;
 		constMap->lightDir = lightDir;
 		constMap->isFog = isFog;
-		constMap->fogColor = a;
+		constMap->fogColor = fogColor;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 }

@@ -10,7 +10,10 @@ ModelManager::~ModelManager()
 {
 	for (auto x : models)
 	{
-		delete x;
+		if (x != nullptr)
+		{
+			delete x;
+		}
 	}
 	delete instance;
 }
