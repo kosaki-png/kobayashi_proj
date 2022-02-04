@@ -12,6 +12,17 @@ private: // エイリアス
     using XMFLOAT4 = DirectX::XMFLOAT4;
     using XMMATRIX = DirectX::XMMATRIX;
 
+    /// <summary>
+    /// 定数バッファ用データ構造体
+    /// </summary>
+    struct ConstBufferData
+    {
+        XMFLOAT4 color;	// 色 (RGBA)
+        XMMATRIX mat;	// ３Ｄ変換行列
+        float iTime;
+        bool isGodray;
+    };
+
 public:
     /// <summary>
     /// コンストラクタ
