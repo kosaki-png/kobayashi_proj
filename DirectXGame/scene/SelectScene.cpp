@@ -102,6 +102,8 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 	// ŠeƒNƒ‰ƒX‚Ì‰Šú‰»
 	{
 	}
+
+	isGodray = true;
 }
 
 void SelectScene::Update()

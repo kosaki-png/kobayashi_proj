@@ -93,7 +93,7 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	camera->SetTarget({ 0, 1, 0 });
 	camera->SetDistance(3.0f);
 
-
+	isGodray = true;
 }
 
 void EndScene::Update()

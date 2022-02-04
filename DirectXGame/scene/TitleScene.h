@@ -57,5 +57,4 @@ private:
 	Sprite* loadCircle = nullptr;
 
 #pragma endregion
-
 };

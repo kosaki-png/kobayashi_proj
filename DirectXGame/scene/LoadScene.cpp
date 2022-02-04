@@ -235,6 +235,8 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 		th = new std::thread(AsyncLoadStage, stage);
 	}
+
+	isGodray = true;
 }
 
 void LoadScene::Update()

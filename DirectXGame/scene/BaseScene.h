@@ -63,6 +63,8 @@ public:
 
 	BaseScene* GetNextScene() { return nextScene; }
 
+	bool GetGodrayFlag() { return isGodray; }
+
 protected:
 	DirectXCommon* dxCommon = nullptr;
 	Input* input = nullptr;
@@ -75,4 +77,5 @@ protected:
 
 	bool stop = true;
 
+	bool isGodray = false;
 };

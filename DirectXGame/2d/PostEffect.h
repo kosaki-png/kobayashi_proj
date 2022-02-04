@@ -46,6 +46,12 @@ public:
     /// </summary>
     void CreateGraphicsPipelineState();
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="_"></param>
+    void SetGodray(bool _) { isGodray = _; }
+
 public:
     // テクスチャバッファ
     ComPtr<ID3D12Resource> texBuff[2];
@@ -70,5 +76,6 @@ private:
     // スタートしてからの時間
     float iTime = 0;
 
+    bool isGodray = false;
 };
 

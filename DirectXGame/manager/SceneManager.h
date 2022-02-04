@@ -1,4 +1,7 @@
 #pragma once
+
+#include "PostEffect.h"
+
 #include "BaseScene.h"
 #include "TitleScene.h"
 #include "SelectScene.h"
@@ -17,6 +20,8 @@ public:
 	void Draw();
 	void Finalize();
 
+	void PostEffectDraw();
+
 private:
 	BaseScene* scene = nullptr;
 
@@ -25,6 +30,8 @@ private:
 	DirectXCommon* dxCommon;
 	Input* input;
 	Audio* audio;
+
+	PostEffect* postEffect = nullptr;
 
 protected:
 	static SceneManager* SceneManager::instance;
