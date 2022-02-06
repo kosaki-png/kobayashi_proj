@@ -13,6 +13,10 @@ SelectScene::SelectScene()
 SelectScene::~SelectScene()
 {
 	safe_delete(tmpSprite);
+	for (auto x : map)
+	{
+		delete x;
+	}
 }
 
 void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -23,7 +27,7 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 	// 汎用的初期化
 	{
 		// カメラ生成
-		camera = new FixedCamera(WinApp::window_width, WinApp::window_height);
+		camera = new OrbitCamera(WinApp::window_width, WinApp::window_height);
 
 		// デバッグテキスト用テクスチャ読み込み
 		if (!Sprite::LoadTexture(texNumber, L"Resources/debugfont.png")) {
@@ -40,7 +44,6 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 		// デバイスをセット
 		Fbx::SetDevice(dxCommon->GetDevice());
 		// カメラをセット
-		//Fbx::SetCamera(camera);
 		Fbx::SetCamera(camera);
 		// グラフィックスパイプライン生成
 		Fbx::CreateGraphicsPipeline();
@@ -90,7 +93,7 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 			{
 				map[i] = new Fbx();
 				map[i]->Initialize();
-				map[i]->SetModel(ModelManager::GetInstance()->GetModel(i * 20 + 13));
+				map[i]->SetModel(ModelManager::GetInstance()->GetModel(i + stageData->GetDeSelectData().firstNum + 1));
 			}
 		}
 	}
@@ -185,7 +188,7 @@ void SelectScene::Draw()
 		/// <summary>
 		/// ここに背景スプライトの描画処理を追加
 		/// </summary>
-		tmpSprite->Draw();
+		//tmpSprite->Draw();
 
 		// スプライト描画後処理
 		Sprite::PostDraw();
@@ -208,10 +211,6 @@ void SelectScene::Draw()
 	{
 		// 前景スプライト描画前処理
 		Sprite::PreDraw(cmdList);
-
-		/// <summary>
-		/// ここに前景スプライトの描画処理を追加
-		/// </summary>
 
 		// デバッグテキストの描画
 		text->DrawAll(cmdList);

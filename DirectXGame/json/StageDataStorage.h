@@ -15,6 +15,14 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
+	// ロードデータ構造体
+	struct LoadData
+	{
+		int firstNum = 0;
+		std::vector<std::string> modelName;
+	};
+
+	// ステージデータ構造体
 	struct StageData
 	{
 		XMFLOAT3 color = { 0,0,0 };				// ステージの色
@@ -44,8 +52,15 @@ public:
 	/// <returns></returns>
 	std::vector<std::string> GetDefoultName() { return defoultModelName; }
 
+	/// <summary>
+	/// セレクト情報取得
+	/// </summary>
+	/// <returns></returns>
+	LoadData GetDeSelectData() { return selectData; }
+
 private:
 	std::vector<std::string> defoultModelName;	// デフォルトで読み込むモデルの名前
+	LoadData selectData;	// ステージセレクトなどで使うモデル
 	std::vector<StageData> stageDatas;	// マップデータ配列
 
 private:

@@ -10,11 +10,21 @@
             "Arrow"
         ]
     },
+    "selectLoad" : {
+        "firstNum" : 10,
+        "modelNames" : [
+            "halfSphere",
+            "map01_def",
+            "map02_def",
+            "map03_def",
+            "map04_def"
+        ]
+    },
     "totalMapNum" : 4,
     "stage0" : {
         "color" : [ 0, 1, 1 ],
         "fogColor" : [0,0,0.5,0.1],
-        "firstNum" : 10,
+        "firstNum" : 20,
         "modelNames" : [
             "01_87",
             "01_88",
@@ -33,7 +43,7 @@
     "stage1" : {
         "color" : [ 1, 0, 1 ],
         "fogColor" : [0.5,0,0,0.1],
-        "firstNum" : 30,
+        "firstNum" : 40,
         "modelNames" : [
             "02_51",
             "02_52",
@@ -52,7 +62,7 @@
     "stage2" : {
         "color" : [ 1, 1, 0 ],
         "fogColor" : [0,0.5,0,0.1],
-        "firstNum" : 50,
+        "firstNum" : 60,
         "modelNames" : [
             "03_50",
             "03_51",
@@ -71,7 +81,7 @@
     "stage3" : {
         "color" : [ 0, 1, 0 ],
         "fogColor" : [0,0,0.5,0.1],
-        "firstNum" : 70,
+        "firstNum" : 80,
         "modelNames" : [
             "04_75",
             "04_76",

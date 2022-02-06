@@ -53,12 +53,37 @@ public:
 	BaseScene();
 	~BaseScene();
 
+	/// <summary>
+	/// シーン初期化
+	/// </summary>
+	/// <param name="dxCommon">DirectX系情報</param>
+	/// <param name="input">入力情報</param>
+	/// <param name="audio">音情報</param>
 	virtual void Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio);
 
+	/// <summary>
+	/// シーン更新
+	/// </summary>
 	virtual void Update() = 0;
 
+	/// <summary>
+	/// 背景スプライト描画
+	/// </summary>
+	//virtual void BackSpriteDraw();
+
+	/// <summary>
+	/// 3Dオブジェクト描画
+	/// </summary>
 	virtual void Draw() = 0;
 
+	/// <summary>
+	/// 前景スプライト描画
+	/// </summary>
+	//virtual void ForeSpriteDraw();
+
+	/// <summary>
+	/// シーン終了
+	/// </summary>
 	virtual void Finalize() = 0;
 
 	BaseScene* GetNextScene() { return nextScene; }

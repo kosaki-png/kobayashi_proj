@@ -28,10 +28,17 @@ void StageDataStorage::LoadJson()
 		defoultModelName.push_back(x.get<std::string>());
 	}
 
+	// セレクト用情報読み込み
+	selectData.firstNum = j["selectLoad"]["firstNum"].get<int>();
+	for (auto x : j["selectLoad"]["modelNames"])
+	{
+		selectData.modelName.push_back(x.get<std::string>());
+	}
+
 	// 総ステージ分データ配列を確保
 	stageDatas.resize(j["totalMapNum"].get<int>());
 
-	// 各情報取得
+	// 各ステージ情報取得
 	for (int i = 0; i < stageDatas.size(); i++)
 	{
 		// ステージ情報へのアクセスパス

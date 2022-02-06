@@ -32,10 +32,19 @@ void AsyncLoad()
 	/*auto sleepTime = std::chrono::seconds(10);
 	std::this_thread::sleep_for(sleepTime);*/
 
-	modelMngTitle->Load(13, "01_77");	// 13
-	modelMngTitle->Load(33, "02_41");	// 33
-	modelMngTitle->Load(53, "03_40");	// 53
-	modelMngTitle->Load(73, "04_85");	// 73
+	// セレクトに使うデータ取得
+	StageDataStorage::LoadData selectData = StageDataStorage::GetInstance()->GetDeSelectData();
+
+	// 情報から必要なモデルをロード
+	for (int i = 0; i < selectData.modelName.size(); i++)
+	{
+		modelMngTitle->Load(selectData.firstNum + i, selectData.modelName[i]);
+	}
+
+	modelMngTitle->Load(23, "01_77");	// 23
+	modelMngTitle->Load(43, "02_41");	// 43
+	modelMngTitle->Load(63, "03_40");	// 63
+	modelMngTitle->Load(83, "04_85");	// 83
 
 	SetLockFlag(true);
 }
@@ -46,7 +55,7 @@ TitleScene::TitleScene()
 
 TitleScene::~TitleScene()
 {
-	safe_delete(tmpSprite);
+	delete tmpSprite;
 }
 
 void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -187,7 +196,6 @@ void TitleScene::Draw()
 
 	// 3Dオブジェクト描画
 	{
-
 		// パーティクルの描画
 		particleMan->Draw(cmdList);
 	}

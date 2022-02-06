@@ -144,7 +144,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 			map[i]->Initialize();
 
 			// マップモデルセット
-			map[i]->SetModel(modelMng->GetModel(i + stage * 20 + 10));
+			map[i]->SetModel(modelMng->GetModel(i + stageData->GetStageData(stage).firstNum));
 			map[i]->SetPosition({ stageData->GetStageData(stage).gap });
 
 			// フォグの色設定
@@ -160,8 +160,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		skydome->Initialize({ 0, -1, 0 }, false);
 
 		// モデルセット
-		floor->SetModel(modelMng->GetModel(stage * 20 + 19));
-		skydome->SetModel(modelMng->GetModel(stage * 20 + 20));
+		floor->SetModel(modelMng->GetModel(stageData->GetStageData(stage).firstNum + 9));
+		skydome->SetModel(modelMng->GetModel(stageData->GetStageData(stage).firstNum + 10));
 
 		// 床初期値
 		floor->SetPosition({ 10,0,0 });

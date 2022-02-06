@@ -225,7 +225,7 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		mapObj = new Fbx();
 		mapObj->Initialize();
 		// マップモデルセット
-		mapObj->SetModel(modelMngLoad->GetModel(stage * 20 + 13));
+		mapObj->SetModel(modelMngLoad->GetModel(stage * 20 + 23));
 		mapObj->SetPosition({ -1130 / 2, 0, -925 - 925 / 2 });
 		mapObj->SetFogColor(stageData->GetStageData(stage).fogColor);
 	}

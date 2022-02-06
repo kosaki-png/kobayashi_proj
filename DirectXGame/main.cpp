@@ -68,6 +68,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 
 #pragma endregion
 
+	// Jsonファイルをロード
 	StageDataStorage::GetInstance()->LoadJson();
 
 	// 最初のシーンの初期化
