@@ -44,8 +44,8 @@ void Crystal::Update()
 
 void Crystal::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	crystalObj->Draw(cmdList, true);
-	circleObj->Draw(cmdList, true);
+	crystalObj->Draw(cmdList);
+	circleObj->Draw(cmdList);
 }
 
 void Crystal::SpriteDraw()

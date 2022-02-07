@@ -2,8 +2,6 @@
 #include "DirectXCommon.h"
 #include "Audio.h"
 #include "GameScene.h"
-#include "LightGroup.h"
-#include "ParticleManager.h"
 #include "FbxLoader.h"
 #include "PostEffect.h"
 #include "FlameRate.h"
@@ -59,10 +57,6 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 		assert(0);
 		return 1;
 	}
-	// ライト静的初期化
-	LightGroup::StaticInitialize(dxCommon->GetDevice());
-	// パーティクルマネージャ初期化
-	ParticleManager::GetInstance()->Initialize(dxCommon->GetDevice());
 	// FBX関連静的初期化
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 

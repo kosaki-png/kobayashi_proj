@@ -166,10 +166,9 @@ void Fbx::CreateGraphicsPipeline()
 	if (FAILED(result)) { assert(0); }
 }
 
-void Fbx::Initialize(XMFLOAT3 lightDir, bool isFog)
+void Fbx::Initialize(XMFLOAT3 lightDir)
 {
 	this->lightDir = lightDir;
-	this->isFog = isFog;
 
 	HRESULT result;
 	// 定数バッファの生成
@@ -223,7 +222,7 @@ void Fbx::Update()
 	}
 }
 
-void Fbx::Draw(ID3D12GraphicsCommandList* cmdList, bool mode)
+void Fbx::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	// モデルの割り当てがなければ描画しない
 	if (model == nullptr) {
@@ -235,19 +234,7 @@ void Fbx::Draw(ID3D12GraphicsCommandList* cmdList, bool mode)
 	// ルートシグネチャの設定
 	cmdList->SetGraphicsRootSignature(rootsignature.Get());
 	// プリミティブ形状を設定
-	if (mode)
-	{
-		//cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-		cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	}
-	else
-	{
-		cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
-	}
-	//cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	//cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-	//cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
-	//cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_UNDEFINED);
+	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	// 定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetGPUVirtualAddress());
 

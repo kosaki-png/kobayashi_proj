@@ -50,7 +50,7 @@ void Gush::Draw(ID3D12GraphicsCommandList* cmdList)
 	{
 		if (cube[i].cubePos.y < 5)
 		{
-			cube[i].cubeObj->Draw(cmdList, true);
+			cube[i].cubeObj->Draw(cmdList);
 		}
 	}
 }

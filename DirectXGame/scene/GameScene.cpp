@@ -57,29 +57,14 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// 汎用的初期化
 	{
 		// カメラ生成
-		//camera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
-		mainCamera = new MainCamera(WinApp::window_width, WinApp::window_height, input);
-
-		// デバッグテキスト用テクスチャ読み込み
-		if (!Sprite::LoadTexture(texNumber, L"Resources/debugfont.png")) {
-			assert(0);
-			return;
-		}
-		// テキスト初期化
-		text = Text::GetInstance();
-		text->Initialize(texNumber);
+		camera = new MainCamera(WinApp::window_width, WinApp::window_height, input);
 
 		// デバイスをセット
 		Fbx::SetDevice(dxCommon->GetDevice());
 		// カメラをセット
-		Fbx::SetCamera(mainCamera);
+		Fbx::SetCamera(camera);
 		// グラフィックスパイプライン生成
 		Fbx::CreateGraphicsPipeline();
-
-		// パーティクルマネージャ生成
-		particleMan = ParticleManager::GetInstance();
-		//particleMan->SetCamera(camera);
-		particleMan->SetCamera(mainCamera);
 
 		// 非同期ロード用
 		auto count = std::thread::hardware_concurrency();
@@ -157,7 +142,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		// 空初期化
 		skydome = new Fbx();
-		skydome->Initialize({ 0, -1, 0 }, false);
+		skydome->Initialize({ 0, -1, 0 });
+		skydome->SetFog(false);
 
 		// モデルセット
 		floor->SetModel(modelMng->GetModel(stageData->GetStageData(stage).firstNum + 9));
@@ -255,12 +241,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 void GameScene::Update()
 {
-	// コントローラの更新
-	xinput.Update();
-
-	// パーティクル生成
-	//CreateParticles();
-	
 	// ESCAPEでオプションを開く
 	if (input->TriggerKey(DIK_ESCAPE) && !isMap)
 	{
@@ -276,7 +256,7 @@ void GameScene::Update()
 		isMap = false;
 
 		// スペースで指定のシーンへ
-		if (input->TriggerKey(DIK_SPACE) || xinput.TriggerButtom(0, xinput_A))
+		if (input->TriggerKey(DIK_SPACE))
 		{
 			// セレクトシーンへ
 			nextScene = new EndScene();
@@ -292,9 +272,9 @@ void GameScene::Update()
 	}
 	else // ゲーム中
 	{
-		// 感度の設定
-		mainCamera->SetSence(sence);
-		player->SetSence(sence);
+		//// 感度の設定
+		//camera->SetSence(sence);
+		//player->SetSence(sence);
 
 		// マウスカーソルを画面中心に固定
 		SetCursorPos(1920 / 2, 1080 / 2);
@@ -390,10 +370,10 @@ void GameScene::Update()
 			{
 				static float angle = 0;
 				angle += 0.04f;
-				mainCamera->UpdateProjectionMatrix(5000.0f);
+				camera->UpdateProjectionMatrix(5000.0f);
 				skydome->SetRotation({ 0, angle / 10, 0 });
 				skydome->Update();
-				mainCamera->UpdateProjectionMatrix(1000.0f);
+				camera->UpdateProjectionMatrix(1000.0f);
 			}
 
 			// 地面の更新
@@ -415,22 +395,14 @@ void GameScene::Update()
 				XMFLOAT3 cameraMove = { player->GetPosition().x + player->GetMove().x,
 										player->GetPosition().y + player->GetMove().y + 2,
 										player->GetPosition().z + player->GetMove().z, };
-				mainCamera->SetTarget(cameraMove);
+				camera->SetTarget(cameraMove);
 
-				mainCamera->Update();
+				camera->Update();
 			}
 		}
 	}
 	
 	mapCursor->SetRotation(player->GetRotation().y);
-
-	if (input->PushKey(DIK_P))
-	{
-		CreateParticles();
-	}
-
-	//lightGroup->Update();
-	particleMan->Update();
 }
 
 void GameScene::Draw()
@@ -448,9 +420,6 @@ void GameScene::Draw()
 
 		// 深度バッファクリア
 		dxCommon->ClearDepthBuffer();
-
-		// パーティクルの描画
-		particleMan->Draw(cmdList);
 	}
 	
 	// 3Dオブジェクト描画
@@ -460,10 +429,10 @@ void GameScene::Draw()
 		// マップモデルの描画
 		for (auto x : map)
 		{
-			x->Draw(cmdList, true);
+			x->Draw(cmdList);
 		}
-		skydome->Draw(cmdList, true);
-		floor->Draw(cmdList, true);
+		skydome->Draw(cmdList);
+		floor->Draw(cmdList);
 		for (auto x : gush)
 		{
 			x->Draw(cmdList);
@@ -494,9 +463,6 @@ void GameScene::Draw()
 			{
 				optionSprite->Draw();
 			}
-
-			// デバッグテキストの描画
-			text->DrawAll(cmdList);
 		}
 		Sprite::PostDraw();
 	}
@@ -512,29 +478,4 @@ void GameScene::Draw()
 
 void GameScene::Finalize()
 {
-}
-
-void GameScene::CreateParticles()
-{
-	for (int i = 0; i < 10; i++) {
-		// X,Y,Z全て[-5.0f,+5.0f]でランダムに分布
-		const float rnd_pos = 10.0f;
-		XMFLOAT3 pos{};
-		pos.x = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-		pos.y = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-		pos.z = (float)rand() / RAND_MAX * rnd_pos - rnd_pos / 2.0f;
-
-		const float rnd_vel = 0.2f;
-		XMFLOAT3 vel{};
-		vel.x = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.y = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-		vel.z = (float)rand() / RAND_MAX * rnd_vel - rnd_vel / 2.0f;
-
-		XMFLOAT3 acc{};
-		const float rnd_acc = 0.001f;
-		acc.y = -(float)rand() / RAND_MAX * rnd_acc;
-
-		// 追加
-		particleMan->Add(60, {0,0,0}, vel, acc, 1.0f, 0.0f);
-	}
 }

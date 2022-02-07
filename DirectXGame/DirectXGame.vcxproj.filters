@@ -64,12 +64,6 @@
     <Filter Include="ヘッダー ファイル\Scene">
       <UniqueIdentifier>{93074f23-6987-41c3-ad54-60bccc4e9490}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ヘッダー ファイル\Light">
-      <UniqueIdentifier>{1401114e-042d-4aec-9de5-99d83cce13f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ソース ファイル\Light">
-      <UniqueIdentifier>{39611dd4-c879-49fd-b252-40c25602a1b7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ソース ファイル\Element">
       <UniqueIdentifier>{93f1dc34-1b65-4c5f-b134-67ce2566ad46}</UniqueIdentifier>
     </Filter>
@@ -105,9 +99,6 @@
     <ClCompile Include="3d\FbxModel.cpp">
       <Filter>ソース ファイル\3d</Filter>
     </ClCompile>
-    <ClCompile Include="2d\DebugText.cpp">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClCompile>
     <ClCompile Include="audio\Audio.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
@@ -132,17 +123,8 @@
     <ClCompile Include="base\WinApp.cpp">
       <Filter>ソース ファイル\Base</Filter>
     </ClCompile>
-    <ClCompile Include="3d\ParticleManager.cpp">
-      <Filter>ソース ファイル\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\LightGroup.cpp">
-      <Filter>ソース ファイル\Light</Filter>
-    </ClCompile>
     <ClCompile Include="3d\Fbx.cpp">
       <Filter>ソース ファイル\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="2d\Text.cpp">
-      <Filter>ソース ファイル\2d</Filter>
     </ClCompile>
     <ClCompile Include="scene\BaseScene.cpp">
       <Filter>ソース ファイル\Scene</Filter>
@@ -224,9 +206,6 @@
     <ClInclude Include="camera\DebugCamera.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="2d\DebugText.h">
-      <Filter>ヘッダー ファイル\2d</Filter>
-    </ClInclude>
     <ClInclude Include="base\DirectXCommon.h">
       <Filter>ヘッダー ファイル\Base</Filter>
     </ClInclude>
@@ -242,9 +221,6 @@
     <ClInclude Include="3d\FbxModel.h">
       <Filter>ヘッダー ファイル\3d</Filter>
     </ClInclude>
-    <ClInclude Include="3d\ParticleManager.h">
-      <Filter>ヘッダー ファイル\2d</Filter>
-    </ClInclude>
     <ClInclude Include="SafeDelete.h">
       <Filter>ヘッダー ファイル\Base</Filter>
     </ClInclude>
@@ -254,26 +230,8 @@
     <ClInclude Include="base\WinApp.h">
       <Filter>ヘッダー ファイル\Base</Filter>
     </ClInclude>
-    <ClInclude Include="3d\CircleShadow.h">
-      <Filter>ヘッダー ファイル\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\DirectionalLight.h">
-      <Filter>ヘッダー ファイル\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\LightGroup.h">
-      <Filter>ヘッダー ファイル\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\PointLight.h">
-      <Filter>ヘッダー ファイル\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\SpotLight.h">
-      <Filter>ヘッダー ファイル\Light</Filter>
-    </ClInclude>
     <ClInclude Include="3d\Fbx.h">
       <Filter>ヘッダー ファイル\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="2d\Text.h">
-      <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
     <ClInclude Include="scene\BaseScene.h">
       <Filter>ヘッダー ファイル\Scene</Filter>

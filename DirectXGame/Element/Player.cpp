@@ -15,6 +15,7 @@ Player::~Player()
 {
 	delete playerObj;
 	delete dangerSpr;
+	delete arrowObj;
 }
 
 void Player::Initialize(Input* input, TexCollision* texCol)
@@ -160,8 +161,8 @@ void Player::Update()
 
 void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	playerObj->Draw(cmdList, true);
-	arrowObj->Draw(cmdList, true);
+	playerObj->Draw(cmdList);
+	arrowObj->Draw(cmdList);
 }
 
 void Player::SpriteDraw()

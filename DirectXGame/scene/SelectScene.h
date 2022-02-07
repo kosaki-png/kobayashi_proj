@@ -23,15 +23,7 @@ public:
 	void Finalize() override;
 
 private:
-	Text* text;
 	Camera* camera = nullptr;
-
-	Xinput xinput;
-
-	LightGroup* lightGroup = nullptr;
-	float ambientColor0[3] = { 1,1,1 };
-
-	ParticleManager* particleMan = nullptr;
 
 	float centerX = 1280 / 2;
 	float centerY = 720 / 2;
@@ -40,7 +32,11 @@ private:
 
 	Sprite* tmpSprite = nullptr;
 
+	// セレクト用マップ
 	Fbx* map[4] = {};
 	XMFLOAT3 mapPos[4] = {};
 	float mapRad = 0;
+
+	// セレクト背景
+	Fbx* back = nullptr;
 };

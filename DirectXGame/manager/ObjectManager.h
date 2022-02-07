@@ -4,7 +4,6 @@
 #include "Sprite.h"
 #include "Fbx.h"
 #include "FbxLoader.h"
-#include "Text.h"
 #include "XinputControll.h"
 #include "Input.h"
 #include "DirectXCommon.h"

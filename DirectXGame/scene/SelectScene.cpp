@@ -17,6 +17,7 @@ SelectScene::~SelectScene()
 	{
 		delete x;
 	}
+	delete back;
 }
 
 void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -27,30 +28,14 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 	// 汎用的初期化
 	{
 		// カメラ生成
-		camera = new OrbitCamera(WinApp::window_width, WinApp::window_height);
-
-		// デバッグテキスト用テクスチャ読み込み
-		if (!Sprite::LoadTexture(texNumber, L"Resources/debugfont.png")) {
-			assert(0);
-			return;
-		}
-		// デバッグテキスト初期化
-		text = Text::GetInstance();
-		text->Initialize(texNumber);
-
-		// ライト生成
-		lightGroup = LightGroup::Create();
-
+		camera = new FixedCamera(WinApp::window_width, WinApp::window_height);
+		
 		// デバイスをセット
 		Fbx::SetDevice(dxCommon->GetDevice());
 		// カメラをセット
 		Fbx::SetCamera(camera);
 		// グラフィックスパイプライン生成
 		Fbx::CreateGraphicsPipeline();
-
-		// パーティクルマネージャ生成
-		particleMan = ParticleManager::GetInstance();
-		particleMan->SetCamera(camera);
 	}
 
 	// スプライト初期設定
@@ -70,37 +55,32 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 		}
 	}
 
-	// OBJオブジェクト初期設定
-	{
-		// モデル読み込み
-		{
-		}
-
-		// 3Dオブジェクト生成
-		{
-		}
-
-		// 3Dオブジェクト初期設定
-		{
-		}
-	}
-
 	// FBXオブジェクト初期設定
 	{
-		// モデル生成
+		// セレクト用マップ
+		for (int i = 0; i < 4; i++)
 		{
-			for (int i = 0; i < 4; i++)
-			{
-				map[i] = new Fbx();
-				map[i]->Initialize();
-				map[i]->SetModel(ModelManager::GetInstance()->GetModel(i + stageData->GetDeSelectData().firstNum + 1));
-			}
+			map[i] = new Fbx();
+			map[i]->Initialize();
+			map[i]->SetModel(ModelManager::GetInstance()->GetModel(i + stageData->GetDeSelectData().firstNum + 1));
+			map[i]->SetFog(false);
 		}
+
+		// 背景
+		back = new Fbx();
+		back->Initialize();
+		back->SetModel(ModelManager::GetInstance()->GetModel(stageData->GetDeSelectData().firstNum));
+		back->SetFog(false);
+		back->SetPosition({ 0,0,150 });
+		back->SetScale({ 3,3,3 });
 	}
 
-	// カメラ注視点をセット
-	//camera->SetTarget({ 0, 1, 0 });
-	//camera->SetDistance(10.0f);
+	// カメラ初期化
+	{
+		// カメラ注視点をセット
+		camera->SetTarget({ 0, 10, 0 });
+		camera->SetEye({ 0,100,300 });
+	}
 
 	// 各クラスの初期化
 	{
@@ -115,9 +95,6 @@ void SelectScene::Update()
 
 	if (!stop)
 	{
-		// コントローラの更新
-		xinput.Update();
-
 		// シーン移行
 		if (input->TriggerKey(DIK_0))
 		{
@@ -157,10 +134,7 @@ void SelectScene::Update()
 			mousePos = { (float)p.x, (float)p.y };
 		}
 	}
-
-	lightGroup->Update();
 	camera->Update();
-	particleMan->Update();
 
 	// 3Dオブジェクト更新
 	{
@@ -168,6 +142,8 @@ void SelectScene::Update()
 		{
 			map[i]->Update();
 		}
+
+		back->Update();
 	}
 
 	// 各クラスの更新
@@ -198,22 +174,18 @@ void SelectScene::Draw()
 
 	// 3D描画
 	{
+		back->Draw(cmdList);
+
 		for (int i = 0; i < 4; i++)
 		{
-			map[i]->Draw(cmdList, true);
+			map[i]->Draw(cmdList);
 		}
-
-		// パーティクルの描画
-		particleMan->Draw(cmdList);
 	}
 
 	// 前景スプライト描画
 	{
 		// 前景スプライト描画前処理
 		Sprite::PreDraw(cmdList);
-
-		// デバッグテキストの描画
-		text->DrawAll(cmdList);
 
 		// スプライト描画後処理
 		Sprite::PostDraw();

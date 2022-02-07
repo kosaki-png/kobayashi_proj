@@ -57,7 +57,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(XMFLOAT3 lightDir = { 0,-1,0 }, bool isFog = true);
+	void Initialize(XMFLOAT3 lightDir = { 0,-1,0 });
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -67,7 +67,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(ID3D12GraphicsCommandList* cmdList, bool mode);
+	void Draw(ID3D12GraphicsCommandList* cmdList);
 
 	void SetModel(FbxModel* model) { this->model = model; }
 
@@ -112,6 +112,12 @@ public: // メンバ関数
 	/// </summary>
 	/// <param name="position">回転</param>
 	void SetFogColor(XMFLOAT4 color) { fogColor = color; }
+
+	/// <summary>
+	/// フォグをかけるか否か　defoult : on
+	/// </summary>
+	/// <param name="isFog"></param>
+	void SetFog(bool isFog) { this->isFog = isFog; }
 
 protected: // メンバ変数
 	// 定数バッファ

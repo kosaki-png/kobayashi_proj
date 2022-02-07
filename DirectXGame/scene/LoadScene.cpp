@@ -159,28 +159,12 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		// カメラ生成
 		camera = new OrbitCamera(WinApp::window_width, WinApp::window_height);
 
-		// デバッグテキスト用テクスチャ読み込み
-		if (!Sprite::LoadTexture(texNumber, L"Resources/debugfont.png")) {
-			assert(0);
-			return;
-		}
-		// デバッグテキスト初期化
-		text = Text::GetInstance();
-		text->Initialize(texNumber);
-
-		// ライト生成
-		lightGroup = LightGroup::Create();
-
 		// デバイスをセット
 		Fbx::SetDevice(dxCommon->GetDevice());
 		// カメラをセット
 		Fbx::SetCamera(camera);
 		// グラフィックスパイプライン生成
 		Fbx::CreateGraphicsPipeline();
-
-		// パーティクルマネージャ生成
-		particleMan = ParticleManager::GetInstance();
-		particleMan->SetCamera(camera);
 
 		// 非同期ロード用
 		auto count = std::thread::hardware_concurrency();
@@ -268,9 +252,6 @@ void LoadScene::Update()
 	{
 		camera->Update();
 	}
-
-	lightGroup->Update();
-	particleMan->Update();
 }
 
 void LoadScene::Draw()
@@ -293,10 +274,7 @@ void LoadScene::Draw()
 	// 3Dオブジェクト描画
 	{
 		// マップ描画
-		mapObj->Draw(cmdList, true);
-
-		// パーティクルの描画
-		particleMan->Draw(cmdList);
+		mapObj->Draw(cmdList);
 	}
 
 	// 前景スプライト描画
@@ -315,9 +293,6 @@ void LoadScene::Draw()
 			{
 				loaded->Draw();
 			}
-
-			// デバッグテキストの描画
-			text->DrawAll(cmdList);
 		}
 		Sprite::PostDraw();
 	}

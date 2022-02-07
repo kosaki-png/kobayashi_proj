@@ -2,7 +2,6 @@
 #include "DirectXCommon.h"
 #include <DirectXMath.h>
 #include "SafeDelete.h"
-#include "LightGroup.h"
 
 // “ü—ÍŠÖŒW
 #include "Input.h"
@@ -12,8 +11,6 @@
 #include "Sprite.h"
 #include "Fbx.h"
 #include "FbxLoader.h"
-#include "ParticleManager.h"
-#include "Text.h"
 #include "Audio.h"
 
 // ƒJƒƒ‰ŠÖŒW
@@ -103,4 +100,13 @@ protected:
 	bool stop = true;
 
 	bool isGodray = false;
+
+	// ‰æ–Ê’†S
+	const float WINDOW_WIDTH = 1280.0f;
+	const float WINDOW_HEIGHT = 720.0f;
+	const XMFLOAT2 SCREEN_CENTER = { 1280.0f / 2.0f, 720.0f / 2.0f };
+
+	XMFLOAT2 mousePos;
+
+	Camera* camera = nullptr;
 };

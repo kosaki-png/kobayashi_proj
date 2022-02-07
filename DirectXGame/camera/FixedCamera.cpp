@@ -14,8 +14,5 @@ FixedCamera::~FixedCamera()
 
 void FixedCamera::Update()
 {
-	SetTarget({ 0,0,0 });
-	SetEye({ 0, 0, 10 });
-
 	Camera::Update();
 }

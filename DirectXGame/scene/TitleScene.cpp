@@ -28,10 +28,6 @@ bool GetLockFlag()
 // 非同期ロード関数
 void AsyncLoad()
 {
-	//ダミーで10秒待つ
-	/*auto sleepTime = std::chrono::seconds(10);
-	std::this_thread::sleep_for(sleepTime);*/
-
 	// セレクトに使うデータ取得
 	StageDataStorage::LoadData selectData = StageDataStorage::GetInstance()->GetDeSelectData();
 
@@ -67,18 +63,6 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 		// カメラ生成
 		camera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
-
-		// デバッグテキスト用テクスチャ読み込み
-		if (!Sprite::LoadTexture(texNumber, L"Resources/debugfont.png")) {
-			assert(0);
-			return;
-		}
-		// デバッグテキスト初期化
-		text = Text::GetInstance();
-		text->Initialize(texNumber);
-
-		// ライト生成
-		lightGroup = LightGroup::Create();
 	
 		// デバイスをセット
 		Fbx::SetDevice(dxCommon->GetDevice());
@@ -86,10 +70,6 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		Fbx::SetCamera(camera);
 		// グラフィックスパイプライン生成
 		Fbx::CreateGraphicsPipeline();
-
-		// パーティクルマネージャ生成
-		particleMan = ParticleManager::GetInstance();
-		particleMan->SetCamera(camera);
 
 		// 非同期ロード用
 		auto count = std::thread::hardware_concurrency();
@@ -124,16 +104,12 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 	// カメラ注視点をセット
 	camera->SetTarget({ 0, -1, 0 });
-	camera->SetDistance(25.0f);
 
 	isGodray = true;
 }
 
 void TitleScene::Update()
-{
-	// コントローラの更新
-	xinput.Update();
-	
+{	
 	// 非同期ロード中
 	if (!GetLockFlag())
 	{
@@ -165,12 +141,7 @@ void TitleScene::Update()
 		mousePos = { (float)p.x, (float)p.y };
 	}
 
-	// パーティクル生成
-	//CreateParticles();
-
-	lightGroup->Update();
 	camera->Update();
-	particleMan->Update();
 
 	// 3Dオブジェクト更新
 	{
@@ -196,27 +167,15 @@ void TitleScene::Draw()
 
 	// 3Dオブジェクト描画
 	{
-		// パーティクルの描画
-		particleMan->Draw(cmdList);
+
 	}
 
 	// 前景スプライト描画
 	{
 		Sprite::PreDraw(cmdList);
 		{
-
-			// デバッグテキストの描画
-			text->DrawAll(cmdList);
 		}
 		Sprite::PostDraw();
-	}
-
-	// ImGui描画
-	{
-		/*ImGui::Begin("OPTION");
-		ImGui::SetWindowSize(ImVec2(100, 100));
-		ImGui::SliderFloat("感度", &sence, 0.01f, 5.0f);
-		ImGui::End();*/
 	}
 }
 

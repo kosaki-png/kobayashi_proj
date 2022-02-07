@@ -35,32 +35,11 @@ public:
 
 	void Finalize() override;
 
-	void CreateParticles();
-
 private:
 	const float MAP_WIDTH = 3390.0f;
 	const float MAP_HEIGHT = 2775.0f;
 
 private:
-	Text* text;
-	DebugCamera* camera = nullptr;
-	MainCamera* mainCamera = nullptr;
-
-	LightGroup* lightGroup = nullptr;
-	float ambientColor0[3] = { 1,1,1 };
-
-	ParticleManager* particleMan = nullptr;
-
-	Xinput xinput;
-
-	// 画面中心
-	const int WINDOW_WIDTH = 1280;
-	const int WINDOW_HEIGHT = 720;
-	const XMFLOAT2 SCREEN_CENTER = { 1280.0f / 2.0f, 720.0f / 2.0f };
-
-	XMFLOAT2 mousePos;
-
-	// 各クラス宣言宣言
 	// プレイヤー
 	Player* player = nullptr;
 
@@ -109,9 +88,6 @@ private:
 	const float WORLD_WIDTH = 925 * 3;
 
 #pragma endregion
-
-	// 移動量保存用変数
-	XMFLOAT3 keepVec = { 0,0,0 };
 
 	// 感度変更用
 	float sence = 1.0f;

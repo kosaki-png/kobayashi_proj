@@ -145,8 +145,8 @@ void Enemy::Update()
 
 void Enemy::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	enemyObj->Draw(cmdList, true);
-	circleObj->Draw(cmdList, false);
+	enemyObj->Draw(cmdList);
+	circleObj->Draw(cmdList);
 }
 
 void Enemy::SpriteDraw()
