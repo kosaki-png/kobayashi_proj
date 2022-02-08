@@ -25,6 +25,7 @@
 
 // ƒf[ƒ^ŠÖŒW
 #include "StageDataStorage.h"
+#include "SpriteData.h"
 
 struct SceneButton
 {

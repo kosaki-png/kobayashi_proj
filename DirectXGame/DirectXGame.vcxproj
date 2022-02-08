@@ -46,11 +46,11 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input\;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)dynamics\;$(ProjectDir)gameObject\;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)flameRate\;$(ProjectDir)Element\;$(ProjectDir)Effect\;$(IncludePath);$(ProjectDir)manager\;$(ProjectDir)Particle\;$(ProjectDir)json\</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input\;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)dynamics\;$(ProjectDir)gameObject\;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)flameRate\;$(ProjectDir)Element\;$(ProjectDir)Effect\;$(ProjectDir)Data\;$(ProjectDir)manager\;$(ProjectDir)Particle\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input\;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)dynamics\;$(ProjectDir)gameObject\;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)flameRate\;$(ProjectDir)Element\;$(ProjectDir)Effect\;$(ProjectDir)manager\;$(IncludePath);$(ProjectDir)manager\;$(ProjectDir)Particle\;$(ProjectDir)json\</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)3d\;$(ProjectDir)2d\;$(ProjectDir)camera\;$(ProjectDir)base\;$(ProjectDir)input\;$(ProjectDir)audio\;$(ProjectDir)scene\;$(ProjectDir)dynamics\;$(ProjectDir)gameObject\;$(ProjectDir)lib\fbx_sdk\include;$(ProjectDir)flameRate\;$(ProjectDir)Element\;$(ProjectDir)Effect\;$(ProjectDir)Data\;$(ProjectDir)manager\;$(ProjectDir)Particle\</IncludePath>
     <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -99,6 +99,8 @@
     <ClCompile Include="camera\FixedCamera.cpp" />
     <ClCompile Include="camera\MainCamera.cpp" />
     <ClCompile Include="camera\OrbitCamera.cpp" />
+    <ClCompile Include="Data\SpriteData.cpp" />
+    <ClCompile Include="Data\StageDataStorage.cpp" />
     <ClCompile Include="dynamics\TexCollision.cpp" />
     <ClCompile Include="Element\Crystal.cpp" />
     <ClCompile Include="Element\Enemy.cpp" />
@@ -106,7 +108,6 @@
     <ClCompile Include="Element\Player.cpp" />
     <ClCompile Include="FlameRate\FlameRate.cpp" />
     <ClCompile Include="input\XinputControll.cpp" />
-    <ClCompile Include="json\StageDataStorage.cpp" />
     <ClCompile Include="manager\ModelManager.cpp" />
     <ClCompile Include="manager\ObjectManager.cpp" />
     <ClCompile Include="manager\SceneManager.cpp" />
@@ -144,6 +145,8 @@
     <ClInclude Include="camera\FixedCamera.h" />
     <ClInclude Include="camera\MainCamera.h" />
     <ClInclude Include="camera\OrbitCamera.h" />
+    <ClInclude Include="Data\SpriteData.h" />
+    <ClInclude Include="Data\StageDataStorage.h" />
     <ClInclude Include="dynamics\TexCollision.h" />
     <ClInclude Include="Element\Crystal.h" />
     <ClInclude Include="Element\Enemy.h" />
@@ -151,7 +154,6 @@
     <ClInclude Include="Element\Player.h" />
     <ClInclude Include="FlameRate\FlameRate.h" />
     <ClInclude Include="input\XinputControll.h" />
-    <ClInclude Include="json\StageDataStorage.h" />
     <ClInclude Include="manager\ModelManager.h" />
     <ClInclude Include="manager\ObjectManager.h" />
     <ClInclude Include="manager\SceneManager.h" />

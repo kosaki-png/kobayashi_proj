@@ -5,6 +5,7 @@
 #include <iomanip>
 
 using namespace DirectX;
+using namespace SpriteData;
 
 IntervalScene::IntervalScene()
 {
@@ -45,7 +46,11 @@ void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* aud
 	{
 		// スプライト用テクスチャ読み込み
 		{
-			Sprite::LoadTexture(101, L"Resources/texture/white_1000x1000.png");
+			// ロードしていないならする
+			if (!SpriteLoader::GetIntervalFlag())
+			{
+				SpriteLoader::LoadIntervalSprite();
+			}
 		}
 
 		// スプライト生成
@@ -53,7 +58,7 @@ void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* aud
 			for (int i = 0; i < 2; i++)
 			{
 				// 初期位置設定
-				line[i].sprite = Sprite::Create(101, { 0,0 });
+				line[i].sprite = Sprite::Create(INTERVAL, { 0,0 });
 				line[i].size = { 3000, 10 };
 				line[i].position = { -3000, WINDOW_HEIGHT / 2 - 5 };
 				line[i].speed = { 70.0f, 0 };

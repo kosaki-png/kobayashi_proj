@@ -36,6 +36,7 @@ public:
 	void Finalize() override;
 
 private:
+	// 1マップの大きさ
 	const float MAP_WIDTH = 3390.0f;
 	const float MAP_HEIGHT = 2775.0f;
 
@@ -49,8 +50,8 @@ private:
 
 	// クリスタル
 	static const int CRYSTAL_COUNT = 3;
-	std::array<Crystal*, CRYSTAL_COUNT> crystal;
-	std::array<XMFLOAT3, CRYSTAL_COUNT> crystalPos;
+	std::array<Crystal*, CRYSTAL_COUNT> crystal = {};
+	std::array<XMFLOAT3, CRYSTAL_COUNT> crystalPos = {};
 	
 	ModelManager* modelMng = nullptr;
 	ObjectManager* objMng = nullptr;
@@ -62,7 +63,7 @@ private:
 	Sprite* cursorSprite = nullptr;
 
 	static const int GUSH_COUNT = 100;
-	std::array<Gush*, GUSH_COUNT> gush;
+	std::array<Gush*, GUSH_COUNT> gush = {};
 
 #pragma region マップ
 

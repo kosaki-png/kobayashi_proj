@@ -27,9 +27,9 @@ private:
 
 	IntervalScene* interval = nullptr;
 
-	DirectXCommon* dxCommon;
-	Input* input;
-	Audio* audio;
+	DirectXCommon* dxCommon = nullptr;
+	Input* input = nullptr;
+	Audio* audio = nullptr;
 
 	PostEffect* postEffect = nullptr;
 

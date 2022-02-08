@@ -5,6 +5,7 @@
 #include <iomanip>
 
 using namespace DirectX;
+using namespace SpriteData;
 
 EndScene::EndScene()
 {
@@ -27,12 +28,16 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 		// スプライト用テクスチャ読み込み
 		{
-			Sprite::LoadTexture(1, L"Resources/texture/clear.png");
+			// ロードしていないならする
+			if (!SpriteLoader::GetEndFlag())
+			{
+				SpriteLoader::LoadEndSprite();
+			}
 		}
 
 		// スプライト生成
 		{
-			tmpSprite = Sprite::Create(1, { 0,0 });
+			tmpSprite = Sprite::Create(CLEAR, { 0,0 });
 		}
 
 		// スプライト初期設定

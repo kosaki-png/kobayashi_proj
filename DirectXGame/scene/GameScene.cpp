@@ -6,6 +6,7 @@
 #include <thread>
 
 using namespace DirectX;
+using namespace SpriteData;
 
 GameScene::GameScene(int stage)
 	:	stage(stage)
@@ -78,33 +79,22 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 		// スプライト用テクスチャ読み込み
 		{
-			Sprite::LoadTexture(1, L"Resources/texture/option.png");
-			Sprite::LoadTexture(2, L"Resources/texture/miniMap.png");
-			Sprite::LoadTexture(3, L"Resources/texture/map_all_frame.png");
-			Sprite::LoadTexture(4, L"Resources/texture/map_all_point.png");
-			Sprite::LoadTexture(5, L"Resources/texture/map_Cursor.png");
-
-			// マップ系
-			Sprite::LoadTexture(20, L"Resources/texture/map_01_ref.png");
-			Sprite::LoadTexture(21, L"Resources/texture/map_02_ref.png");
-			Sprite::LoadTexture(22, L"Resources/texture/map_03_ref.png");
-			Sprite::LoadTexture(23, L"Resources/texture/map_04_ref.png");
-			Sprite::LoadTexture(24, L"Resources/texture/map_01_frame.png");
-			Sprite::LoadTexture(25, L"Resources/texture/map_02_frame.png");
-			Sprite::LoadTexture(26, L"Resources/texture/map_03_frame.png");
-			Sprite::LoadTexture(27, L"Resources/texture/map_04_frame.png");
-			
+			// ロードしていないならする
+			if (!SpriteLoader::GetGameFlag())
+			{
+				SpriteLoader::LoadGameSprite();
+			}
 		}
 
 		// スプライト生成
 		{
-			optionSprite = Sprite::Create(1, { 0,0 });
-			miniFrame = Sprite::Create(2, { 1280 - 300, 0 });
-			mapAllFrame = Sprite::Create(3, { 0,0 });
-			mapAllPoint = Sprite::Create(4, { 0,0 });
-			mapCursor = Sprite::Create(5, { 1280 - 150, 150});
-			minimap = Sprite::Create(stage + 20, { 0,0 });
-			mapAll = Sprite::Create(stage + 24, { 0,0 });
+			optionSprite = Sprite::Create(OPTION, { 0,0 });
+			miniFrame = Sprite::Create(MAP_MINI, { 1280 - 300, 0 });
+			mapAllFrame = Sprite::Create(MAP_FLAME, { 0,0 });
+			mapAllPoint = Sprite::Create(MAP_POINT, { 0,0 });
+			mapCursor = Sprite::Create(MAP_CURSOR, { 1280 - 150, 150});
+			minimap = Sprite::Create(stage + MAP01_REF, { 0,0 });
+			mapAll = Sprite::Create(stage + MAP01_FLAME, { 0,0 });
 		}
 
 		// スプライト初期設定

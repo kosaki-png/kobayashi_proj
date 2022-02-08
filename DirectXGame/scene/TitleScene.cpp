@@ -6,6 +6,7 @@
 #include <thread>
 
 using namespace DirectX;
+using namespace SpriteData;
 
 // 非同期ロード用
 ModelManager* modelMngTitle = ModelManager::GetInstance();
@@ -83,12 +84,16 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 		// スプライト用テクスチャ読み込み
 		{
-			Sprite::LoadTexture(1, L"Resources/texture/title_tmp.png");
+			// スプライトをロードしていないならする
+			if (!SpriteLoader::GetTitleFlag())
+			{
+				SpriteLoader::LoadTitleSprite();
+			}
 		}
 
 		// スプライト生成
 		{
-			tmpSprite = Sprite::Create(1, { 0,0 });
+			tmpSprite = Sprite::Create(TITLE, { 0,0 });
 		}
 
 		// スプライト初期設定

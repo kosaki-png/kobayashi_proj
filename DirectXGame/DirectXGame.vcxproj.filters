@@ -186,14 +186,17 @@
     <ClCompile Include="Particle\Gush.cpp">
       <Filter>ソース ファイル\Particle</Filter>
     </ClCompile>
-    <ClCompile Include="json\StageDataStorage.cpp">
-      <Filter>ソース ファイル\Data</Filter>
-    </ClCompile>
     <ClCompile Include="Element\Crystal.cpp">
       <Filter>ソース ファイル\Element</Filter>
     </ClCompile>
     <ClCompile Include="camera\FixedCamera.cpp">
       <Filter>ソース ファイル\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\SpriteData.cpp">
+      <Filter>ソース ファイル\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="Data\StageDataStorage.cpp">
+      <Filter>ソース ファイル\Data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,14 +296,17 @@
     <ClInclude Include="Particle\Particle3D.h">
       <Filter>ヘッダー ファイル\Particle</Filter>
     </ClInclude>
-    <ClInclude Include="json\StageDataStorage.h">
-      <Filter>ヘッダー ファイル\Data</Filter>
-    </ClInclude>
     <ClInclude Include="Element\Crystal.h">
       <Filter>ヘッダー ファイル\Element</Filter>
     </ClInclude>
     <ClInclude Include="camera\FixedCamera.h">
       <Filter>ヘッダー ファイル\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\SpriteData.h">
+      <Filter>ヘッダー ファイル\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Data\StageDataStorage.h">
+      <Filter>ヘッダー ファイル\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@
 #include <iomanip>
 
 using namespace DirectX;
+using namespace SpriteData;
 
 // モデル管理クラスのインスタンス取得
 ModelManager* modelMngLoad = ModelManager::GetInstance();
@@ -178,18 +179,19 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 		// スプライト用テクスチャ読み込み
 		{
-			Sprite::LoadTexture(1, L"Resources/texture/loading.png");
-			Sprite::LoadTexture(2, L"Resources/texture/loaded.png");
-			Sprite::LoadTexture(3, L"Resources/texture/load_bar.png");
-			Sprite::LoadTexture(4, L"Resources/texture/load_bar_white.png");
+			// ロードしていないならする
+			if (!SpriteLoader::GetLoadFlag())
+			{
+				SpriteLoader::LoadLoadSprite();
+			}
 		}
 
 		// スプライト生成
 		{
-			loading = Sprite::Create(1, { 0,0 });
-			loaded = Sprite::Create(2, { 0,0 });
-			loadBar = Sprite::Create(3, { 0,0 });
-			loadBarWhite = Sprite::Create(4, { 243,603 });
+			loading = Sprite::Create(LOADING, { 0,0 });
+			loaded = Sprite::Create(LOADED, { 0,0 });
+			loadBar = Sprite::Create(LOADFLAME, { 0,0 });
+			loadBarWhite = Sprite::Create(LOADBAR, { 243,603 });
 		}
 
 		// スプライト初期設定

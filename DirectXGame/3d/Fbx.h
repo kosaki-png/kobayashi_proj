@@ -135,7 +135,7 @@ protected: // メンバ変数
 	// ライトの向き
 	XMFLOAT3 lightDir = { 0,0,0 };
 	// フォグ
-	bool isFog = false;
+	bool isFog = true;
 	// フォグの色
 	XMFLOAT4 fogColor = { 0,0,0,0 };
 };

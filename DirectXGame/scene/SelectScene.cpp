@@ -5,6 +5,7 @@
 #include <iomanip>
 
 using namespace DirectX;
+using namespace SpriteData;
 
 SelectScene::SelectScene()
 {
@@ -42,12 +43,16 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 	{
 		// スプライト用テクスチャ読み込み
 		{
-			Sprite::LoadTexture(1, L"Resources/texture/star.png");
+			// ロードしていないならする
+			if (!SpriteLoader::GetSelectFlag())
+			{
+				SpriteLoader::LoadSelectSprite();
+			}
 		}
 
 		// スプライト生成
 		{
-			tmpSprite = Sprite::Create(1, { 0,0 });
+			tmpSprite = Sprite::Create(CLEAR, { 0,0 });
 		}
 
 		// スプライト初期設定
