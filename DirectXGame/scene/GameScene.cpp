@@ -330,7 +330,7 @@ void GameScene::Update()
 				}
 
 				// 一番近くのクリスタル判定
-				float tmpDis = sqrt(pow(crystalPos[i].x - playerPos.x, 2) + pow(crystalPos[i].z - playerPos.z, 2));
+				float tmpDis = (float)sqrt(pow(crystalPos[i].x - playerPos.x, 2) + pow(crystalPos[i].z - playerPos.z, 2));
 				if (dis > tmpDis || dis == 0)
 				{
 					dis = tmpDis;

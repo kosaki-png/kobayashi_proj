@@ -131,6 +131,7 @@ bool Audio::LoadFile(const wchar_t* filename)
 	buffer.AudioBytes = dwChunkSize;  
 	buffer.pAudioData = pDataBuffer;  
 
+	return 0;
 }
 
 

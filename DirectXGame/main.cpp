@@ -67,9 +67,6 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 
 	// 最初のシーンの初期化
 	sceneMng->Start(dxCommon, input, audio);
-
-	// カーソルON/OFF
-	//ShowCursor(FALSE);
 	
 	// メインループ
 	while (true)

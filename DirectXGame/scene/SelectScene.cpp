@@ -13,7 +13,6 @@ SelectScene::SelectScene()
 
 SelectScene::~SelectScene()
 {
-	safe_delete(tmpSprite);
 	for (auto x : map)
 	{
 		delete x;
@@ -52,7 +51,6 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 
 		// スプライト生成
 		{
-			tmpSprite = Sprite::Create(CLEAR, { 0,0 });
 		}
 
 		// スプライト初期設定
@@ -76,15 +74,15 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 		back->Initialize();
 		back->SetModel(ModelManager::GetInstance()->GetModel(stageData->GetDeSelectData().firstNum));
 		back->SetFog(false);
-		back->SetPosition({ 0,0,150 });
-		back->SetScale({ 3,3,3 });
+		back->SetPosition({ 0,0,300 });
+		back->SetScale({ 5,5,8 });
 	}
 
 	// カメラ初期化
 	{
 		// カメラ注視点をセット
 		camera->SetTarget({ 0, 10, 0 });
-		camera->SetEye({ 0,100,300 });
+		camera->SetEye({ 0,200,400 });
 	}
 
 	// 各クラスの初期化
@@ -165,11 +163,6 @@ void SelectScene::Draw()
 	{
 		// 背景スプライト描画前処理
 		Sprite::PreDraw(cmdList);
-
-		/// <summary>
-		/// ここに背景スプライトの描画処理を追加
-		/// </summary>
-		//tmpSprite->Draw();
 
 		// スプライト描画後処理
 		Sprite::PostDraw();

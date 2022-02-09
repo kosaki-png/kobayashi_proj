@@ -23,15 +23,6 @@ public:
 	void Finalize() override;
 
 private:
-	Camera* camera = nullptr;
-
-	float centerX = 1280 / 2;
-	float centerY = 720 / 2;
-
-	XMFLOAT2 mousePos;
-
-	Sprite* tmpSprite = nullptr;
-
 	// セレクト用マップ
 	Fbx* map[4] = {};
 	XMFLOAT3 mapPos[4] = {};
@@ -39,4 +30,6 @@ private:
 
 	// セレクト背景
 	Fbx* back = nullptr;
+
+	float rad = 0;
 };

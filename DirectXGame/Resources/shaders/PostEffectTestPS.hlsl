@@ -31,12 +31,14 @@ float3 Godray(VSOutput input)
 	float2 coord = float2(fragCoord.x, iResolution.y - fragCoord.y);
 
 	// 太陽光線のパラメータ
+	// ライト１
 	float2 rayPos1 = float2(iResolution.x * 0.7, iResolution.y * 1.4);
 	float2 rayRefDir1 = normalize(float2(1.0, -0.116));
 	float raySeedA1 = 36.2214;
 	float raySeedB1 = 21.11349;
 	float raySpeed1 = 1.5;
 
+	// ライト２
 	float2 rayPos2 = float2(iResolution.x * 0.8, iResolution.y * 1.6);
 	float2 rayRefDir2 = normalize(float2(1.0, 0.241));
 	const float raySeedA2 = 22.39910;
