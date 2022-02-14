@@ -15,12 +15,10 @@ GameScene::GameScene(int stage)
 
 GameScene::~GameScene()
 {
-	delete objMng;
+	delete nextScene;
+	delete camera;
 	delete player;
-	/*for (auto x : enemy)
-	{
-		delete x;
-	}*/
+
 	for (auto x : crystal)
 	{
 		delete x;
@@ -29,6 +27,11 @@ GameScene::~GameScene()
 	{
 		delete x;
 	}
+	delete objMng;
+	/*for (auto x : enemy)
+	{
+		delete x;
+	}*/
 
 	delete texCol;
 	
@@ -37,17 +40,18 @@ GameScene::~GameScene()
 	{
 		delete x;
 	}
-	delete mapAllFrame;
-	delete mapAllPoint;
-	delete mapAll;
 	delete minimap;
 	delete miniFrame;
 	delete mapCursor;
+	delete mapAllFrame;
+	delete mapAllPoint;
+	delete mapAll;
 
 	delete floor;
 	delete skydome;
 
 	delete optionSprite;
+	delete cursorSprite;
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -363,7 +367,7 @@ void GameScene::Update()
 				camera->UpdateProjectionMatrix(5000.0f);
 				skydome->SetRotation({ 0, angle / 10, 0 });
 				skydome->Update();
-				camera->UpdateProjectionMatrix(1000.0f);
+				camera->UpdateProjectionMatrix(500.0f);
 			}
 
 			// 地面の更新
@@ -468,4 +472,41 @@ void GameScene::Draw()
 
 void GameScene::Finalize()
 {
+	delete nextScene;
+	delete camera;
+	delete player;
+
+	for (auto x : crystal)
+	{
+		delete x;
+	}
+	for (auto x : gush)
+	{
+		delete x;
+	}
+	delete objMng;
+	/*for (auto x : enemy)
+	{
+		delete x;
+	}*/
+
+	delete texCol;
+
+	// マップ系
+	for (auto x : map)
+	{
+		delete x;
+	}
+	delete minimap;
+	delete miniFrame;
+	delete mapCursor;
+	delete mapAllFrame;
+	delete mapAllPoint;
+	delete mapAll;
+
+	delete floor;
+	delete skydome;
+
+	delete optionSprite;
+	delete cursorSprite;
 }

@@ -65,19 +65,9 @@ public:
 	virtual void Update() = 0;
 
 	/// <summary>
-	/// 背景スプライト描画
-	/// </summary>
-	//virtual void BackSpriteDraw();
-
-	/// <summary>
 	/// 3Dオブジェクト描画
 	/// </summary>
 	virtual void Draw() = 0;
-
-	/// <summary>
-	/// 前景スプライト描画
-	/// </summary>
-	//virtual void ForeSpriteDraw();
 
 	/// <summary>
 	/// シーン終了
@@ -108,6 +98,4 @@ protected:
 	const XMFLOAT2 SCREEN_CENTER = { 1280.0f / 2.0f, 720.0f / 2.0f };
 
 	XMFLOAT2 mousePos;
-
-	Camera* camera = nullptr;
 };

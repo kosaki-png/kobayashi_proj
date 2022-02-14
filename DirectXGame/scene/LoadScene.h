@@ -25,13 +25,14 @@ public:
 	void Finalize() override;
 
 private:
+	OrbitCamera* camera = nullptr;
 
 #pragma region 非同期ロード
 
 	int stage = 0;
 
 	// 非同期ロード用
-	std::thread* th;
+	std::thread* th = nullptr;
 
 	// ロード用
 	Sprite* loading = nullptr;

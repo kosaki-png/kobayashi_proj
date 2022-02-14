@@ -11,6 +11,8 @@
 #include "ModelManager.h"
 #include "TexCollision.h"
 
+#include <random>
+
 class Particle3D
 {
 protected:
@@ -48,5 +50,8 @@ protected:
 	XMFLOAT3 position = { 0,0,0 };
 	XMFLOAT3 rotation = { 0,0,0 };
 	XMFLOAT3 scale = { 1,1,1 };
+
+	std::mt19937 mt{ std::random_device{}() };
+	
 };
 

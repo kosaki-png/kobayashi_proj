@@ -13,6 +13,8 @@ IntervalScene::IntervalScene()
 
 IntervalScene::~IntervalScene()
 {
+	delete nextScene;
+	delete camera;
 	delete line[0].sprite;
 	delete line[1].sprite;
 }

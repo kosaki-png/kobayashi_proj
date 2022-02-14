@@ -30,15 +30,16 @@ public:
 private:
 
 	Sprite* tmpSprite = nullptr;
+	OrbitCamera* camera = nullptr;
 
 #pragma region 非同期ロード
 
 	// 非同期ロード用
-	std::thread* th;
+	std::thread* th = nullptr;
 
 	// ロード用
-	Sprite* load = nullptr;
-	Sprite* loadCircle = nullptr;
+	/*Sprite* load = nullptr;
+	Sprite* loadCircle = nullptr;*/
 
 #pragma endregion
 };

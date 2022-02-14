@@ -23,6 +23,8 @@ public:
 	void Finalize() override;
 
 private:
+	OrbitCamera* camera = nullptr;
+
 	Sprite* tmpSprite = nullptr;
 
 };

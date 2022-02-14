@@ -1,13 +1,11 @@
 ﻿#include "WinApp.h"
 #include "DirectXCommon.h"
 #include "Audio.h"
-#include "GameScene.h"
 #include "FbxLoader.h"
 #include "PostEffect.h"
 #include "FlameRate.h"
 
 #include "SceneManager.h"
-
 #include "ModelManager.h"
 #include "StageDataStorage.h"
 
@@ -111,5 +109,6 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	win->TerminateGameWindow();
 	safe_delete(win);
 
+	int a = 0;
 	return 0;
 }

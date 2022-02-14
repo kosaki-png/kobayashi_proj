@@ -143,6 +143,10 @@ LoadScene::LoadScene(int stage)
 
 LoadScene::~LoadScene()
 {
+	delete th;
+	delete nextScene;
+	delete camera;
+
 	delete mapObj;
 	delete loading;
 	delete loaded;
@@ -306,4 +310,14 @@ void LoadScene::Finalize()
 	{
 		th->join();
 	}
+
+	delete th;
+	delete nextScene;
+	delete camera;
+
+	delete mapObj;
+	delete loading;
+	delete loaded;
+	delete loadBar;
+	delete loadBarWhite;
 }

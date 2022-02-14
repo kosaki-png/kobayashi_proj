@@ -6,7 +6,6 @@
             "Enemy_circle",
             "crystal",
             "crystalCircle",
-            "Particle_Cube",
             "Arrow"
         ]
     },
@@ -14,6 +13,7 @@
         "firstNum" : 10,
         "modelNames" : [
             "halfSphere",
+            "Particle_Cube",
             "map01_def",
             "map02_def",
             "map03_def",

@@ -32,7 +32,7 @@ void Player::Initialize(Input* input, TexCollision* texCol)
 
 	arrowObj = new Fbx();
 	arrowObj->Initialize({ 0,1,0 });
-	arrowObj->SetModel(modelMng->GetModel(6));
+	arrowObj->SetModel(modelMng->GetModel(5));
 
 	Placement(TexCollision::ArgColor::Green);
 }

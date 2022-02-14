@@ -13,6 +13,8 @@ EndScene::EndScene()
 
 EndScene::~EndScene()
 {
+	delete nextScene;
+	delete camera;
 	safe_delete(tmpSprite);
 }
 
@@ -22,7 +24,7 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	BaseScene::Initialize(dxCommon, input, audio);
 
 	// カメラ生成
-	camera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
+	camera = new OrbitCamera(WinApp::window_width, WinApp::window_height);
 
 	// スプライト初期設定
 	{
@@ -136,4 +138,7 @@ void EndScene::Draw()
 
 void EndScene::Finalize()
 {
+	delete nextScene;
+	delete camera;
+	safe_delete(tmpSprite);
 }

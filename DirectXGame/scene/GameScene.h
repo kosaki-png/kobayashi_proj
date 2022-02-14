@@ -41,6 +41,8 @@ private:
 	const float MAP_HEIGHT = 2775.0f;
 
 private:
+	MainCamera* camera = nullptr;
+
 	// プレイヤー
 	Player* player = nullptr;
 
@@ -62,7 +64,7 @@ private:
 	Sprite* optionSprite = nullptr;
 	Sprite* cursorSprite = nullptr;
 
-	static const int GUSH_COUNT = 100;
+	static const int GUSH_COUNT = 50;
 	std::array<Gush*, GUSH_COUNT> gush = {};
 
 #pragma region マップ

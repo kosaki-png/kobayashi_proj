@@ -13,11 +13,17 @@ SelectScene::SelectScene()
 
 SelectScene::~SelectScene()
 {
+	delete nextScene;
+	delete camera;
 	for (auto x : map)
 	{
 		delete x;
 	}
 	delete back;
+	for (auto x : gush)
+	{
+		delete x;
+	}
 }
 
 void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -65,7 +71,7 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 		{
 			map[i] = new Fbx();
 			map[i]->Initialize();
-			map[i]->SetModel(ModelManager::GetInstance()->GetModel(i + stageData->GetDeSelectData().firstNum + 1));
+			map[i]->SetModel(ModelManager::GetInstance()->GetModel(i + stageData->GetDeSelectData().firstNum + 2));
 			map[i]->SetFog(false);
 		}
 
@@ -75,18 +81,27 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 		back->SetModel(ModelManager::GetInstance()->GetModel(stageData->GetDeSelectData().firstNum));
 		back->SetFog(false);
 		back->SetPosition({ 0,0,300 });
-		back->SetScale({ 5,5,8 });
+		back->SetScale({ 5,5,6 });
 	}
 
 	// カメラ初期化
 	{
 		// カメラ注視点をセット
-		camera->SetTarget({ 0, 10, 0 });
-		camera->SetEye({ 0,200,400 });
+		camera->SetTarget({ 0, -50, 0 });
+		camera->SetEye({ 0,250,500 });
 	}
 
 	// 各クラスの初期化
 	{
+		for (int i = 0; i < gush.size(); i++)
+		{
+			gush[i] = new Gush();
+			gush[i]->Initialize();
+			gush[i]->SetPlayerPos({ 0, 0, 0 });
+			gush[i]->SetMax(100);
+			gush[i]->SetDis({ -50, 0 });
+			gush[i]->SetSpeed(0.1f);
+		}
 	}
 
 	isGodray = true;
@@ -94,63 +109,112 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 
 void SelectScene::Update()
 {
-	stop = false;
-
-	if (!stop)
+	// ESCAPEでゲーム終了
+	if (input->PushKey(DIK_ESCAPE))
 	{
-		// シーン移行
-		if (input->TriggerKey(DIK_0))
+		SelectScene::~SelectScene();
+		PostQuitMessage(0);
+	}
+
+	// マウスポイント
+	{
+		static POINT p;
+		GetCursorPos(&p);
+		WinApp* win = nullptr;
+		win = new WinApp();
+		ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
+		mousePos = { (float)p.x, (float)p.y };
+	}
+
+	// セレクトマップ回転指定
+	{
+		// 回転スタート
+		if (input->TriggerKey(DIK_LEFT) && !isMove)
 		{
-			// 選択したマップでゲームシーンへ
-			nextScene = new LoadScene(0);
+			map[nowMap]->SetScale({ 1, 1, 1});
+			nowMap--;
+			vel = 1;
+			isMove = true;
+			// 回転終着点決定
+			reRot = rad + 90 * vel;
 		}
-		if (input->TriggerKey(DIK_1))
+		if (input->TriggerKey(DIK_RIGHT) && !isMove)
 		{
-			// 選択したマップでゲームシーンへ
-			nextScene = new LoadScene(1);
-		}
-		if (input->TriggerKey(DIK_2))
-		{
-			// 選択したマップでゲームシーンへ
-			nextScene = new LoadScene(2);
-		}
-		if (input->TriggerKey(DIK_3))
-		{
-			// 選択したマップでゲームシーンへ
-			nextScene = new LoadScene(3);
+			map[nowMap]->SetScale({ 1, 1, 1 });
+			nowMap++;
+			vel = -1;
+			isMove = true;
+			// 回転終着点決定
+			reRot = rad + 90 * vel;
 		}
 
-		// ESCAPEでゲーム終了
-		if (input->PushKey(DIK_ESCAPE))
+		// 回転中
+		if (isMove)
 		{
-			SelectScene::~SelectScene();
-			PostQuitMessage(0);
+			// 回転
+			rad += 1.5f * vel;
+
+			// 一定で止まる
+			if ((vel == 1 && reRot < rad) || (vel == -1 && rad < reRot))
+			{
+				vel = 0;
+				rad = reRot;
+				isMove = false;
+			}
 		}
 
-		// マウスポイント
+		// 数字ループ
+		if (nowMap == 4)
 		{
-			static POINT p;
-			GetCursorPos(&p);
-			WinApp* win = nullptr;
-			win = new WinApp();
-			ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
-			mousePos = { (float)p.x, (float)p.y };
+			nowMap = 0;
+		}
+		if (nowMap == -1)
+		{
+			nowMap = 3;
 		}
 	}
-	camera->Update();
+
+	// 選択中のマップの挙動
+	if (!isMove)
+	{
+		// ちょっと大きくする
+		map[nowMap]->SetScale({ 1.5f, 1.5f, 1.5f });
+
+		// 回転させる
+		map[nowMap]->SetRotation({ map[nowMap]->GetRotation().x, 
+								   map[nowMap]->GetRotation().y + 0.5f, 
+								   map[nowMap]->GetRotation().z });
+
+		// シーン移行
+		if (input->TriggerKey(DIK_SPACE))
+		{
+			// 選択したマップでゲームシーンへ
+			nextScene = new LoadScene(nowMap);
+		}
+	}
 
 	// 3Dオブジェクト更新
 	{
 		for (int i = 0; i < 4; i++)
 		{
+			// 現在の全体ラジアン
+			float radian = (rad + 90.0f * (float)i + 180.0f) * 3.14f / 180.0f;
+
 			map[i]->Update();
+			map[i]->SetPosition({ (float)sinf(radian) * 200, 0, -(float)cosf(radian) * 200 });
 		}
 
 		back->Update();
 	}
 
 	// 各クラスの更新
-	{}
+	{
+		camera->Update();
+		for (auto x : gush)
+		{
+			x->Update();
+		}
+	}
 
 }
 
@@ -178,6 +242,11 @@ void SelectScene::Draw()
 		{
 			map[i]->Draw(cmdList);
 		}
+
+		for (auto x : gush)
+		{
+			x->Draw(cmdList);
+		}
 	}
 
 	// 前景スプライト描画
@@ -192,4 +261,15 @@ void SelectScene::Draw()
 
 void SelectScene::Finalize()
 {
+	delete nextScene;
+	delete camera;
+	for (auto x : map)
+	{
+		delete x;
+	}
+	delete back;
+	for (auto x : gush)
+	{
+		delete x;
+	}
 }

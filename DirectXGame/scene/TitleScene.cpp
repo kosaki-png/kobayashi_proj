@@ -52,7 +52,10 @@ TitleScene::TitleScene()
 
 TitleScene::~TitleScene()
 {
-	delete tmpSprite;
+	/*safe_delete(nextScene);
+	safe_delete(camera);
+	safe_delete(th);
+	safe_delete(tmpSprite);*/
 }
 
 void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -63,7 +66,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// 汎用的初期化
 	{
 		// カメラ生成
-		camera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
+		camera = new OrbitCamera(WinApp::window_width, WinApp::window_height);
 	
 		// デバイスをセット
 		Fbx::SetDevice(dxCommon->GetDevice());
@@ -190,4 +193,9 @@ void TitleScene::Finalize()
 	{
 		th->join();
 	}
+
+	safe_delete(nextScene);
+	safe_delete(camera);
+	//safe_delete(th);
+	safe_delete(tmpSprite);
 }

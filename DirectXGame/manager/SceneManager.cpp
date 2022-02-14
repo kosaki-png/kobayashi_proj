@@ -21,6 +21,7 @@ SceneManager* SceneManager::GetInstance()
 
 void SceneManager::Destroy()
 {
+	delete interval;
 	delete scene;
 	delete postEffect;
 	delete instance;
@@ -29,10 +30,10 @@ void SceneManager::Destroy()
 void SceneManager::Start(DirectXCommon* dxCommon, Input* input, Audio* audio)
 {
 	// ç≈èâÇÃÉVÅ[Éì
-	//scene = new TitleScene();
+	scene = new TitleScene();
 	//scene = new SelectScene();
 	//scene = new GameScene();
-    scene = new EndScene();
+    //scene = new EndScene();
 	//scene = new IntervalScene();
 
 	interval = new IntervalScene();

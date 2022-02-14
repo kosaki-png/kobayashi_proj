@@ -7,6 +7,8 @@
 #include "EndScene.h"
 #include "IntervalScene.h"
 
+#include "Gush.h"
+
 class SelectScene :
 	public BaseScene
 {
@@ -23,6 +25,8 @@ public:
 	void Finalize() override;
 
 private:
+	FixedCamera* camera = nullptr;
+
 	// セレクト用マップ
 	Fbx* map[4] = {};
 	XMFLOAT3 mapPos[4] = {};
@@ -32,4 +36,12 @@ private:
 	Fbx* back = nullptr;
 
 	float rad = 0;
+
+	float vel = 0;
+	bool isMove = false;
+	float reRot = 0;
+
+	int nowMap = 0;
+
+	std::array<Gush*, 30> gush;
 };
