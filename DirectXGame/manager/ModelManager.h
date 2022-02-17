@@ -23,6 +23,12 @@ public:
 	/// <returns>ƒ‚ƒfƒ‹</returns>
 	FbxModel* GetModel(int modelNum) { return models[modelNum]; }
 
+	/// <summary>
+	/// w’è”Ô†‚Ìƒ‚ƒfƒ‹‚ğíœ
+	/// </summary>
+	/// <param name="modelNum"></param>
+	void SpecifyRelease(int modelNum);
+
 private:
 	std::vector<FbxModel*> models;
 	int modelCnt = 0;

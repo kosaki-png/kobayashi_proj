@@ -24,7 +24,7 @@ TexCollision::TexCollision(int texWidth, int texHeight, int maxMapX, int maxMapY
 
 TexCollision::~TexCollision()
 {
-	delete pcolor;
+	//delete pcolor;
 }
 
 void TexCollision::LoadTexture(int mapX, int mapY, const wchar_t* filename)

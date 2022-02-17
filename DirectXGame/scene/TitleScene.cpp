@@ -38,10 +38,10 @@ void AsyncLoad()
 		modelMngTitle->Load(selectData.firstNum + i, selectData.modelName[i]);
 	}
 
-	modelMngTitle->Load(23, "01_77");	// 23
-	modelMngTitle->Load(43, "02_41");	// 43
-	modelMngTitle->Load(63, "03_40");	// 63
-	modelMngTitle->Load(83, "04_85");	// 83
+	modelMngTitle->Load(100, "01_77");	// 23
+	modelMngTitle->Load(101, "02_41");	// 43
+	modelMngTitle->Load(102, "03_40");	// 63
+	modelMngTitle->Load(103, "04_85");	// 83
 
 	SetLockFlag(true);
 }
@@ -52,10 +52,9 @@ TitleScene::TitleScene()
 
 TitleScene::~TitleScene()
 {
-	/*safe_delete(nextScene);
 	safe_delete(camera);
-	safe_delete(th);
-	safe_delete(tmpSprite);*/
+	safe_delete(tmpSprite);
+	safe_delete(fadeSprite);
 }
 
 void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -97,10 +96,13 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		// スプライト生成
 		{
 			tmpSprite = Sprite::Create(TITLE, { 0,0 });
+			fadeSprite = Sprite::Create(FADE, { 0,0 });
 		}
 
 		// スプライト初期設定
 		{
+			fadeSprite->SetPosition({ WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 });
+			fadeSprite->SetAnchorPoint({ 0.5f, 0.5f });
 		}
 	}
 
@@ -132,6 +134,19 @@ void TitleScene::Update()
 		}
 	}
 
+	// タイトル演出
+	{
+		if (fadeSize.x <= 2000)
+		{
+			fadeSize.x += 30.0f;
+			fadeSize.y += 30.0f;
+		}
+		else
+		{
+			fadeAlpha -= 0.005f;
+		}
+	}
+
 	// ESCAPEでゲーム終了
 	if (input->PushKey(DIK_ESCAPE))
 	{
@@ -154,6 +169,12 @@ void TitleScene::Update()
 	// 3Dオブジェクト更新
 	{
 	}
+
+	// スプライト更新
+	{
+		fadeSprite->SetSize(fadeSize);
+		fadeSprite->SetAlpha(fadeAlpha);
+	}
 }
 
 void TitleScene::Draw()
@@ -165,7 +186,10 @@ void TitleScene::Draw()
 	{
 		Sprite::PreDraw(cmdList);
 		{
-			tmpSprite->Draw();
+			if (fadeSize.x >= 2000)
+			{
+				tmpSprite->Draw();
+			}
 		}
 		Sprite::PostDraw();
 
@@ -182,6 +206,7 @@ void TitleScene::Draw()
 	{
 		Sprite::PreDraw(cmdList);
 		{
+			fadeSprite->Draw();
 		}
 		Sprite::PostDraw();
 	}
@@ -193,9 +218,4 @@ void TitleScene::Finalize()
 	{
 		th->join();
 	}
-
-	safe_delete(nextScene);
-	safe_delete(camera);
-	//safe_delete(th);
-	safe_delete(tmpSprite);
 }

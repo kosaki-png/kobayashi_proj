@@ -27,7 +27,7 @@ protected:
 
 public:
 	Particle3D();
-	~Particle3D();
+	virtual ~Particle3D();
 
 	virtual void Initialize();
 	virtual void Update() = 0;

@@ -15,43 +15,42 @@ GameScene::GameScene(int stage)
 
 GameScene::~GameScene()
 {
-	delete nextScene;
-	delete camera;
-	delete player;
+	safe_delete(camera);
+	safe_delete(player);
 
 	for (auto x : crystal)
 	{
-		delete x;
+		safe_delete(x);
 	}
 	for (auto x : gush)
 	{
-		delete x;
+		safe_delete(x);
 	}
-	delete objMng;
+	safe_delete(objMng);
 	/*for (auto x : enemy)
 	{
-		delete x;
+		safe_delete(x);
 	}*/
 
-	delete texCol;
-	
+	safe_delete(texCol);
+
 	// マップ系
 	for (auto x : map)
 	{
-		delete x;
+		safe_delete(x);
 	}
-	delete minimap;
-	delete miniFrame;
-	delete mapCursor;
-	delete mapAllFrame;
-	delete mapAllPoint;
-	delete mapAll;
+	safe_delete(minimap);
+	safe_delete(miniFrame);
+	safe_delete(mapCursor);
+	safe_delete(mapAllFrame);
+	safe_delete(mapAllPoint);
+	safe_delete(mapAll);
 
-	delete floor;
-	delete skydome;
+	safe_delete(floor);
+	safe_delete(skydome);
 
-	delete optionSprite;
-	delete cursorSprite;
+	safe_delete(optionSprite);
+	safe_delete(cursorSprite);
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -472,41 +471,4 @@ void GameScene::Draw()
 
 void GameScene::Finalize()
 {
-	delete nextScene;
-	delete camera;
-	delete player;
-
-	for (auto x : crystal)
-	{
-		delete x;
-	}
-	for (auto x : gush)
-	{
-		delete x;
-	}
-	delete objMng;
-	/*for (auto x : enemy)
-	{
-		delete x;
-	}*/
-
-	delete texCol;
-
-	// マップ系
-	for (auto x : map)
-	{
-		delete x;
-	}
-	delete minimap;
-	delete miniFrame;
-	delete mapCursor;
-	delete mapAllFrame;
-	delete mapAllPoint;
-	delete mapAll;
-
-	delete floor;
-	delete skydome;
-
-	delete optionSprite;
-	delete cursorSprite;
 }

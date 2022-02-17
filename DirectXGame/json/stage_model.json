@@ -57,7 +57,7 @@
             "floor",
             "skydome"
         ],
-        "gap" : [ 0, 0, -1 ]
+        "gap" : [ 0, -3, -1 ]
     },
     "stage2" : {
         "color" : [ 1, 1, 0 ],

@@ -13,10 +13,9 @@ IntervalScene::IntervalScene()
 
 IntervalScene::~IntervalScene()
 {
-	delete nextScene;
-	delete camera;
-	delete line[0].sprite;
-	delete line[1].sprite;
+	safe_delete(camera);
+	safe_delete(line[0].sprite);
+	safe_delete(line[1].sprite);
 }
 
 void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)

@@ -25,7 +25,7 @@ protected:
 
 public:
 	Object();
-	~Object();
+	virtual ~Object();
 
 	virtual void Initialize(Input* input, TexCollision* texCol);
 	virtual void Update() = 0;

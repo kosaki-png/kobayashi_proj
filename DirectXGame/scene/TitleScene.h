@@ -28,18 +28,17 @@ public:
 	void Finalize() override;
 
 private:
-
 	Sprite* tmpSprite = nullptr;
-	OrbitCamera* camera = nullptr;
+	Sprite* fadeSprite = nullptr;
+
+	// タイトル演出用
+	XMFLOAT2 fadeSize = { 0,0 };
+	float fadeAlpha = 1.0f;
 
 #pragma region 非同期ロード
 
 	// 非同期ロード用
 	std::thread* th = nullptr;
-
-	// ロード用
-	/*Sprite* load = nullptr;
-	Sprite* loadCircle = nullptr;*/
 
 #pragma endregion
 };

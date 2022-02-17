@@ -25,8 +25,6 @@ public:
 	void Finalize() override;
 
 private:
-	OrbitCamera* camera = nullptr;
-
 #pragma region ”ñ“¯Šúƒ[ƒh
 
 	int stage = 0;

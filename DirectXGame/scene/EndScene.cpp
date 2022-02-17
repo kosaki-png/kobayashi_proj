@@ -13,8 +13,7 @@ EndScene::EndScene()
 
 EndScene::~EndScene()
 {
-	delete nextScene;
-	delete camera;
+	safe_delete(camera);
 	safe_delete(tmpSprite);
 }
 
@@ -138,7 +137,4 @@ void EndScene::Draw()
 
 void EndScene::Finalize()
 {
-	delete nextScene;
-	delete camera;
-	safe_delete(tmpSprite);
 }

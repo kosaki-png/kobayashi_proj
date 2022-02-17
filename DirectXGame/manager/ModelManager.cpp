@@ -19,6 +19,14 @@ ModelManager* ModelManager::GetInstance()
 	return instance;
 }
 
+void ModelManager::SpecifyRelease(int modelNum)
+{
+	if (models[modelNum] != nullptr)
+	{
+		delete models[modelNum];
+	}
+}
+
 void ModelManager::Destroy()
 {
 	for (auto x : models)

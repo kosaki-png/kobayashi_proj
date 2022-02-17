@@ -41,9 +41,6 @@ public:
 	bool GetIsCover() { return isCover; }
 
 private:
-
-	OrbitCamera* camera = nullptr;
-
 #pragma region 演出
 
 	// 演出用スプライト

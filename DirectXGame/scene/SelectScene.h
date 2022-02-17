@@ -25,8 +25,6 @@ public:
 	void Finalize() override;
 
 private:
-	FixedCamera* camera = nullptr;
-
 	// セレクト用マップ
 	Fbx* map[4] = {};
 	XMFLOAT3 mapPos[4] = {};
@@ -37,11 +35,13 @@ private:
 
 	float rad = 0;
 
+	// ステージ選択用
 	float vel = 0;
 	bool isMove = false;
 	float reRot = 0;
-
 	int nowMap = 0;
+
+	float selRad = 0.0f;
 
 	std::array<Gush*, 30> gush;
 };

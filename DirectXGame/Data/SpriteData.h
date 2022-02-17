@@ -5,6 +5,7 @@ namespace SpriteData
 {
 	// タイトル用 1～
 	const int TITLE = 1;
+	const int FADE = 2;
 
 	// セレクト用 10～
 

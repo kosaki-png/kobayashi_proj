@@ -13,16 +13,15 @@ SelectScene::SelectScene()
 
 SelectScene::~SelectScene()
 {
-	delete nextScene;
-	delete camera;
+	safe_delete(camera);
 	for (auto x : map)
 	{
-		delete x;
+		safe_delete(x);
 	}
 	delete back;
 	for (auto x : gush)
 	{
-		delete x;
+		safe_delete(x);
 	}
 }
 
@@ -72,7 +71,7 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 			map[i] = new Fbx();
 			map[i]->Initialize();
 			map[i]->SetModel(ModelManager::GetInstance()->GetModel(i + stageData->GetDeSelectData().firstNum + 2));
-			map[i]->SetFog(false);
+			map[i]->SetFogColor({ 0.01f, 0.01f, 0.01f, 1.0f });
 		}
 
 		// 背景
@@ -104,7 +103,7 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 		}
 	}
 
-	isGodray = true;
+	isGodray = false;
 }
 
 void SelectScene::Update()
@@ -137,6 +136,7 @@ void SelectScene::Update()
 			isMove = true;
 			// 回転終着点決定
 			reRot = rad + 90 * vel;
+			selRad = 0.0f;
 		}
 		if (input->TriggerKey(DIK_RIGHT) && !isMove)
 		{
@@ -146,6 +146,7 @@ void SelectScene::Update()
 			isMove = true;
 			// 回転終着点決定
 			reRot = rad + 90 * vel;
+			selRad = 0.0f;
 		}
 
 		// 回転中
@@ -177,6 +178,15 @@ void SelectScene::Update()
 	// 選択中のマップの挙動
 	if (!isMove)
 	{
+		// 基本暗く
+		for (auto x : map)
+		{
+			x->SetFog(true);
+		}
+
+		// 明るくする
+		map[nowMap]->SetFog(false);
+
 		// ちょっと大きくする
 		map[nowMap]->SetScale({ 1.5f, 1.5f, 1.5f });
 
@@ -184,6 +194,11 @@ void SelectScene::Update()
 		map[nowMap]->SetRotation({ map[nowMap]->GetRotation().x, 
 								   map[nowMap]->GetRotation().y + 0.5f, 
 								   map[nowMap]->GetRotation().z });
+
+		// 上下させる
+		selRad += 0.03f;
+		XMFLOAT3 tmpPos = map[nowMap]->GetPosition();
+		map[nowMap]->SetPosition({ tmpPos.x, sinf(selRad) * 25.0f, tmpPos.z });
 
 		// シーン移行
 		if (input->TriggerKey(DIK_SPACE))
@@ -261,15 +276,4 @@ void SelectScene::Draw()
 
 void SelectScene::Finalize()
 {
-	delete nextScene;
-	delete camera;
-	for (auto x : map)
-	{
-		delete x;
-	}
-	delete back;
-	for (auto x : gush)
-	{
-		delete x;
-	}
 }

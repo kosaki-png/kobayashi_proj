@@ -6,10 +6,6 @@ ObjectManager::ObjectManager()
 
 ObjectManager::~ObjectManager()
 {
-	for (auto x : objects)
-	{
-		delete x;
-	}
 }
 
 void ObjectManager::AddObject(Object* object)

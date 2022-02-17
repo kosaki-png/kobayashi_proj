@@ -12,7 +12,7 @@ ModelManager* modelMngLoad = ModelManager::GetInstance();
 
 const int STAGE_COUNT = 4;		// ステージの数
 
-const int LOAD_DEF_MODEL_CNT = 7;		// デフォルトでロードするモデルの数
+const int LOAD_DEF_MODEL_CNT = 6;		// デフォルトでロードするモデルの数
 const int LOAD_STAGE_MODEL_CNT = 11;	// ステージ			〃
 
 // ロードバー割合
@@ -143,15 +143,13 @@ LoadScene::LoadScene(int stage)
 
 LoadScene::~LoadScene()
 {
-	delete th;
-	delete nextScene;
-	delete camera;
+	safe_delete(camera);
 
-	delete mapObj;
-	delete loading;
-	delete loaded;
-	delete loadBar;
-	delete loadBarWhite;
+	safe_delete(mapObj);
+	safe_delete(loading);
+	safe_delete(loaded);
+	safe_delete(loadBar);
+	safe_delete(loadBarWhite);
 }
 
 void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -215,7 +213,7 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		mapObj = new Fbx();
 		mapObj->Initialize();
 		// マップモデルセット
-		mapObj->SetModel(modelMngLoad->GetModel(stage * 20 + 23));
+		mapObj->SetModel(modelMngLoad->GetModel(stage + 100));
 		mapObj->SetPosition({ -1130 / 2, 0, -925 - 925 / 2 });
 		mapObj->SetFogColor(stageData->GetStageData(stage).fogColor);
 	}
@@ -310,14 +308,4 @@ void LoadScene::Finalize()
 	{
 		th->join();
 	}
-
-	delete th;
-	delete nextScene;
-	delete camera;
-
-	delete mapObj;
-	delete loading;
-	delete loaded;
-	delete loadBar;
-	delete loadBarWhite;
 }

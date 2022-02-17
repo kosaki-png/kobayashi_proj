@@ -45,11 +45,9 @@ protected: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-	static const int texNumber = 0;
-
 public:
 	BaseScene();
-	~BaseScene();
+	virtual ~BaseScene();
 
 	/// <summary>
 	/// シーン初期化
@@ -70,7 +68,7 @@ public:
 	virtual void Draw() = 0;
 
 	/// <summary>
-	/// シーン終了
+	/// シーン終了時処理
 	/// </summary>
 	virtual void Finalize() = 0;
 
@@ -82,6 +80,8 @@ protected:
 	DirectXCommon* dxCommon = nullptr;
 	Input* input = nullptr;
 	Audio* audio = nullptr;
+
+	Camera* camera = nullptr;
 
 	// 次のシーンへのトリガー
 	BaseScene* nextScene = nullptr;

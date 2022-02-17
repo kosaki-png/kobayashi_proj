@@ -41,8 +41,6 @@ private:
 	const float MAP_HEIGHT = 2775.0f;
 
 private:
-	MainCamera* camera = nullptr;
-
 	// プレイヤー
 	Player* player = nullptr;
 
