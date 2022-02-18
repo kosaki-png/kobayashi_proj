@@ -88,6 +88,12 @@
     <Filter Include="ヘッダー ファイル\Data">
       <UniqueIdentifier>{ad844288-a9b7-479d-bbda-e8c23f5b8147}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Transition">
+      <UniqueIdentifier>{93faea66-1b0a-4164-8f98-d4452af47f3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Transition">
+      <UniqueIdentifier>{17f9ed7f-0c4d-4aa6-980c-d030bcba1240}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -198,6 +204,12 @@
     <ClCompile Include="Data\StageDataStorage.cpp">
       <Filter>ソース ファイル\Data</Filter>
     </ClCompile>
+    <ClCompile Include="transition\Transition.cpp">
+      <Filter>ソース ファイル\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="transition\Extend.cpp">
+      <Filter>ソース ファイル\Transition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio\Audio.h">
@@ -307,6 +319,12 @@
     </ClInclude>
     <ClInclude Include="Data\StageDataStorage.h">
       <Filter>ヘッダー ファイル\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="transition\Transition.h">
+      <Filter>ヘッダー ファイル\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="transition\Extend.h">
+      <Filter>ヘッダー ファイル\Transition</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

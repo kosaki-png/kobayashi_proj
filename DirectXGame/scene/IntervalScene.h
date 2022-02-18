@@ -8,20 +8,14 @@
 #include "EndScene.h"
 #include "IntervalScene.h"
 
+#include "Transition.h"
+#include "Extend.h"
+
 #include <thread>
 
 class IntervalScene :
 	public BaseScene
 {
-private:
-	struct Trance
-	{
-		Sprite* sprite = nullptr;
-		XMFLOAT2 position = { 0,0 };
-		XMFLOAT2 speed = { 0,0 };
-		XMFLOAT2 size = { 1,1 };
-	};
-
 public:
 	IntervalScene();
 	~IntervalScene();
@@ -36,26 +30,11 @@ public:
 
 	void Start();
 
-	bool GetIsEffect() { return isEffect; }
+	bool GetIsEffect() { return transition->GetIsEffect(); }
 
-	bool GetIsCover() { return isCover; }
+	bool GetIsCover() { return transition->GetIsCover(); }
 
 private:
-#pragma region 演出
+	Transition* transition = nullptr;
 
-	// 演出用スプライト
-	Trance line[2];
-
-	float width = 10;
-
-	// 演出が機能しているか
-	bool isEffect = false;
-
-	// 完全に隠れたか
-	bool isCover = false;
-
-	// 演出が始まってからの時間
-	int startCnt = 0;
-
-#pragma endregion
 };

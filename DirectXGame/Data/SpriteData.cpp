@@ -26,19 +26,19 @@ void SpriteLoader::LoadLoadSprite()
 {
 	// 表示マップ系
 	Sprite::LoadTexture(LOADFLAME, L"Resources/texture/load_bar.png");
-	Sprite::LoadTexture(LOADBAR, L"Resources/texture/load_bar_white.png");
-	Sprite::LoadTexture(LOADED, L"Resources/texture/loaded.png");
-	Sprite::LoadTexture(LOADING, L"Resources/texture/loading.png");
+	Sprite::LoadTexture(LOADBAR,   L"Resources/texture/load_bar_white.png");
+	Sprite::LoadTexture(LOADED,    L"Resources/texture/loaded.png");
+	Sprite::LoadTexture(LOADING,   L"Resources/texture/loading.png");
 
 	loadFlag = true;
 }
 
 void SpriteLoader::LoadGameSprite()
 {
-	Sprite::LoadTexture(MAP_FLAME, L"Resources/texture/map_all_frame.png");
-	Sprite::LoadTexture(MAP_POINT, L"Resources/texture/map_all_point.png");
+	Sprite::LoadTexture(MAP_FLAME,  L"Resources/texture/map_all_frame.png");
+	Sprite::LoadTexture(MAP_POINT,  L"Resources/texture/map_all_point.png");
 	Sprite::LoadTexture(MAP_CURSOR, L"Resources/texture/map_Cursor.png");
-	Sprite::LoadTexture(MAP_MINI, L"Resources/texture/miniMap.png");
+	Sprite::LoadTexture(MAP_MINI,   L"Resources/texture/miniMap.png");
 
 	// オプション
 	Sprite::LoadTexture(OPTION, L"Resources/texture/option.png");
@@ -68,7 +68,11 @@ void SpriteLoader::LoadEndSprite()
 
 void SpriteLoader::LoadIntervalSprite()
 {
-	Sprite::LoadTexture(INTERVAL, L"Resources/texture/white_1000x1000.png");
+	Sprite::LoadTexture(INTERVAL,      L"Resources/texture/white_1000x1000.png");
+	Sprite::LoadTexture(BLACK,		   L"Resources/texture/black.png");
+	Sprite::LoadTexture(FADE_CIRCLE,   L"Resources/texture/fade_circle_black.png");
+	Sprite::LoadTexture(FADE_PARALLEL, L"Resources/texture/fade_parallel.png");
+	Sprite::LoadTexture(FADE_VERTICAL, L"Resources/texture/fade_vertical.png");
 
 	intervalFlag = true;
 }
