@@ -229,7 +229,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	// ゲーム中はマウスカーソルを消す
 	ShowCursor(false);
 
-	isGodray = false;
+	isGodray = true;
+	isGame = true;
 }
 
 void GameScene::Update()

@@ -33,11 +33,18 @@ void Crystal::Update()
 		position = { 0, -50, 0 };
 	}
 
-	crystalObj->SetPosition(position);
+	// ã‰º‚³‚¹‚é
+	rot += 0.02f;
+
+	// –{‘Ì
+	rotation.y--;
+	crystalObj->SetRotation(rotation);
+	crystalObj->SetPosition({ position.x, position.y + sinf(rot) / 2, position.z });
 	crystalObj->Update();
 
+	// Žü‚è‚Ì‰~‰ñ“]
 	circleRot++;
-	circleObj->SetPosition(position);
+	circleObj->SetPosition({ position.x, position.y + sinf(rot) / 2, position.z });
 	circleObj->SetRotation({ 0,circleRot,0 });
 	circleObj->Update();
 }

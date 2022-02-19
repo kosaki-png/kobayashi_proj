@@ -86,6 +86,10 @@ void SceneManager::Update()
 	// シーンの更新
 	scene->Update();
 	interval->Update();
+
+	// ゴッドレイの更新
+	postEffect->SetCameraRot(scene->GetCameraRot());
+	postEffect->SetIsGame(scene->GetIsGame());
 }
 
 void SceneManager::Draw()

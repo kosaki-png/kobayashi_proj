@@ -18,12 +18,17 @@ void Gradually::Initialize()
 	{
 		gradually = Sprite::Create(FADE_VERTICAL, { 0,0 });
 		position = { 0,-WINDOW_HEIGHT * 3.0f };
+		speed = 30.0f;
 	}
 	else
 	{
 		gradually = Sprite::Create(FADE_PARALLEL, { 0,0 });
 		position = { -WINDOW_WIDTH * 3.0f,0 };
+		speed = 40.0f;
 	}
+
+	// 座標セット
+	gradually->SetPosition(position);
 }
 
 void Gradually::Update()
@@ -59,10 +64,10 @@ void Gradually::Update()
 				isEffect = false;
 			}
 		}
-	}
 
-	// 座標セット
-	gradually->SetPosition(position);
+		// 座標セット
+		gradually->SetPosition(position);
+	}
 }
 
 void Gradually::Draw()

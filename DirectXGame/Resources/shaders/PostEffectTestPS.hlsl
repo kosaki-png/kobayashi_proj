@@ -4,7 +4,7 @@ Texture2D<float4> tex0 : register(t0);  // 0番スロットに設定されたテ
 Texture2D<float4> tex1 : register(t1);  // 1番スロットに設定されたテクスチャ
 SamplerState smp : register(s0);      // 0番スロットに設定されたサンプラー
 
-// 
+// 色を分割して表示
 float rayStrength(VSOutput input, float2 raySource, float2 rayRefDirection, float2 coord, float seedA, float seedB, float speed)
 {
 	// 解像度
@@ -15,8 +15,8 @@ float rayStrength(VSOutput input, float2 raySource, float2 rayRefDirection, floa
 	float cosAngle = dot(normalize(sourceToCoord), rayRefDirection);
 
 	return clamp(
-		(0.45 + 0.15 * sin(cosAngle * seedA + iTime * speed)) +
-		(0.3 + 0.2 * cos(-cosAngle * seedB + iTime * speed)),
+		(0.45 + 0.15 * sin(cosAngle * seedA + (iTime - cameraRot.y / 20) * speed)) +
+		(0.3 + 0.2 * cos(-cosAngle * seedB + (iTime - cameraRot.y / 20) * speed)),
 		0.0, 1.0) *
 		clamp((iResolution.x - length(sourceToCoord)) / iResolution.x, 0.5, 1.0);
 }
@@ -32,14 +32,14 @@ float3 Godray(VSOutput input)
 
 	// 太陽光線のパラメータ
 	// ライト１
-	float2 rayPos1 = float2(iResolution.x * 0.7, iResolution.y * 1.4);
+	float2 rayPos1 = float2(iResolution.x * 0.7 - 2.5 * isGame, iResolution.y * (1.4 + 0.4 * isGame - cameraRot.x / 150));
 	float2 rayRefDir1 = normalize(float2(1.0, -0.116));
 	float raySeedA1 = 36.2214;
 	float raySeedB1 = 21.11349;
 	float raySpeed1 = 1.5;
 
 	// ライト２
-	float2 rayPos2 = float2(iResolution.x * 0.8, iResolution.y * 1.6);
+	float2 rayPos2 = float2(iResolution.x * 0.8 - 2.5 * isGame, iResolution.y * (1.5 + 0.4 * isGame - cameraRot.x / 150));
 	float2 rayRefDir2 = normalize(float2(1.0, 0.241));
 	const float raySeedA2 = 22.39910;
 	const float raySeedB2 = 18.0234;
@@ -56,13 +56,13 @@ float3 Godray(VSOutput input)
 
 	float3 fragColor = rays1.x * 0.5 + rays2.x * 0.4;
 
-	// 光を下に行くにつれて減衰
-	float brightness = (coord.y / iResolution.y);
-	fragColor.x *= 0.1 + (brightness * 0.8);
-	fragColor.y *= 0.3 + (brightness * 0.6);
-	fragColor.z *= 0.5 + (brightness * 0.5);
+	// 光が下に行くにつれて減衰
+	float brightness = (coord.y / iResolution.y + cameraRot.x / 150 + 0.1 * !isGame);
+	fragColor.x *= 0.1 + (brightness * 0.8 - 0.2 * isGame);
+	fragColor.y *= 0.3 + (brightness * 0.6 - 0.2 * isGame);
+	fragColor.z *= 0.5 + (brightness * 0.5 - 0.2 * isGame);
 
-	return fragColor;
+	return fragColor * brightness * 1.5 * smoothstep(-50, -30, cameraRot.x);
 }
 
 float4 main(VSOutput input) : SV_TARGET

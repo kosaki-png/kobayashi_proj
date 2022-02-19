@@ -221,7 +221,9 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 		constMap->color = this->color;
 		constMap->mat = XMMatrixIdentity();	// s—ñ‚Ì‡¬
 		constMap->iTime = this->iTime;
+		constMap->cameraRot = this->cameraRot;
 		constMap->isGodray = isGodray;
+		constMap->isGame = isGame;
 		this->constBuff->Unmap(0, nullptr);
 	}
 

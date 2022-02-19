@@ -20,7 +20,9 @@ private: // エイリアス
         XMFLOAT4 color;	// 色 (RGBA)
         XMMATRIX mat;	// ３Ｄ変換行列
         float iTime;
-        bool isGodray;
+        XMFLOAT2 cameraRot;
+        float isGodray;
+        float isGame;
     };
 
 public:
@@ -63,6 +65,10 @@ public:
     /// <param name="_"></param>
     void SetGodray(bool _) { isGodray = _; }
 
+    void SetCameraRot(XMFLOAT2 cameraRot) { this->cameraRot = cameraRot; }
+
+    void SetIsGame(bool isGame) { this->isGame = isGame; }
+
 public:
     // テクスチャバッファ
     ComPtr<ID3D12Resource> texBuff[2];
@@ -88,5 +94,9 @@ private:
     float iTime = 0;
 
     bool isGodray = false;
+
+    XMFLOAT2 cameraRot = { 0,0 };
+
+    bool isGame = false;
 };
 

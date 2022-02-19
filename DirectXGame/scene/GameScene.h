@@ -49,7 +49,7 @@ private:
 	//Enemy* enemy[ENEMY_COUNT] = {};
 
 	// クリスタル
-	static const int CRYSTAL_COUNT = 3;
+	static const int CRYSTAL_COUNT = 50;
 	std::array<Crystal*, CRYSTAL_COUNT> crystal = {};
 	std::array<XMFLOAT3, CRYSTAL_COUNT> crystalPos = {};
 	

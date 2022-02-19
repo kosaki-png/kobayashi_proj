@@ -138,6 +138,11 @@ public: // メンバ関数
 	void MoveVector(const XMFLOAT3& move);
 	void MoveVector(const XMVECTOR& move);
 
+	/// <summary>
+	/// カメラ角度取得
+	/// </summary>
+	XMFLOAT2 GetCameraRot() { return { theta, phi }; }
+
 protected: // メンバ変数
 	// ビュー行列
 	XMMATRIX matView = DirectX::XMMatrixIdentity();
@@ -161,5 +166,9 @@ protected: // メンバ変数
 	XMFLOAT3 up = {0, 1, 0};
 	// アスペクト比
 	float aspectRatio = 1.0f;
+
+	// カメラ角度
+	float theta = 0;
+	float phi = 90;
 };
 

@@ -17,5 +17,7 @@ private:
     Fbx* circleObj = nullptr;
 
     float circleRot = 0;
+
+    float rot = 0;
 };
 

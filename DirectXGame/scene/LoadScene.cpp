@@ -225,6 +225,7 @@ void LoadScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	}
 
 	isGodray = true;
+	isGame = true;
 }
 
 void LoadScene::Update()

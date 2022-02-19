@@ -37,7 +37,7 @@ void MainCamera::Update()
 		float dx = mouseMove.lY * scaleX;
 
 		// ƒÆ‚ªˆê’èˆÈŠO‚È‚çˆÚ“®—Êíœ
-		if (theta - dx < -89 || theta - dx > 89)
+		if (theta - dx < -89 || theta - dx > 70)
 		{
 			dx = 0;
 		}
@@ -56,7 +56,7 @@ void MainCamera::Update()
 		}
 		if (input->PushKey(DIK_DOWN))
 		{
-			if (theta < 89)
+			if (theta < 70)
 			{
 				theta++;
 			}

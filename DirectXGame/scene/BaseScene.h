@@ -74,7 +74,10 @@ public:
 
 	BaseScene* GetNextScene() { return nextScene; }
 
+	// ポストエフェクト用
 	bool GetGodrayFlag() { return isGodray; }
+	XMFLOAT2 GetCameraRot() { return camera->GetCameraRot(); }
+	bool GetIsGame() { return isGame; }
 
 protected:
 	DirectXCommon* dxCommon = nullptr;
@@ -98,4 +101,5 @@ protected:
 	const XMFLOAT2 SCREEN_CENTER = { 1280.0f / 2.0f, 720.0f / 2.0f };
 
 	XMFLOAT2 mousePos;
+	bool isGame = false;
 };

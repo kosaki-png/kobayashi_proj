@@ -76,11 +76,12 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 
 		// ”wŒi
 		back = new Fbx();
-		back->Initialize();
+		back->Initialize({0,1,0});
 		back->SetModel(ModelManager::GetInstance()->GetModel(stageData->GetDeSelectData().firstNum));
 		back->SetFog(false);
 		back->SetPosition({ 0,0,300 });
 		back->SetScale({ 5,5,6 });
+		back->SetRotation({ 0,0,180 });
 	}
 
 	// ƒJƒƒ‰‰Šú‰»
@@ -96,10 +97,10 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 		{
 			gush[i] = new Gush();
 			gush[i]->Initialize();
-			gush[i]->SetPlayerPos({ 0, 0, 0 });
-			gush[i]->SetMax(100);
-			gush[i]->SetDis({ -50, 0 });
-			gush[i]->SetSpeed(0.1f);
+			gush[i]->SetPlayerPos({ 0,250,500 });
+			gush[i]->SetMax(260);
+			gush[i]->SetDis({ 240, 250 });
+			gush[i]->SetSpeed(0.01f);
 		}
 	}
 
@@ -253,9 +254,9 @@ void SelectScene::Draw()
 	{
 		back->Draw(cmdList);
 
-		for (int i = 0; i < 4; i++)
+		for (auto x : map)
 		{
-			map[i]->Draw(cmdList);
+			x->Draw(cmdList);
 		}
 
 		for (auto x : gush)

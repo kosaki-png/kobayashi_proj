@@ -23,6 +23,6 @@ private:
 	bool dir = false;
 
 	XMFLOAT2 position = { 0,0 };
-	float speed = 0.1f;
+	float speed = 40.0f;
 };
 
