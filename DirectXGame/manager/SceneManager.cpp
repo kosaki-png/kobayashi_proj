@@ -92,7 +92,6 @@ void SceneManager::Draw()
 {
 	postEffect->PreDrawScene(dxCommon->GetCommandList());
 	scene->Draw();
-	interval->Draw();
 	postEffect->PostDrawScene(dxCommon->GetCommandList());
 }
 
@@ -100,6 +99,7 @@ void SceneManager::PostEffectDraw()
 {
 	// ポストエフェクトの描画
 	postEffect->Draw(dxCommon->GetCommandList());
+	interval->Draw();
 }
 
 void SceneManager::Finalize()

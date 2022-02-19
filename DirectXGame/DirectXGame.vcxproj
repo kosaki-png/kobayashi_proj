@@ -124,6 +124,7 @@
     <ClCompile Include="scene\SelectScene.cpp" />
     <ClCompile Include="scene\TitleScene.cpp" />
     <ClCompile Include="transition\Extend.cpp" />
+    <ClCompile Include="transition\Gradually.cpp" />
     <ClCompile Include="transition\Transition.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="scene\SelectScene.h" />
     <ClInclude Include="scene\TitleScene.h" />
     <ClInclude Include="transition\Extend.h" />
+    <ClInclude Include="transition\Gradually.h" />
     <ClInclude Include="transition\Transition.h" />
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,7 @@
 
 #include "Transition.h"
 #include "Extend.h"
+#include "Gradually.h"
 
 #include <thread>
 

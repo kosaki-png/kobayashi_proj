@@ -96,7 +96,8 @@ void Extend::Draw()
 void Extend::Start()
 {
 	// エフェクト初期化
-	startCnt = 0;
+	Transition::Start();
+
 	width = 10;
 
 	for (int i = 0; i < 2; i++)
@@ -106,6 +107,4 @@ void Extend::Start()
 		line[i].position = { -3000, WINDOW_HEIGHT / 2 - 5 };
 		line[i].speed = { 70.0f, 0 };
 	}
-
-	isEffect = true;
 }
