@@ -231,6 +231,7 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 	isGodray = true;
 	isGame = true;
+	trans = 2;
 }
 
 void GameScene::Update()

@@ -116,6 +116,7 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	camera->SetTarget({ 0, -1, 0 });
 
 	isGodray = true;
+	trans = 0;
 }
 
 void TitleScene::Update()

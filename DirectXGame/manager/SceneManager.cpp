@@ -64,6 +64,7 @@ void SceneManager::Update()
 			// エフェクトを起動していないなら起動
 			if (!interval->GetIsEffect())
 			{
+				interval->SetTrans(scene->GetTrans());
 				interval->Start();
 			}
 			

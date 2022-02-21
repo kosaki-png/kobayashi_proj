@@ -79,6 +79,9 @@ public:
 	XMFLOAT2 GetCameraRot() { return camera->GetCameraRot(); }
 	bool GetIsGame() { return isGame; }
 
+	// ƒV[ƒ“‘JˆÚ—p
+	int GetTrans() { return trans; }
+
 protected:
 	DirectXCommon* dxCommon = nullptr;
 	Input* input = nullptr;
@@ -102,4 +105,6 @@ protected:
 
 	XMFLOAT2 mousePos;
 	bool isGame = false;
+
+	int trans = 0;
 };

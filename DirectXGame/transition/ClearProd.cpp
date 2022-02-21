@@ -136,6 +136,7 @@ void ClearProd::Start()
 
 	square.alpha = 0.0f;
 	square.size = { 1280.0f + 1280.0f * 0.2f, 720.0f + 720.0f * 0.2f };
+	square.rotation = 0.0f;
 
 	bar.size = { bar.size.x, 0 };
 	bar.alpha = 1.0f;

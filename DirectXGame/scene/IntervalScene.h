@@ -23,11 +23,8 @@ public:
 	~IntervalScene();
 
 	void Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio) override;
-
 	void Update() override;
-
 	void Draw() override;
-
 	void Finalize() override;
 
 	void Start();
@@ -36,7 +33,12 @@ public:
 
 	bool GetIsCover() { return transition->GetIsCover(); }
 
+	void SetTrans(int mode);
+
 private:
 	Transition* transition = nullptr;
 
+	Extend* extend = nullptr;
+	Gradually* gradually = nullptr;
+	ClearProd* clearProd = nullptr;
 };

@@ -14,7 +14,9 @@ IntervalScene::IntervalScene()
 IntervalScene::~IntervalScene()
 {
 	safe_delete(camera);
-	safe_delete(transition);
+	safe_delete(extend);
+	safe_delete(gradually);
+	safe_delete(clearProd);
 }
 
 void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -75,10 +77,15 @@ void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* aud
 
 	// ŠeƒNƒ‰ƒX‰Šú‰»
 	{
-		//transition = new Extend();
-		//transition = new Gradually(true);
-		transition = new ClearProd();
-		transition->Initialize();
+		extend = new Extend();
+		gradually = new Gradually(true);
+		clearProd = new ClearProd();
+
+		extend->Initialize();
+		gradually->Initialize();
+		clearProd->Initialize();
+
+		transition = extend;
 	}
 }
 
@@ -130,4 +137,25 @@ void IntervalScene::Finalize()
 void IntervalScene::Start()
 {
 	transition->Start();
+}
+
+void IntervalScene::SetTrans(int mode)
+{
+	switch (mode)
+	{
+	case 0:
+		transition = extend;
+		break;
+
+	case 1:
+		transition = gradually;
+		break;
+		
+	case 2:
+		transition = clearProd;
+		break;
+
+	default:
+		break;
+	}
 }
