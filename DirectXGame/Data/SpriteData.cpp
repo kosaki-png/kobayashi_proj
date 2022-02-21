@@ -69,10 +69,14 @@ void SpriteLoader::LoadEndSprite()
 void SpriteLoader::LoadIntervalSprite()
 {
 	Sprite::LoadTexture(INTERVAL,      L"Resources/texture/white_1000x1000.png");
+	Sprite::LoadTexture(WHITE,		   L"Resources/texture/white.png");
 	Sprite::LoadTexture(BLACK,		   L"Resources/texture/black.png");
-	Sprite::LoadTexture(FADE_CIRCLE,   L"Resources/texture/fade_circle_black.png");
+	Sprite::LoadTexture(FADE_CIRCLE,   L"Resources/texture/fade_circle.png");
 	Sprite::LoadTexture(FADE_PARALLEL, L"Resources/texture/fade_parallel.png");
 	Sprite::LoadTexture(FADE_VERTICAL, L"Resources/texture/fade_vertical.png");
+	Sprite::LoadTexture(CLEAR_WHITE,   L"Resources/texture/clear_white.png");
+	Sprite::LoadTexture(CLEAR_BAR,	   L"Resources/texture/clear_bar.png");
+	Sprite::LoadTexture(CLEAR_SQUARE,  L"Resources/texture/clear_square.png");
 
 	intervalFlag = true;
 }

@@ -123,6 +123,7 @@
     <ClCompile Include="scene\LoadScene.cpp" />
     <ClCompile Include="scene\SelectScene.cpp" />
     <ClCompile Include="scene\TitleScene.cpp" />
+    <ClCompile Include="transition\ClearProd.cpp" />
     <ClCompile Include="transition\Extend.cpp" />
     <ClCompile Include="transition\Gradually.cpp" />
     <ClCompile Include="transition\Transition.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="scene\LoadScene.h" />
     <ClInclude Include="scene\SelectScene.h" />
     <ClInclude Include="scene\TitleScene.h" />
+    <ClInclude Include="transition\ClearProd.h" />
     <ClInclude Include="transition\Extend.h" />
     <ClInclude Include="transition\Gradually.h" />
     <ClInclude Include="transition\Transition.h" />

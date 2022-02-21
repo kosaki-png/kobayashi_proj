@@ -11,6 +11,7 @@
 #include "Transition.h"
 #include "Extend.h"
 #include "Gradually.h"
+#include "ClearProd.h"
 
 #include <thread>
 

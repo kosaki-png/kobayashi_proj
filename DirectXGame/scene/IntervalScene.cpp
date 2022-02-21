@@ -76,7 +76,8 @@ void IntervalScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* aud
 	// ŠeƒNƒ‰ƒX‰Šú‰»
 	{
 		//transition = new Extend();
-		transition = new Gradually(true);
+		//transition = new Gradually(true);
+		transition = new ClearProd();
 		transition->Initialize();
 	}
 }

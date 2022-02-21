@@ -213,6 +213,9 @@
     <ClCompile Include="transition\Gradually.cpp">
       <Filter>ソース ファイル\Transition</Filter>
     </ClCompile>
+    <ClCompile Include="transition\ClearProd.cpp">
+      <Filter>ソース ファイル\Transition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio\Audio.h">
@@ -330,6 +333,9 @@
       <Filter>ヘッダー ファイル\Transition</Filter>
     </ClInclude>
     <ClInclude Include="transition\Gradually.h">
+      <Filter>ヘッダー ファイル\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="transition\ClearProd.h">
       <Filter>ヘッダー ファイル\Transition</Filter>
     </ClInclude>
   </ItemGroup>

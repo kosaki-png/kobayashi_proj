@@ -8,8 +8,8 @@ SamplerState smp : register(s0);      // 0番スロットに設定されたサ�
 float rayStrength(VSOutput input, float2 raySource, float2 rayRefDirection, float2 coord, float seedA, float seedB, float speed)
 {
 	// 解像度
-	float2 iResolution = float2(1280, 720);
-	float2 fragCoord = input.uv * iResolution;
+	float2 screenSize = float2(1280, 720);
+	float2 fragCoord = input.uv * screenSize;
 
 	float2 sourceToCoord = coord - raySource;
 	float cosAngle = dot(normalize(sourceToCoord), rayRefDirection);
@@ -18,28 +18,28 @@ float rayStrength(VSOutput input, float2 raySource, float2 rayRefDirection, floa
 		(0.45 + 0.15 * sin(cosAngle * seedA + (iTime - cameraRot.y / 20) * speed)) +
 		(0.3 + 0.2 * cos(-cosAngle * seedB + (iTime - cameraRot.y / 20) * speed)),
 		0.0, 1.0) *
-		clamp((iResolution.x - length(sourceToCoord)) / iResolution.x, 0.5, 1.0);
+		clamp((screenSize.x - length(sourceToCoord)) / screenSize.x, 0.5, 1.0);
 }
 
 float3 Godray(VSOutput input)
 {
 	// 解像度
-	float2 iResolution = float2(1280, 720);
-	float2 fragCoord = input.uv * iResolution;
+	float2 screenSize = float2(1280, 720);
+	float2 fragCoord = input.uv * screenSize;
 
 	float2 uv = input.uv;
-	float2 coord = float2(fragCoord.x, iResolution.y - fragCoord.y);
+	float2 coord = float2(fragCoord.x, screenSize.y - fragCoord.y);
 
 	// 太陽光線のパラメータ
 	// ライト１
-	float2 rayPos1 = float2(iResolution.x * 0.7 - 2.5 * isGame, iResolution.y * (1.4 + 0.4 * isGame - cameraRot.x / 150));
+	float2 rayPos1 = float2(screenSize.x * 0.7 - 2.5 * isGame, screenSize.y * (1.4 + 0.4 * isGame - cameraRot.x / 150));
 	float2 rayRefDir1 = normalize(float2(1.0, -0.116));
 	float raySeedA1 = 36.2214;
 	float raySeedB1 = 21.11349;
 	float raySpeed1 = 1.5;
 
 	// ライト２
-	float2 rayPos2 = float2(iResolution.x * 0.8 - 2.5 * isGame, iResolution.y * (1.5 + 0.4 * isGame - cameraRot.x / 150));
+	float2 rayPos2 = float2(screenSize.x * 0.8 - 2.5 * isGame, screenSize.y * (1.5 + 0.4 * isGame - cameraRot.x / 150));
 	float2 rayRefDir2 = normalize(float2(1.0, 0.241));
 	const float raySeedA2 = 22.39910;
 	const float raySeedB2 = 18.0234;
@@ -57,12 +57,12 @@ float3 Godray(VSOutput input)
 	float3 fragColor = rays1.x * 0.5 + rays2.x * 0.4;
 
 	// 光が下に行くにつれて減衰
-	float brightness = (coord.y / iResolution.y + cameraRot.x / 150 + 0.1 * !isGame);
+	float brightness = (coord.y / screenSize.y + cameraRot.x / 150 + 0.1 * !isGame);
 	fragColor.x *= 0.1 + (brightness * 0.8 - 0.2 * isGame);
 	fragColor.y *= 0.3 + (brightness * 0.6 - 0.2 * isGame);
 	fragColor.z *= 0.5 + (brightness * 0.5 - 0.2 * isGame);
 
-	return fragColor * brightness * 1.5 * smoothstep(-50, -30, cameraRot.x);
+	return fragColor * brightness * 1.5 * smoothstep(-30, 0, cameraRot.x);
 }
 
 float4 main(VSOutput input) : SV_TARGET

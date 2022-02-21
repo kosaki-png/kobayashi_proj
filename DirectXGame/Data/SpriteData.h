@@ -42,10 +42,14 @@ namespace SpriteData
 
 	// インターバル用 70～
 	const int INTERVAL		= 70;
-	const int BLACK			= 71;
-	const int FADE_CIRCLE   = 72;
-	const int FADE_PARALLEL = 73;
-	const int FADE_VERTICAL = 74;
+	const int WHITE			= 71;
+	const int BLACK			= 72;
+	const int FADE_CIRCLE   = 73;
+	const int FADE_PARALLEL = 74;
+	const int FADE_VERTICAL = 75;
+	const int CLEAR_WHITE   = 76;
+	const int CLEAR_BAR	    = 77;
+	const int CLEAR_SQUARE  = 78;
 
 	class SpriteLoader
 	{
