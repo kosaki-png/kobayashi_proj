@@ -6,7 +6,8 @@
             "Enemy_circle",
             "crystal",
             "crystalCircle",
-            "Arrow"
+            "Arrow",
+            "debri"
         ]
     },
     "selectLoad" : {

@@ -12,7 +12,7 @@ ModelManager* modelMngLoad = ModelManager::GetInstance();
 
 const int STAGE_COUNT = 4;		// ステージの数
 
-const int LOAD_DEF_MODEL_CNT = 6;		// デフォルトでロードするモデルの数
+const int LOAD_DEF_MODEL_CNT = 7;		// デフォルトでロードするモデルの数
 const int LOAD_STAGE_MODEL_CNT = 11;	// ステージ			〃
 
 // ロードバー割合

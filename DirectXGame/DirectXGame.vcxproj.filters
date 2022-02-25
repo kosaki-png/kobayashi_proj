@@ -216,6 +216,9 @@
     <ClCompile Include="transition\ClearProd.cpp">
       <Filter>ソース ファイル\Transition</Filter>
     </ClCompile>
+    <ClCompile Include="2d\Text.cpp">
+      <Filter>ソース ファイル\2d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="audio\Audio.h">
@@ -337,6 +340,9 @@
     </ClInclude>
     <ClInclude Include="transition\ClearProd.h">
       <Filter>ヘッダー ファイル\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="2d\Text.h">
+      <Filter>ヘッダー ファイル\2d</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

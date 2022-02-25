@@ -326,9 +326,16 @@ void GameScene::Update()
 			XMFLOAT3 tmpPos = { 0,0,0 };
 			for (int i = 0; i < CRYSTAL_COUNT; i++)
 			{
+				// エフェクト中だけ座標を送る
+				if (crystal[i]->GetIsEffect())
+				{
+					crystal[i]->SetPlayerPos(player->GetPosition());
+				}
+
 				// クリスタルとの当たり判定
 				if (abs(crystalPos[i].x + 0.5f - playerPos.x) <= 1.0f && abs(crystalPos[i].z + 0.5f - playerPos.z) <= 1.0f)
 				{
+					// 飛ばす
 					crystalPos[i] = { -4000,0,0 };
 					crystal[i]->SetIsDead(true);
 					clearCnt++;

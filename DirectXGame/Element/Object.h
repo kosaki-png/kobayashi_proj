@@ -42,7 +42,7 @@ public:
 	XMFLOAT3 GetScale() { return scale; }
 
 	// Ž€‚ñ‚¾‚©
-	void SetIsDead(bool isDead) { this->isDead = isDead; }
+	virtual void SetIsDead(bool isDead) { this->isDead = isDead; }
 	bool GetIsDead() { return isDead; }
 
 	/// <summary>

@@ -13,6 +13,7 @@ public: // ƒƒ“ƒoŠÖ”
     void Update() override;
     void Draw(ID3D12GraphicsCommandList* cmdList) override;
     void SpriteDraw() override;
+    void SetIsDead(bool isDead) override;
 
     /// <summary>
     /// ˆÚ“®—Êİ’è

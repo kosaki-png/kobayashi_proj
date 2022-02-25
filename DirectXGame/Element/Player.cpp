@@ -170,6 +170,11 @@ void Player::SpriteDraw()
 	dangerSpr->Draw();
 }
 
+void Player::SetIsDead(bool isDead)
+{
+	Object::SetIsDead(isDead);
+}
+
 void Player::SetSence(float sence)
 {
 	this->sence = sence;

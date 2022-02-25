@@ -11,6 +11,7 @@ public: // ƒƒ“ƒoŠÖ”
     void Update() override;
     void Draw(ID3D12GraphicsCommandList* cmdList) override;
     void SpriteDraw() override;
+    void SetIsDead(bool isDead) override;
 
     // ’Ç”ö—p
     void SetTrack(bool isTrack) { tracking = isTrack; }

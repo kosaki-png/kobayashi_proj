@@ -153,6 +153,11 @@ void Enemy::SpriteDraw()
 {
 }
 
+void Enemy::SetIsDead(bool isDead)
+{
+	Object::SetIsDead(isDead);
+}
+
 Dir Enemy::DecMoveDir(Dir dir)
 {
 	Dir result;
