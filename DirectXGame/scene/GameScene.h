@@ -33,6 +33,8 @@ public:
 
 	void Draw() override;
 
+	void FrontDraw() override;
+
 	void Finalize() override;
 
 private:

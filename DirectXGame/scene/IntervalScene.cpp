@@ -130,6 +130,19 @@ void IntervalScene::Draw()
 	}
 }
 
+void IntervalScene::FrontDraw()
+{
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
+
+	// スプライト描画
+	Sprite::PreDraw(cmdList);
+	{
+
+	}
+	Sprite::PostDraw();
+}
+
 void IntervalScene::Finalize()
 {
 }

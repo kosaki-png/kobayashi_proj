@@ -68,6 +68,11 @@ public:
 	virtual void Draw() = 0;
 
 	/// <summary>
+	/// 前景描画
+	/// </summary>
+	virtual void FrontDraw() = 0;
+
+	/// <summary>
 	/// シーン終了時処理
 	/// </summary>
 	virtual void Finalize() = 0;

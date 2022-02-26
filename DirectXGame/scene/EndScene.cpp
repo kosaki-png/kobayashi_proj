@@ -15,6 +15,8 @@ EndScene::~EndScene()
 {
 	safe_delete(camera);
 	safe_delete(tmpSprite);
+	safe_delete(frame);
+	safe_delete(cursor);
 }
 
 void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -39,10 +41,14 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 		// スプライト生成
 		{
 			tmpSprite = Sprite::Create(CLEAR, { 0,0 });
+			frame = Sprite::Create(RESULT_FRAME, { 0,0 });
+			cursor = Sprite::Create(RESULT_CURSOR, { 0,0 });
 		}
 
 		// スプライト初期設定
 		{
+			cursor->SetAnchorPoint({ 0.5f, 0.5f });
+			cursor->SetPosition({ WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 });
 		}
 	}
 
@@ -70,20 +76,6 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 void EndScene::Update()
 {
-	// スペースで指定のシーンへ
-	if (input->TriggerKey(DIK_SPACE))
-	{
-		// タイトルシーンへ
-		nextScene = new TitleScene();
-	}
-
-	// ESCAPEでゲーム終了
-	if (input->PushKey(DIK_ESCAPE))
-	{
-		PostQuitMessage(0);
-		EndScene::~EndScene();
-	}
-
 	// マウスポイント
 	{
 		static POINT p;
@@ -92,6 +84,39 @@ void EndScene::Update()
 		win = new WinApp();
 		ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
 		mousePos = { (float)p.x, (float)p.y };
+	}
+
+	if (cursorFlip)
+	{
+		// カーソル移動（キー）
+		if (input->TriggerKey(DIK_LEFT) || input->TriggerKey(DIK_A))
+		{
+			cursorFlip = false;
+			cursor->SetIsFlipX(cursorFlip);
+		}
+
+		// スペースで指定のシーンへ
+		if (input->TriggerKey(DIK_SPACE))
+		{
+			// タイトルシーンへ
+			nextScene = new TitleScene();
+		}
+	}
+	else
+	{
+		// カーソル移動（キー）
+		if (input->TriggerKey(DIK_RIGHT) || input->TriggerKey(DIK_D))
+		{
+			cursorFlip = true;
+			cursor->SetIsFlipX(cursorFlip);
+		}
+
+		// スペースで指定のシーンへ
+		if (input->TriggerKey(DIK_SPACE))
+		{
+			// セレクトシーンへ
+			nextScene = new SelectScene();
+		}
 	}
 
 	camera->Update();
@@ -108,17 +133,14 @@ void EndScene::Draw()
 
 	// 背景スプライト描画
 	{
-		// 背景スプライト描画前処理
+		// 背景スプライト描画
 		Sprite::PreDraw(cmdList);
-
-		/// <summary>
-		/// ここに背景スプライトの描画処理を追加
-		/// </summary>
-		tmpSprite->Draw();
-
-		// スプライト描画後処理
+		{
+			tmpSprite->Draw();
+		}
 		Sprite::PostDraw();
-		// 深度バッファクリア
+
+		// 深度バッファのクリア
 		dxCommon->ClearDepthBuffer();
 	}
 
@@ -128,12 +150,27 @@ void EndScene::Draw()
 
 	// 前景スプライト描画
 	{
-		// 前景スプライト描画前処理
+		// 前景スプライト描画
 		Sprite::PreDraw(cmdList);
+		{
 
-		// スプライト描画後処理
+		}
 		Sprite::PostDraw();
 	}
+}
+
+void EndScene::FrontDraw()
+{
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
+
+	// スプライト描画
+	Sprite::PreDraw(cmdList);
+	{
+		frame->Draw();
+		cursor->Draw();
+	}
+	Sprite::PostDraw();
 }
 
 void EndScene::Finalize()

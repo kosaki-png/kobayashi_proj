@@ -20,9 +20,16 @@ public:
 
 	void Draw() override;
 
+	void FrontDraw() override;
+
 	void Finalize() override;
 
 private:
 	Sprite* tmpSprite = nullptr;
+	Sprite* frame = nullptr;
+	Sprite* cursor = nullptr;
 
+	bool cursorFlip = false;
+
+	//Fbx* mapObj = nullptr;
 };

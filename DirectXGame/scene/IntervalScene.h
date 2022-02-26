@@ -25,6 +25,7 @@ public:
 	void Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio) override;
 	void Update() override;
 	void Draw() override;
+	void FrontDraw() override;
 	void Finalize() override;
 
 	void Start();

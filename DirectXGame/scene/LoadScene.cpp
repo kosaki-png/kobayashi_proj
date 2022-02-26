@@ -304,6 +304,19 @@ void LoadScene::Draw()
 	}
 }
 
+void LoadScene::FrontDraw()
+{
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
+
+	// スプライト描画
+	Sprite::PreDraw(cmdList);
+	{
+
+	}
+	Sprite::PostDraw();
+}
+
 void LoadScene::Finalize()
 {
 	if (!GetLoadStage(stage))

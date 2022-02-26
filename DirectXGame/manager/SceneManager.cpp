@@ -30,10 +30,10 @@ void SceneManager::Destroy()
 void SceneManager::Start(DirectXCommon* dxCommon, Input* input, Audio* audio)
 {
 	// 最初のシーン
-	scene = new TitleScene();
+	//scene = new TitleScene();
 	//scene = new SelectScene();
 	//scene = new GameScene();
-    //scene = new EndScene();
+    scene = new EndScene();
 	//scene = new IntervalScene();
 
 	interval = new IntervalScene();
@@ -104,6 +104,7 @@ void SceneManager::PostEffectDraw()
 {
 	// ポストエフェクトの描画
 	postEffect->Draw(dxCommon->GetCommandList());
+	scene->FrontDraw();
 	interval->Draw();
 }
 

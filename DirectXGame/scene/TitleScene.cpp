@@ -148,13 +148,6 @@ void TitleScene::Update()
 		}
 	}
 
-	// ESCAPEでゲーム終了
-	if (input->PushKey(DIK_ESCAPE))
-	{
-		TitleScene::~TitleScene();
-		PostQuitMessage(0);
-	}
-
 	// マウスポイント
 	{
 		static POINT p;
@@ -211,6 +204,19 @@ void TitleScene::Draw()
 		}
 		Sprite::PostDraw();
 	}
+}
+
+void TitleScene::FrontDraw()
+{
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
+
+	// スプライト描画
+	Sprite::PreDraw(cmdList);
+	{
+
+	}
+	Sprite::PostDraw();
 }
 
 void TitleScene::Finalize()

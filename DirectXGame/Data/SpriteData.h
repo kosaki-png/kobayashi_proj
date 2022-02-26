@@ -39,6 +39,8 @@ namespace SpriteData
 
 	// エンド用 60～
 	const int CLEAR = 60;
+	const int RESULT_FRAME = 61;
+	const int RESULT_CURSOR = 62;
 
 	// インターバル用 70～
 	const int INTERVAL		= 70;

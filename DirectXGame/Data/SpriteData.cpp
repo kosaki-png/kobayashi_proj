@@ -2,6 +2,7 @@
 
 using namespace SpriteData;
 
+// それぞれのロードフラグ
 bool SpriteLoader::titleFlag = false;
 bool SpriteLoader::selectFlag = false;
 bool SpriteLoader::loadFlag = false;
@@ -14,11 +15,13 @@ void SpriteLoader::LoadTitleSprite()
 	Sprite::LoadTexture(TITLE, L"Resources/texture/title.png");
 	Sprite::LoadTexture(FADE, L"Resources/texture/fade.png");
 
+	// ロード完了
 	titleFlag = true;
 }
 
 void SpriteLoader::LoadSelectSprite()
 {
+	// ロード完了
 	selectFlag = true;
 }
 
@@ -30,6 +33,7 @@ void SpriteLoader::LoadLoadSprite()
 	Sprite::LoadTexture(LOADED,    L"Resources/texture/loaded.png");
 	Sprite::LoadTexture(LOADING,   L"Resources/texture/loading.png");
 
+	// ロード完了
 	loadFlag = true;
 }
 
@@ -56,13 +60,17 @@ void SpriteLoader::LoadGameSprite()
 	// UI
 	Sprite::LoadTexture(DANGER, L"Resources/texture/danger.png");
 
+	// ロード完了
 	gameFlag = true;
 }
 
 void SpriteLoader::LoadEndSprite()
 {
 	Sprite::LoadTexture(CLEAR, L"Resources/texture/clear.png");
+	Sprite::LoadTexture(RESULT_FRAME, L"Resources/texture/result_frame.png");
+	Sprite::LoadTexture(RESULT_CURSOR, L"Resources/texture/result_cursor.png");
 
+	// ロード完了
 	endFlag = true;
 }
 
@@ -78,5 +86,6 @@ void SpriteLoader::LoadIntervalSprite()
 	Sprite::LoadTexture(CLEAR_BAR,	   L"Resources/texture/clear_bar.png");
 	Sprite::LoadTexture(CLEAR_SQUARE,  L"Resources/texture/clear_square.png");
 
+	// ロード完了
 	intervalFlag = true;
 }

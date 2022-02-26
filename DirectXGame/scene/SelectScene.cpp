@@ -110,13 +110,6 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 
 void SelectScene::Update()
 {
-	// ESCAPEでゲーム終了
-	if (input->PushKey(DIK_ESCAPE))
-	{
-		SelectScene::~SelectScene();
-		PostQuitMessage(0);
-	}
-
 	// マウスポイント
 	{
 		static POINT p;
@@ -129,33 +122,36 @@ void SelectScene::Update()
 
 	// セレクトマップ回転指定
 	{
-		// 回転スタート
-		if (input->TriggerKey(DIK_LEFT) && !isMove)
+		// 止まっているとき
+		if (!isMove)
 		{
-			map[nowMap]->SetScale({ 1, 1, 1});
-			nowMap--;
-			vel = 1;
-			isMove = true;
-			// 回転終着点決定
-			reRot = rad + 90 * vel;
-			selRad = 0.0f;
+			// 回転スタート
+			if (input->TriggerKey(DIK_LEFT) || input->TriggerKey(DIK_A))
+			{
+				map[nowMap]->SetScale({ 1, 1, 1 });
+				nowMap--;
+				vel = 1;
+				isMove = true;
+				// 回転終着点決定
+				reRot = rad + 90 * vel;
+				selRad = 0.0f;
+			}
+			if (input->TriggerKey(DIK_RIGHT) || input->TriggerKey(DIK_D))
+			{
+				map[nowMap]->SetScale({ 1, 1, 1 });
+				nowMap++;
+				vel = -1;
+				isMove = true;
+				// 回転終着点決定
+				reRot = rad + 90 * vel;
+				selRad = 0.0f;
+			}
 		}
-		if (input->TriggerKey(DIK_RIGHT) && !isMove)
-		{
-			map[nowMap]->SetScale({ 1, 1, 1 });
-			nowMap++;
-			vel = -1;
-			isMove = true;
-			// 回転終着点決定
-			reRot = rad + 90 * vel;
-			selRad = 0.0f;
-		}
-
 		// 回転中
-		if (isMove)
+		else
 		{
 			// 回転
-			rad += 1.5f * vel;
+			rad += 2.0f * vel;
 
 			// 一定で止まる
 			if ((vel == 1 && reRot < rad) || (vel == -1 && rad < reRot))
@@ -274,6 +270,19 @@ void SelectScene::Draw()
 		// スプライト描画後処理
 		Sprite::PostDraw();
 	}
+}
+
+void SelectScene::FrontDraw()
+{
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
+
+	// スプライト描画
+	Sprite::PreDraw(cmdList);
+	{
+
+	}
+	Sprite::PostDraw();
 }
 
 void SelectScene::Finalize()
