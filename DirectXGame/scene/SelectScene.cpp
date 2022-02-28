@@ -56,6 +56,7 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 
 		// スプライト生成
 		{
+			flame.reset(Sprite::Create(SELECT_FLAME, { 0,0 }));
 		}
 
 		// スプライト初期設定
@@ -96,11 +97,9 @@ void SelectScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio
 		for (int i = 0; i < gush.size(); i++)
 		{
 			gush[i] = new Gush();
+			gush[i]->Setheight(230);
+			gush[i]->SetPlayerPos({ 0,250,450 });
 			gush[i]->Initialize();
-			gush[i]->SetPlayerPos({ 0,250,500 });
-			gush[i]->SetMax(260);
-			gush[i]->SetDis({ 240, 250 });
-			gush[i]->SetSpeed(0.01f);
 		}
 	}
 
@@ -114,8 +113,6 @@ void SelectScene::Update()
 	{
 		static POINT p;
 		GetCursorPos(&p);
-		WinApp* win = nullptr;
-		win = new WinApp();
 		ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
 		mousePos = { (float)p.x, (float)p.y };
 	}
@@ -198,12 +195,18 @@ void SelectScene::Update()
 		XMFLOAT3 tmpPos = map[nowMap]->GetPosition();
 		map[nowMap]->SetPosition({ tmpPos.x, sinf(selRad) * 25.0f, tmpPos.z });
 
-		// シーン移行
-		if (input->TriggerKey(DIK_SPACE))
-		{
-			// 選択したマップでゲームシーンへ
-			nextScene = new LoadScene(nowMap);
-		}
+	}
+
+	// シーン移行
+	if (input->TriggerKey(DIK_SPACE))
+	{
+		// 選択したマップでゲームシーンへ
+		nextScene = new LoadScene(nowMap);
+	}
+	if (input->TriggerKey(DIK_ESCAPE))
+	{
+		// タイトルシーンへ
+		nextScene = new TitleScene();
 	}
 
 	// 3Dオブジェクト更新
@@ -280,7 +283,7 @@ void SelectScene::FrontDraw()
 	// スプライト描画
 	Sprite::PreDraw(cmdList);
 	{
-
+		flame->Draw();
 	}
 	Sprite::PostDraw();
 }

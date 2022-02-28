@@ -61,10 +61,15 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	// メインループ
 	while (true)
 	{
+		POINT p;
+		GetCursorPos(&p);
+		ScreenToClient(win->GetHwnd(), &p);
+		DirectX::XMFLOAT2 mousePos = { (float)p.x, (float)p.y };
+
 		//フレームレート固定の更新処理
 		flamerate->Update();
 		// メッセージ処理
-		if (win->ProcessMessage()) {	break; }
+		if (win->ProcessMessage()) { break; }
 
 		// 入力関連の毎フレーム処理
 		input->Update();

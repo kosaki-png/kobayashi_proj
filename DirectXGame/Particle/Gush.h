@@ -26,6 +26,7 @@ public:
     void SetDis(XMFLOAT2 dis) { distance = dis; }
     void SetMax(float max) { this->max = max; }
     void SetSpeed(float speed) { this->speed = speed; }
+    void Setheight(float height) { this->height = height; }
 
     /// <summary>
     /// ”z’u
@@ -40,5 +41,7 @@ private:
     XMFLOAT2 distance = { -5,0 };    // –A‚Ìo‚éŠÔŠu
     float max = 10.0f;
     float speed = 0.075f;
+
+    float height = 0;
 };
 

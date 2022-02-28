@@ -11,7 +11,7 @@ class EndScene :
 	public BaseScene
 {
 public:
-	EndScene();
+	EndScene(int stage);
 	~EndScene();
 
 	void Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio) override;
@@ -25,11 +25,13 @@ public:
 	void Finalize() override;
 
 private:
-	Sprite* tmpSprite = nullptr;
+	int stage = 0;
+
 	Sprite* frame = nullptr;
 	Sprite* cursor = nullptr;
 
 	bool cursorFlip = false;
 
-	//Fbx* mapObj = nullptr;
+	Fbx* mapObj = nullptr;
+
 };

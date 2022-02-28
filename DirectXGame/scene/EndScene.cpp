@@ -7,16 +7,17 @@
 using namespace DirectX;
 using namespace SpriteData;
 
-EndScene::EndScene()
+EndScene::EndScene(int stage)
+	:	stage(stage)
 {
 }
 
 EndScene::~EndScene()
 {
 	safe_delete(camera);
-	safe_delete(tmpSprite);
 	safe_delete(frame);
 	safe_delete(cursor);
+	safe_delete(mapObj);
 }
 
 void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -26,6 +27,13 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 	// カメラ生成
 	camera = new OrbitCamera(WinApp::window_width, WinApp::window_height);
+
+	// デバイスをセット
+	Fbx::SetDevice(dxCommon->GetDevice());
+	// カメラをセット
+	Fbx::SetCamera(camera);
+	// グラフィックスパイプライン生成
+	Fbx::CreateGraphicsPipeline();
 
 	// スプライト初期設定
 	{
@@ -40,7 +48,6 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		// スプライト生成
 		{
-			tmpSprite = Sprite::Create(CLEAR, { 0,0 });
 			frame = Sprite::Create(RESULT_FRAME, { 0,0 });
 			cursor = Sprite::Create(RESULT_CURSOR, { 0,0 });
 		}
@@ -60,11 +67,21 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		// 3Dオブジェクト生成
 		{
+			mapObj = new Fbx();
+			mapObj->Initialize();
+			// マップモデルセット
+			mapObj->SetModel(ModelManager::GetInstance()->GetModel(stage + 100));
+			mapObj->SetPosition({ -1130 / 2, 0, -925 - 925 / 2 });
+			mapObj->SetFogColor(stageData->GetStageData(stage).fogColor);
 		}
 
 		// 3Dオブジェクト初期設定
 		{
 		}
+	}
+
+	// 各クラス初期化
+	{
 	}
 
 	// カメラ注視点をセット
@@ -80,9 +97,7 @@ void EndScene::Update()
 	{
 		static POINT p;
 		GetCursorPos(&p);
-		WinApp* win = nullptr;
-		win = new WinApp();
-		ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
+		ScreenToClient(FindWindowA(nullptr, "seeker"), &p);
 		mousePos = { (float)p.x, (float)p.y };
 	}
 
@@ -123,6 +138,7 @@ void EndScene::Update()
 
 	// 3Dオブジェクト更新
 	{
+		mapObj->Update();
 	}
 }
 
@@ -136,7 +152,7 @@ void EndScene::Draw()
 		// 背景スプライト描画
 		Sprite::PreDraw(cmdList);
 		{
-			tmpSprite->Draw();
+
 		}
 		Sprite::PostDraw();
 
@@ -146,6 +162,7 @@ void EndScene::Draw()
 
 	// 3D描画
 	{
+		mapObj->Draw(cmdList);
 	}
 
 	// 前景スプライト描画

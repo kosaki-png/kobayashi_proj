@@ -94,6 +94,7 @@
     <ClCompile Include="3d\Fbx.cpp" />
     <ClCompile Include="3d\FbxModel.cpp" />
     <ClCompile Include="audio\Audio.cpp" />
+    <ClCompile Include="base\Button.cpp" />
     <ClCompile Include="camera\Camera.cpp" />
     <ClCompile Include="camera\DebugCamera.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
@@ -145,6 +146,7 @@
     <ClInclude Include="3d\Fbx.h" />
     <ClInclude Include="3d\FbxModel.h" />
     <ClInclude Include="audio\Audio.h" />
+    <ClInclude Include="base\Button.h" />
     <ClInclude Include="camera\Camera.h" />
     <ClInclude Include="camera\DebugCamera.h" />
     <ClInclude Include="base\DirectXCommon.h" />

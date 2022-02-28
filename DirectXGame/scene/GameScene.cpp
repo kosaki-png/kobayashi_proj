@@ -49,8 +49,8 @@ GameScene::~GameScene()
 	safe_delete(floor);
 	safe_delete(skydome);
 
-	safe_delete(optionSprite);
-	safe_delete(cursorSprite);
+	safe_delete(pauseSprite);
+
 }
 
 void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
@@ -91,13 +91,16 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 		// スプライト生成
 		{
-			optionSprite = Sprite::Create(OPTION, { 0,0 });
+			pauseSprite = Sprite::Create(PAUSE_FLAME, { 0,0 });
 			miniFrame = Sprite::Create(MAP_MINI, { 1280 - 300, 0 });
 			mapAllFrame = Sprite::Create(MAP_FLAME, { 0,0 });
 			mapAllPoint = Sprite::Create(MAP_POINT, { 0,0 });
 			mapCursor = Sprite::Create(MAP_CURSOR, { 1280 - 150, 150});
 			minimap = Sprite::Create(stage + MAP01_REF, { 0,0 });
 			mapAll = Sprite::Create(stage + MAP01_FLAME, { 0,0 });
+
+			pauseButton.reset(Sprite::Create(GAME_FLAME, { 0,0 }));
+			pauseDebug.reset(Sprite::Create(PAUSE_DEBUG, { 0,0 }));
 		}
 
 		// スプライト初期設定
@@ -231,7 +234,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 	isGodray = true;
 	isGame = true;
-	trans = 2;
 }
 
 void GameScene::Update()
@@ -239,13 +241,13 @@ void GameScene::Update()
 	// ESCAPEでオプションを開く
 	if (input->TriggerKey(DIK_ESCAPE) && !isMap)
 	{
-		option = !option;
+		pause = !pause;
 		// マウスカーソルの表示非表示
-		ShowCursor(option);
+		ShowCursor(pause);
 	}
 
-	// オプション中
-	if (option)
+	// ポーズ中
+	if (pause)
 	{
 		// マップ状態は解除
 		isMap = false;
@@ -253,8 +255,16 @@ void GameScene::Update()
 		// スペースで指定のシーンへ
 		if (input->TriggerKey(DIK_SPACE))
 		{
-			// セレクトシーンへ
-			nextScene = new EndScene();
+			// エンドシーンへ
+			nextScene = new EndScene(stage);
+		}
+
+		// Rでリスタート
+		if (input->TriggerKey(DIK_R))
+		{
+			// リスタート
+			trans = 1;
+			nextScene = new GameScene(stage);
 		}
 
 		// マウスポイント取得
@@ -295,7 +305,7 @@ void GameScene::Update()
 
 		// プレイヤーと敵の判定
 		{
-			player->SetDanger(false);
+			//player->SetDanger(false);
 
 			//for (int i = 0; i < ENEMY_COUNT; i++)
 			//{
@@ -357,7 +367,8 @@ void GameScene::Update()
 		// ゲームクリア
 		if (clearCnt == CRYSTAL_COUNT)
 		{
-			nextScene = new EndScene();
+			trans = 2;
+			nextScene = new EndScene(stage);
 		}
 
 		// 各種更新
@@ -459,12 +470,6 @@ void GameScene::Draw()
 				mapAll->Draw();
 				mapAllPoint->Draw();
 			}
-
-			// オプション画面
-			if (option)
-			{
-				optionSprite->Draw();
-			}
 		}
 		Sprite::PostDraw();
 	}
@@ -486,7 +491,16 @@ void GameScene::FrontDraw()
 	// スプライト描画
 	Sprite::PreDraw(cmdList);
 	{
-
+		// オプション画面
+		if (pause)
+		{
+			pauseSprite->Draw();
+			pauseDebug->Draw();
+		}
+		else
+		{
+			pauseButton->Draw();
+		}
 	}
 	Sprite::PostDraw();
 }

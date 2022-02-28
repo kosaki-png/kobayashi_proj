@@ -3,11 +3,15 @@
 
 namespace SpriteData
 {
+	// 文字描画用 0～
+	const int FONT_DEF = 0;
+
 	// タイトル用 1～
 	const int TITLE = 1;
 	const int FADE = 2;
 
 	// セレクト用 10～
+	const int SELECT_FLAME = 10;
 
 	// ロード用 20～
 	const int LOADFLAME = 20;
@@ -22,8 +26,10 @@ namespace SpriteData
 	const int MAP_CURSOR  = 32;
 	const int MAP_MINI	  = 33;
 
-	// オプション 35～
-	const int OPTION = 35;
+	// ポーズ用 35～
+	const int GAME_FLAME = 35;
+	const int PAUSE_FLAME = 36;
+	const int PAUSE_DEBUG = 37;
 
 	// ステージマップ系 40～
 	const int MAP01_FLAME = 40;
@@ -34,13 +40,10 @@ namespace SpriteData
 	const int MAP02_REF   = 45;
 	const int MAP03_REF   = 46;
 	const int MAP04_REF   = 47;
-	// UI
-	const int DANGER = 50;
 
 	// エンド用 60～
-	const int CLEAR = 60;
-	const int RESULT_FRAME = 61;
-	const int RESULT_CURSOR = 62;
+	const int RESULT_FRAME = 60;
+	const int RESULT_CURSOR = 61;
 
 	// インターバル用 70～
 	const int INTERVAL		= 70;

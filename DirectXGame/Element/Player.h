@@ -31,10 +31,6 @@ public: // メンバ関数
     void SetSence(float sence);
     float GetSence() { return sence; }
 
-    // 危険区域判定
-    void SetDanger(bool danger) { this->danger = danger; }
-    bool GetDanger() { return danger; }
-
     // 一番近いクリスタルとの角度取得
     void SetCrystalRad(float rad) { crystalRad = rad; }
 
@@ -61,10 +57,6 @@ private: // メンバ変数
 
     int WINDOW_WIDTH = 0;
     int WINDOW_HEIGHT = 0;
-
-    bool danger = false;
-    Sprite* dangerSpr = nullptr;
-    float dangerAlpha = 0;
 
     float crystalRad = 0;
 };

@@ -12,8 +12,10 @@ bool SpriteLoader::intervalFlag = false;
 
 void SpriteLoader::LoadTitleSprite()
 {
+	Sprite::LoadTexture(FONT_DEF, L"Resources/texture/font_number.png");
+
 	Sprite::LoadTexture(TITLE, L"Resources/texture/title.png");
-	Sprite::LoadTexture(FADE, L"Resources/texture/fade.png");
+	Sprite::LoadTexture(FADE,  L"Resources/texture/fade.png");
 
 	// ロード完了
 	titleFlag = true;
@@ -21,6 +23,8 @@ void SpriteLoader::LoadTitleSprite()
 
 void SpriteLoader::LoadSelectSprite()
 {
+	Sprite::LoadTexture(SELECT_FLAME, L"Resources/texture/select_flame.png");
+
 	// ロード完了
 	selectFlag = true;
 }
@@ -44,8 +48,10 @@ void SpriteLoader::LoadGameSprite()
 	Sprite::LoadTexture(MAP_CURSOR, L"Resources/texture/map_Cursor.png");
 	Sprite::LoadTexture(MAP_MINI,   L"Resources/texture/miniMap.png");
 
-	// オプション
-	Sprite::LoadTexture(OPTION, L"Resources/texture/option.png");
+	// ポーズ
+	Sprite::LoadTexture(GAME_FLAME,  L"Resources/texture/game_pause.png");
+	Sprite::LoadTexture(PAUSE_FLAME, L"Resources/texture/pause.png");
+	Sprite::LoadTexture(PAUSE_DEBUG, L"Resources/texture/game_debug.png");
 
 	// ステージマップ系
 	Sprite::LoadTexture(MAP01_FLAME, L"Resources/texture/map_01_frame.png");
@@ -57,17 +63,13 @@ void SpriteLoader::LoadGameSprite()
 	Sprite::LoadTexture(MAP03_REF, L"Resources/texture/map_03_ref.png");
 	Sprite::LoadTexture(MAP04_REF, L"Resources/texture/map_04_ref.png");
 
-	// UI
-	Sprite::LoadTexture(DANGER, L"Resources/texture/danger.png");
-
 	// ロード完了
 	gameFlag = true;
 }
 
 void SpriteLoader::LoadEndSprite()
 {
-	Sprite::LoadTexture(CLEAR, L"Resources/texture/clear.png");
-	Sprite::LoadTexture(RESULT_FRAME, L"Resources/texture/result_frame.png");
+	Sprite::LoadTexture(RESULT_FRAME,  L"Resources/texture/result_frame.png");
 	Sprite::LoadTexture(RESULT_CURSOR, L"Resources/texture/result_cursor.png");
 
 	// ロード完了

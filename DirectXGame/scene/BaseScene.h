@@ -6,6 +6,7 @@
 // 入力関係
 #include "Input.h"
 #include "XinputControll.h"
+#include "Button.h"
 
 // オブジェクト関係
 #include "Sprite.h"
@@ -26,12 +27,6 @@
 // データ関係
 #include "StageDataStorage.h"
 #include "SpriteData.h"
-
-struct SceneButton
-{
-	DirectX::XMFLOAT2 position = { 0,0 };
-	DirectX::XMFLOAT2 scale = { 0,0 };
-};
 
 class BaseScene
 {
@@ -101,6 +96,7 @@ protected:
 
 	bool stop = true;
 
+	// ゴッドレイを入れるか
 	bool isGodray = false;
 
 	// 画面中心

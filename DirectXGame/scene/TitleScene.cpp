@@ -121,12 +121,8 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 void TitleScene::Update()
 {	
-	// 非同期ロード中
-	if (!GetLockFlag())
-	{
-
-	}
-	else   // ロード終了後
+	// ロード終了後
+	if (GetLockFlag())
 	{
 		// SPACEで次のシーン
 		if (input->TriggerKey(DIK_SPACE))
@@ -150,11 +146,9 @@ void TitleScene::Update()
 
 	// マウスポイント
 	{
-		static POINT p;
+		POINT p;
 		GetCursorPos(&p);
-		WinApp* win = nullptr;
-		win = new WinApp();
-		ScreenToClient(FindWindowA(nullptr, "Hooper"), &p);
+		ScreenToClient(FindWindowA(nullptr, "seeker"), &p);
 		mousePos = { (float)p.x, (float)p.y };
 	}
 
@@ -214,7 +208,7 @@ void TitleScene::FrontDraw()
 	// スプライト描画
 	Sprite::PreDraw(cmdList);
 	{
-
+		
 	}
 	Sprite::PostDraw();
 }

@@ -22,7 +22,7 @@ void Gush::Initialize()
 
 void Gush::Update()
 {
-	if (cube.cubePos.y > max)
+	if (cube.cubePos.y > max + height)
 	{
 		Placement();
 	}
@@ -43,6 +43,6 @@ void Gush::Placement()
 {
 	// 座標セット
 	cube.cubePos = { playerPos.x + (float)(mt() % 150) - 75.0f,
-					 (float)(mt() % (int)abs(distance.y - distance.x)) + distance.x,
+					 (float)(mt() % (int)abs(distance.y - distance.x)) + distance.x + height,
 					 playerPos.z + (float)(mt() % 150) - 75.0f };
 }

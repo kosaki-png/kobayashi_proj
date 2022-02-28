@@ -45,5 +45,7 @@ private:
 
 	float selRad = 0.0f;
 
-	std::array<Gush*, 30> gush;
+	std::array<Gush*, 50> gush;
+
+	std::unique_ptr<Sprite> flame;
 };

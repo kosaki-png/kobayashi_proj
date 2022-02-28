@@ -59,10 +59,11 @@ private:
 	ObjectManager* objMng = nullptr;
 	TexCollision* texCol = nullptr;
 
-	// オプション用
-	bool option = false;
-	Sprite* optionSprite = nullptr;
-	Sprite* cursorSprite = nullptr;
+	// ポーズ用
+	bool pause = false;
+	Sprite* pauseSprite = nullptr;
+	std::unique_ptr<Sprite> pauseButton;
+	std::unique_ptr<Sprite> pauseDebug;
 
 	static const int GUSH_COUNT = 50;
 	std::array<Gush*, GUSH_COUNT> gush = {};

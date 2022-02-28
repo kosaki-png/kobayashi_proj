@@ -14,15 +14,11 @@ Player::Player(int window_width, int window_height) :
 Player::~Player()
 {
 	delete playerObj;
-	delete dangerSpr;
 	delete arrowObj;
 }
 
 void Player::Initialize(Input* input, TexCollision* texCol)
 {
-	Sprite::LoadTexture(10, L"Resources/texture/danger.png");
-	dangerSpr = Sprite::Create(10, { 0,0 });
-
 	Object::Initialize(input, texCol);
 
 	playerObj = new Fbx();
@@ -128,23 +124,6 @@ void Player::Update()
 		if (input->PushKey(DIK_X)) move.y = -1;
 	}
 
-	if (danger)
-	{
-		if (dangerAlpha < 1)
-		{
-			dangerAlpha += 0.02f;
-		}
-	}
-	else
-	{
-		if (dangerAlpha > 0)
-		{
-			dangerAlpha -= 0.02f;
-		}
-	}
-
-	dangerSpr->SetAlpha(dangerAlpha);
-
 	// ƒvƒŒƒCƒ„[‚ÌŒü‚«‚ðÝ’è
 	playerObj->SetRotation(rotation);
 
@@ -167,7 +146,6 @@ void Player::Draw(ID3D12GraphicsCommandList* cmdList)
 
 void Player::SpriteDraw()
 {
-	dangerSpr->Draw();
 }
 
 void Player::SetIsDead(bool isDead)
