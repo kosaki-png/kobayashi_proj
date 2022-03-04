@@ -258,8 +258,7 @@ void GameScene::Update()
 		ShowCursor(pause);
 
 		// 経過時間を加算、リセット
-		time += msec;
-		msec = 0;
+		time += (int)msec;
 	}
 	// 解除時
 	if (pauseTrriger && !pause)
@@ -444,7 +443,7 @@ void GameScene::Update()
 	mapCursor->SetRotation(player->GetRotation().y);
 
 	// 時間表示
-	text->PrintTime((time + msec) / 60, (time + msec) % 60, { WINDOW_WIDTH / 2 - 50, 38 }, 0.2f);
+	text->PrintTime((time + (int)msec) / 60, (time + (int)msec) % 60, { WINDOW_WIDTH / 2 - 50, 38 }, 0.2f);
 
 	// スコア表示
 	text->PrintScore(clearCnt, CRYSTAL_COUNT - 2, { 10, 38 }, 0.4f);

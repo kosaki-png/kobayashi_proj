@@ -44,6 +44,4 @@ private:
 
 #pragma endregion
 
-	std::chrono::system_clock::time_point start;
-	long long msec = 0;
 };

@@ -118,14 +118,10 @@ void TitleScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 	// 各クラス初期化
 	{
-		text = Text::GetInstance();
 	}
 
 	isGodray = true;
 	trans = 0;
-
-	// 開始時間取得
-	start = std::chrono::system_clock::now();
 }
 
 void TitleScene::Update()
@@ -173,18 +169,6 @@ void TitleScene::Update()
 		fadeSprite->SetAlpha(fadeAlpha);
 	}
 
-	/*text->PrintNumber(0, { 0,0 });
-	text->PrintNumber(1, { 0,0 });
-	text->PrintNumber(2, { 0,0 });
-	text->PrintNumber(3, { 0,0 });
-	text->PrintNumber(4, { 0,0 });*/
-
-	//text->PrintTime(30, 24, { 0,0 });
-
-	auto end = std::chrono::system_clock::now();
-	auto dur = end - start;
-	msec = std::chrono::duration_cast<std::chrono::seconds>(dur).count();
-	text->PrintTime((int)msec / 60, (int)msec % 60, { 0,0 });
 }
 
 void TitleScene::Draw()
@@ -230,7 +214,7 @@ void TitleScene::FrontDraw()
 	// スプライト描画
 	Sprite::PreDraw(cmdList);
 	{
-		text->DrawAll();
+
 	}
 	Sprite::PostDraw();
 }
