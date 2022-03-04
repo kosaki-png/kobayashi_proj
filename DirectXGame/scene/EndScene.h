@@ -11,7 +11,7 @@ class EndScene :
 	public BaseScene
 {
 public:
-	EndScene(int stage);
+	EndScene(int stage, int time, int clearCnt, int crystalCnt);
 	~EndScene();
 
 	void Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio) override;
@@ -26,6 +26,9 @@ public:
 
 private:
 	int stage = 0;
+	int time = 0;
+	int clearCnt = 0; 
+	int crystalCnt = 0;
 
 	Sprite* frame = nullptr;
 	Sprite* cursor = nullptr;

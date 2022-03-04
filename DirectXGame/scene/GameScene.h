@@ -51,7 +51,7 @@ private:
 	//Enemy* enemy[ENEMY_COUNT] = {};
 
 	// クリスタル
-	static const int CRYSTAL_COUNT = 50;
+	static const int CRYSTAL_COUNT = 7;
 	std::array<Crystal*, CRYSTAL_COUNT> crystal = {};
 	std::array<XMFLOAT3, CRYSTAL_COUNT> crystalPos = {};
 	
@@ -99,4 +99,11 @@ private:
 	XMFLOAT3 tmp = { 0,0,0 };
 
 	int clearCnt = 0;
+
+	std::chrono::system_clock::time_point start;
+	long long msec = 0;
+
+	int time = 0;
+
+	bool pauseTrriger = false;
 };

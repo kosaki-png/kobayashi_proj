@@ -4,6 +4,7 @@
 #include "FbxLoader.h"
 #include "PostEffect.h"
 #include "FlameRate.h"
+#include "Text.h"
 
 #include "SceneManager.h"
 #include "ModelManager.h"
@@ -53,6 +54,10 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 
 		// Jsonファイルをロード
 		StageDataStorage::GetInstance()->LoadJson();
+
+		// フォント画像の読み込み
+		Sprite::LoadTexture(0, L"Resources/texture/font_number.png");
+		Text::GetInstance()->Initialize();
 	}
 
 	// 最初のシーンの初期化
@@ -95,6 +100,7 @@ int WINAPI WinMain(HINSTANCE,HINSTANCE,LPSTR,int)
 	ModelManager::GetInstance()->Destroy();
 	SceneManager::GetInstance()->Destroy();
 	StageDataStorage::GetInstance()->Destroy();
+	Text::GetInstance()->Destroy();
 	safe_delete(audio);
 	safe_delete(dxCommon);
 	safe_delete(flamerate);

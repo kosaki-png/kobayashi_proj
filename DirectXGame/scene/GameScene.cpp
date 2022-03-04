@@ -229,21 +229,46 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 	{
 	}
 
+	// 各クラス初期化
+	{
+		text = Text::GetInstance();
+	}
+
 	// ゲーム中はマウスカーソルを消す
 	ShowCursor(false);
 
 	isGodray = true;
 	isGame = true;
+
+	// 開始時間取得
+	start = std::chrono::system_clock::now();
 }
 
 void GameScene::Update()
 {
 	// ESCAPEでオプションを開く
-	if (input->TriggerKey(DIK_ESCAPE) && !isMap)
+	if (input->TriggerKey(DIK_ESCAPE))
 	{
 		pause = !pause;
+	}
+	// 展開時
+	if (!pauseTrriger && pause)
+	{
 		// マウスカーソルの表示非表示
 		ShowCursor(pause);
+
+		// 経過時間を加算、リセット
+		time += msec;
+		msec = 0;
+	}
+	// 解除時
+	if (pauseTrriger && !pause)
+	{
+		// マウスカーソルの表示非表示
+		ShowCursor(pause);
+
+		// 開始時間取得
+		start = std::chrono::system_clock::now();
 	}
 
 	// ポーズ中
@@ -251,13 +276,6 @@ void GameScene::Update()
 	{
 		// マップ状態は解除
 		isMap = false;
-
-		// スペースで指定のシーンへ
-		if (input->TriggerKey(DIK_SPACE))
-		{
-			// エンドシーンへ
-			nextScene = new EndScene(stage);
-		}
 
 		// Rでリスタート
 		if (input->TriggerKey(DIK_R))
@@ -267,12 +285,12 @@ void GameScene::Update()
 			nextScene = new GameScene(stage);
 		}
 
-		// マウスポイント取得
+		// デバック用
+		// スペースで指定のシーンへ
+		if (input->TriggerKey(DIK_SPACE))
 		{
-			static POINT p;
-			GetCursorPos(&p);
-			ScreenToClient(FindWindowA(nullptr, "DirectXGame"), &p);
-			mousePos = { (float)p.x, (float)p.y };
+			// エンドシーンへ
+			nextScene = new EndScene(stage, time, clearCnt, CRYSTAL_COUNT - 2);
 		}
 	}
 	else // ゲーム中
@@ -365,10 +383,10 @@ void GameScene::Update()
 		}
 
 		// ゲームクリア
-		if (clearCnt == CRYSTAL_COUNT)
+		if (clearCnt == CRYSTAL_COUNT - 2)
 		{
 			trans = 2;
-			nextScene = new EndScene(stage);
+			nextScene = new EndScene(stage, time, clearCnt, CRYSTAL_COUNT - 2);
 		}
 
 		// 各種更新
@@ -412,10 +430,27 @@ void GameScene::Update()
 
 				camera->Update();
 			}
+
+			// 時間取得
+			{
+				auto end = std::chrono::system_clock::now();
+				auto dur = end - start;
+				msec = std::chrono::duration_cast<std::chrono::seconds>(dur).count();
+			}
 		}
 	}
 	
+	// マップ上の自分の位置
 	mapCursor->SetRotation(player->GetRotation().y);
+
+	// 時間表示
+	text->PrintTime((time + msec) / 60, (time + msec) % 60, { WINDOW_WIDTH / 2 - 50, 38 }, 0.2f);
+
+	// スコア表示
+	text->PrintScore(clearCnt, CRYSTAL_COUNT - 2, { 10, 38 }, 0.4f);
+
+	// トリガー用
+	pauseTrriger = pause;
 }
 
 void GameScene::Draw()
@@ -501,6 +536,7 @@ void GameScene::FrontDraw()
 		{
 			pauseButton->Draw();
 		}
+		text->DrawAll();
 	}
 	Sprite::PostDraw();
 }

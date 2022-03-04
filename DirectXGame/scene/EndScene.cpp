@@ -7,8 +7,8 @@
 using namespace DirectX;
 using namespace SpriteData;
 
-EndScene::EndScene(int stage)
-	:	stage(stage)
+EndScene::EndScene(int stage, int time, int clearCnt, int crystalCnt)
+	:	stage(stage), time(time), clearCnt(clearCnt), crystalCnt(crystalCnt)
 {
 }
 
@@ -82,6 +82,7 @@ void EndScene::Initialize(DirectXCommon* dxCommon, Input* input, Audio* audio)
 
 	// 各クラス初期化
 	{
+		text = Text::GetInstance();
 	}
 
 	// カメラ注視点をセット
@@ -140,6 +141,12 @@ void EndScene::Update()
 	{
 		mapObj->Update();
 	}
+
+	// 各クラス更新
+	{
+		text->PrintTime(time / 60, time % 60, { 140, 220 }, 0.3f);
+		text->PrintScore(clearCnt, crystalCnt, { 140, 420 }, 0.3f);
+	}
 }
 
 void EndScene::Draw()
@@ -186,6 +193,8 @@ void EndScene::FrontDraw()
 	{
 		frame->Draw();
 		cursor->Draw();
+
+		text->DrawAll();
 	}
 	Sprite::PostDraw();
 }

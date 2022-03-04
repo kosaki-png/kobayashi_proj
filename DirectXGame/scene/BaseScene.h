@@ -27,6 +27,7 @@
 // データ関係
 #include "StageDataStorage.h"
 #include "SpriteData.h"
+#include "Text.h"
 
 class BaseScene
 {
@@ -91,6 +92,8 @@ protected:
 
 	// 次のシーンへのトリガー
 	BaseScene* nextScene = nullptr;
+
+	Text* text = nullptr;
 
 	StageDataStorage* stageData = StageDataStorage::GetInstance();
 

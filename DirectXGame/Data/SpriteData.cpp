@@ -12,8 +12,6 @@ bool SpriteLoader::intervalFlag = false;
 
 void SpriteLoader::LoadTitleSprite()
 {
-	Sprite::LoadTexture(FONT_DEF, L"Resources/texture/font_number.png");
-
 	Sprite::LoadTexture(TITLE, L"Resources/texture/title.png");
 	Sprite::LoadTexture(FADE,  L"Resources/texture/fade.png");
 
